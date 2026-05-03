@@ -1,4 +1,4 @@
-[README (1).md](https://github.com/user-attachments/files/27319374/README.1.md)
+
 <div align="center">
 
 <img src="https://capsule-render.vercel.app/api?type=blur&color=0:000000,100:434343&height=240&section=header&text=AI%20Hub&fontSize=80&fontColor=00FFCC&animation=scaleIn&fontAlignY=38&desc=Discover.%20Build.%20Scale%20with%20AI&descAlignY=62&descSize=18" width="100%"/>
