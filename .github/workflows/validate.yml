@@ -1,0 +1,126 @@
+name: ✅ Validate API Links
+
+on:
+  schedule:
+    # Runs every Wednesday at 6 AM UTC
+    - cron: "0 6 * * 3"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "README.md"
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  validate-links:
+    name: Check All API Links
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Dependencies
+        run: npm install node-fetch
+
+      - name: Extract & Validate Links
+        id: validate
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/validate-links.js
+
+      - name: Upload Validation Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-validation-report
+          path: reports/link-validation-*.json
+          retention-days: 30
+
+      - name: Create Issue for Dead Links
+        if: steps.validate.outputs.dead_links_count > 0
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('reports/latest-validation.json', 'utf8'));
+            const deadLinks = report.dead_links;
+
+            const body = `## 🔗 Dead Links Detected
+
+            The weekly link validation found **${deadLinks.length}** broken links.
+
+            | API Name | URL | Status Code | Error |
+            |---------|-----|-------------|-------|
+            ${deadLinks.map(l => `| ${l.name} | ${l.url} | ${l.status} | ${l.error || 'N/A'} |`).join('\n')}
+
+            *This issue was automatically created by the Link Validation workflow.*
+            `;
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔗 Dead Links Found - ${new Date().toISOString().split('T')[0]}`,
+              body: body,
+              labels: ['dead-links', 'automated', 'maintenance']
+            });
+
+      - name: Post PR Comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let report;
+            try {
+              report = JSON.parse(fs.readFileSync('reports/latest-validation.json', 'utf8'));
+            } catch(e) {
+              return;
+            }
+
+            const emoji = report.dead_links.length === 0 ? '✅' : '⚠️';
+            const status = report.dead_links.length === 0
+              ? 'All links are valid!'
+              : `Found ${report.dead_links.length} broken link(s)`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ${emoji} Link Validation Results\n\n**${status}**\n\n- Total links checked: ${report.total}\n- Valid: ${report.valid}\n- Dead: ${report.dead_links.length}\n- Redirects: ${report.redirects}`
+            });
+
+  validate-with-gemini:
+    name: Gemini API Analysis
+    runs-on: ubuntu-latest
+    needs: validate-links
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Dependencies
+        run: npm install @google/generative-ai
+
+      - name: Analyze README with Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/gemini-analyzer.js
+
+      - name: Upload Analysis Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: gemini-analysis-report
+          path: reports/gemini-analysis-*.md
+          retention-days: 30

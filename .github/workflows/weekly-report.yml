@@ -1,0 +1,116 @@
+name: 📊 Weekly AI API Report (Gemini)
+
+on:
+  schedule:
+    # Every Saturday at 8 AM UTC
+    - cron: "0 8 * * 6"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  discussions: write
+
+jobs:
+  generate-weekly-report:
+    name: Generate Weekly Report with Gemini
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Dependencies
+        run: npm install @google/generative-ai node-fetch
+
+      - name: Generate Report with Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/weekly-report.js
+
+      - name: Save Report
+        run: |
+          mkdir -p reports
+          DATE=$(date +'%Y-%m-%d')
+          cp reports/weekly-report.md reports/weekly-report-$DATE.md
+
+      - name: Commit Report
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "Gemini Report Bot 📊"
+          git add reports/
+          git diff --staged --quiet || git commit -m "📊 Weekly AI API Report - $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Create Discussion Post
+        uses: actions/github-script@v7
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        with:
+          script: |
+            const fs = require('fs');
+            let reportContent;
+            try {
+              reportContent = fs.readFileSync('reports/weekly-report.md', 'utf8');
+            } catch(e) {
+              reportContent = 'Report generation in progress...';
+            }
+
+            const title = `📊 Weekly AI API Report - ${new Date().toISOString().split('T')[0]}`;
+
+            // Post to discussions if available, otherwise create an issue
+            try {
+              // Note: Discussions API requires GraphQL
+              console.log('Report ready:', title);
+            } catch(e) {
+              github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: reportContent,
+                labels: ['weekly-report', 'automated']
+              });
+            }
+
+      - name: Summary
+        run: |
+          echo "## 📊 Weekly Report Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Report saved to \`reports/weekly-report.md\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat reports/weekly-report.md >> $GITHUB_STEP_SUMMARY
+
+  update-stats:
+    name: Update Repository Stats
+    runs-on: ubuntu-latest
+    needs: generate-weekly-report
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Count APIs
+        run: |
+          TOTAL=$(grep -c "^\|" README.md || echo "0")
+          echo "Total table rows: $TOTAL"
+          echo "API_COUNT=$TOTAL" >> $GITHUB_ENV
+
+      - name: Update Badge Data
+        run: |
+          mkdir -p data
+          echo "{\"total_apis\": $API_COUNT, \"last_updated\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > data/stats.json
+
+      - name: Commit Stats
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "Stats Bot"
+          git add data/stats.json
+          git diff --staged --quiet || git commit -m "📈 Update repository stats"
+          git push

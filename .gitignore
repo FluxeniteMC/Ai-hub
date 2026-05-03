@@ -1,0 +1,11 @@
+node_modules/
+.env
+# data/*.json
+reports/weekly-report-*.md
+reports/gemini-analysis-*.md
+reports/link-validation-*.json
+.DS_Store
+*.log
+
+# Allow stats file
+!data/stats.json

@@ -1,0 +1,143 @@
+name: 🏷️ PR Automation & Auto-Label
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-label:
+    name: Auto Label PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Dependencies
+        run: npm install @google/generative-ai
+
+      - name: Label PR with Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_DIFF_URL: ${{ github.event.pull_request.diff_url }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+            const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+            const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+
+            const prTitle = process.env.PR_TITLE || '';
+            const prBody = process.env.PR_BODY || '';
+
+            const prompt = `You are analyzing a Pull Request for a GitHub repository that maintains a list of AI APIs.
+            
+            PR Title: ${prTitle}
+            PR Description: ${prBody}
+            
+            Based on this, suggest labels from this list (return only label names separated by commas):
+            - new-api (adding a new API)
+            - update-pricing (pricing changes)
+            - free-tier (related to free tier APIs)
+            - enterprise (enterprise APIs)
+            - image-generation (image AI)
+            - llm (language model)
+            - audio (audio/speech AI)
+            - video (video AI)
+            - open-source (self-hostable)
+            - documentation (docs improvement)
+            - bug-fix (fixing incorrect info)
+            - deprecated (API no longer available)
+            
+            Return ONLY the comma-separated label names, nothing else.`;
+
+            let labels = ['needs-review'];
+            try {
+              const result = await model.generateContent(prompt);
+              const text = result.response.text().trim();
+              const suggestedLabels = text.split(',').map(l => l.trim()).filter(l => l.length > 0);
+              labels = [...labels, ...suggestedLabels];
+            } catch(e) {
+              console.log('Gemini labeling failed, using defaults:', e.message);
+              // Fallback: basic keyword detection
+              if (prTitle.toLowerCase().includes('add') || prTitle.toLowerCase().includes('new')) {
+                labels.push('new-api');
+              }
+              if (prTitle.toLowerCase().includes('price') || prTitle.toLowerCase().includes('pricing')) {
+                labels.push('update-pricing');
+              }
+            }
+
+            // Apply labels
+            for (const label of labels) {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  labels: [label]
+                });
+              } catch(e) {
+                console.log(`Could not add label ${label}: ${e.message}`);
+              }
+            }
+
+            // Post welcome comment for new contributors
+            const { data: contributor } = await github.rest.repos.getContributor({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              username: context.actor
+            }).catch(() => ({ data: null }));
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🤖 PR Analysis by Gemini AI
+
+            Thank you for contributing! Here's what I found:
+
+            **Auto-applied labels:** ${labels.join(', ')}
+
+            **Checklist before merge:**
+            - [ ] Table format matches existing entries
+            - [ ] API link is working and correct
+            - [ ] Pricing information is accurate and current
+            - [ ] Category is appropriate
+            - [ ] No duplicate entry
+            
+            A maintainer will review your PR soon! ⚡`
+            });
+
+  format-check:
+    name: Check Markdown Format
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check Table Format
+        run: |
+          python3 scripts/check-format.py
+
+      - name: Post Format Results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            console.log('Format check completed');

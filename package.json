@@ -1,0 +1,26 @@
+{
+  "name": "ai-apis-directory",
+  "version": "1.0.0",
+  "description": "The most comprehensive, community-maintained list of AI APIs worldwide",
+  "scripts": {
+    "update": "node scripts/gemini-updater.js",
+    "update:pricing": "UPDATE_TYPE=pricing node scripts/gemini-updater.js",
+    "update:new_apis": "UPDATE_TYPE=new_apis node scripts/gemini-updater.js",
+    "validate": "node scripts/validate-links.js",
+    "report": "node scripts/weekly-report.js",
+    "analyze": "node scripts/gemini-analyzer.js",
+    "check-format": "python3 scripts/check-format.py"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.15.0",
+    "node-fetch": "^3.3.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ai-apis-directory"
+  }
+}

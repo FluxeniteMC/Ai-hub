@@ -1,0 +1,69 @@
+name: 🤖 Auto-Update APIs (Gemini Powered)
+
+on:
+  schedule:
+    # Runs every Sunday at midnight UTC
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+    inputs:
+      update_type:
+        description: "What to update"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - pricing
+          - new_apis
+          - descriptions
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-with-gemini:
+    name: Update API Directory via Gemini
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Dependencies
+        run: npm install @google/generative-ai node-fetch
+
+      - name: Run Gemini Update Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          UPDATE_TYPE: ${{ github.event.inputs.update_type || 'all' }}
+        run: node scripts/gemini-updater.js
+
+      - name: Check for Changes
+        id: git_status
+        run: |
+          git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and Push Changes
+        if: steps.git_status.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "Gemini AI Bot 🤖"
+          git add README.md data/
+          git commit -m "🤖 Auto-update: AI APIs directory refreshed by Gemini [$(date +'%Y-%m-%d')]"
+          git push
+
+      - name: Create Summary
+        run: |
+          echo "## 🤖 Gemini Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Date**: $(date +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Update Type**: ${{ github.event.inputs.update_type || 'scheduled (all)' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Changes Made**: ${{ steps.git_status.outputs.changed }}" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,66 @@
+name: 📝 Generate Changelog
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-changelog:
+    name: Generate Changelog with Gemini
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install Dependencies
+        run: npm install @google/generative-ai
+
+      - name: Generate Changelog
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          node -e "
+          const { GoogleGenerativeAI } = require('@google/generative-ai');
+          const { execSync } = require('child_process');
+          const fs = require('fs');
+
+          const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+          const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+
+          async function main() {
+            const commits = execSync('git log --oneline -50').toString();
+            const prompt = \`Given these recent git commits for an AI API directory, generate a clean changelog in Markdown format.
+            Commits:\n\${commits}\n
+            Group by: ✨ New APIs, 💰 Pricing Updates, 🐛 Bug Fixes, 🔧 Maintenance.
+            Return only clean Markdown.\`;
+
+            const result = await model.generateContent(prompt);
+            const changelog = result.response.text();
+            
+            const existing = fs.existsSync('CHANGELOG.md') ? fs.readFileSync('CHANGELOG.md', 'utf8') : '';
+            const date = new Date().toISOString().split('T')[0];
+            fs.writeFileSync('CHANGELOG.md', \`# Changelog\n\n## ${date}\n\n\${changelog}\n\n\${existing}\`);
+            console.log('✅ Changelog updated');
+          }
+          main();
+          "
+
+      - name: Commit Changelog
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "Changelog Bot"
+          git add CHANGELOG.md
+          git diff --staged --quiet || git commit -m "📝 Update CHANGELOG"
+          git push

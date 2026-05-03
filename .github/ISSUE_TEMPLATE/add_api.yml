@@ -1,0 +1,86 @@
+name: ➕ Add New API
+description: Submit a new AI API to be added to the directory
+title: "add: [API Name] - [Category]"
+labels: ["new-api", "needs-review"]
+body:
+  - type: input
+    id: api_name
+    attributes:
+      label: API Name
+      placeholder: "e.g. MyAI API"
+    validations:
+      required: true
+
+  - type: input
+    id: api_url
+    attributes:
+      label: API URL
+      placeholder: "https://..."
+    validations:
+      required: true
+
+  - type: input
+    id: provider
+    attributes:
+      label: Provider / Company
+      placeholder: "e.g. OpenAI, Google, etc."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Pricing Tier
+      options:
+        - Free (permanently free)
+        - Freemium (free + paid)
+        - Paid
+        - Enterprise
+        - Open Source / Self-Hostable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - LLM
+        - Image Generation
+        - Audio & Speech
+        - Video Generation
+        - Embeddings
+        - Code Generation
+        - Multimodal
+        - Specialized / Domain-Specific
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: pricing
+    attributes:
+      label: Pricing Details
+      placeholder: "e.g. Free tier: 100 calls/day | Paid: $0.01/1K tokens"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Short Description
+      placeholder: "One or two sentences about what makes this API notable"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I verified the API link is working
+          required: true
+        - label: The pricing info is current and accurate
+          required: true
+        - label: This API is not already listed
+          required: true

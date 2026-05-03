@@ -1,0 +1,44 @@
+name: 💰 Update Pricing
+description: Report outdated pricing for an existing API
+title: "update: [Provider] [Model] pricing"
+labels: ["update-pricing", "needs-review"]
+body:
+  - type: input
+    id: api_name
+    attributes:
+      label: API / Model Name
+      placeholder: "e.g. GPT-4o"
+    validations:
+      required: true
+
+  - type: input
+    id: provider
+    attributes:
+      label: Provider
+      placeholder: "e.g. OpenAI"
+    validations:
+      required: true
+
+  - type: input
+    id: old_pricing
+    attributes:
+      label: Current (outdated) pricing shown
+      placeholder: "e.g. $5.00 / $15.00 per 1M tokens"
+    validations:
+      required: true
+
+  - type: input
+    id: new_pricing
+    attributes:
+      label: Correct pricing
+      placeholder: "e.g. $2.50 / $10.00 per 1M tokens"
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source URL
+      placeholder: "https://... (link to official pricing page)"
+    validations:
+      required: true

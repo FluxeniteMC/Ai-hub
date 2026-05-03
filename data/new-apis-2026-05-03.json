@@ -1,0 +1,55 @@
+{
+  "new_apis": [
+    {
+      "name": "Pinecone API",
+      "provider": "Pinecone",
+      "url": "https://www.pinecone.io/",
+      "category": "Embeddings & Vector",
+      "tier": "freemium",
+      "description": "High-performance vector database as a service for AI applications.",
+      "pricing": "Free starter plan / Pay-as-you-go",
+      "table_row": "| [Pinecone API](https://www.pinecone.io/) | Pinecone | Embeddings & Vector | Free starter plan | Pay-as-you-go"
+    },
+    {
+      "name": "Weaviate Cloud",
+      "provider": "Weaviate",
+      "url": "https://weaviate.io/",
+      "category": "Embeddings & Vector",
+      "tier": "freemium",
+      "description": "Managed cloud service for the open-source vector database.",
+      "pricing": "Free sandbox tier / Pay-as-you-go",
+      "table_row": "| [Weaviate Cloud](https://weaviate.io/) | Weaviate | Embeddings & Vector | Free sandbox tier | Pay-as-you-go"
+    },
+    {
+      "name": "RunwayML Gen-2 API",
+      "provider": "RunwayML",
+      "url": "https://runwayml.com/api",
+      "category": "Video Generation",
+      "tier": "freemium",
+      "description": "Generate videos from text, images, or existing clips using Gen-2 models.",
+      "pricing": "Limited free credits / From $12/month",
+      "table_row": "| [RunwayML Gen-2 API](https://runwayml.com/api) | RunwayML | Video Generation | Limited free credits | From $12/month"
+    },
+    {
+      "name": "Azure AI Vision",
+      "provider": "Microsoft Azure",
+      "url": "https://azure.microsoft.com/en-us/products/ai-services/ai-vision",
+      "category": "Specialized",
+      "tier": "freemium",
+      "description": "Comprehensive suite of computer vision APIs for image analysis, OCR, spatial analysis, and more.",
+      "pricing": "Azure Free Tier (limited) / Pay-as-you-go",
+      "table_row": "| [Azure AI Vision](https://azure.microsoft.com/en-us/products/ai-services/ai-vision) | Microsoft Azure | Specialized (Vision) | Azure Free Tier (limited) | Pay-as-you-go"
+    },
+    {
+      "name": "Google Cloud Vision AI",
+      "provider": "Google Cloud",
+      "url": "https://cloud.google.com/vision",
+      "category": "Specialized",
+      "tier": "freemium",
+      "description": "APIs for image analysis, including object detection, facial detection, OCR, and landmark recognition.",
+      "pricing": "GCP Free Tier (limited) / Pay-as-you-go",
+      "table_row": "| [Google Cloud Vision AI](https://cloud.google.com/vision) | Google Cloud | Specialized (Vision) | GCP Free Tier (limited) | Pay-as-you-go"
+    }
+  ],
+  "count": 5
+}

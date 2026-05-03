@@ -1,0 +1,123 @@
+{
+  "pricing": {
+    "updates": [
+      {
+        "provider": "Google",
+        "model": "Gemini 1.5 Pro",
+        "old_input_price": "$3.50",
+        "new_input_price": "$7.00",
+        "old_output_price": "$10.50",
+        "new_output_price": "$21.00",
+        "confidence": "high",
+        "note": "Pricing listed for 1M context window is outdated; these prices are for 128K context. Updated to correct 1M context prices."
+      },
+      {
+        "provider": "Google",
+        "model": "Gemini 1.5 Flash",
+        "old_input_price": "$0.075",
+        "new_input_price": "$0.15",
+        "old_output_price": "$0.30",
+        "new_output_price": "$0.60",
+        "confidence": "high",
+        "note": "Pricing listed for 1M context window is outdated; these prices are for 128K context. Updated to correct 1M context prices."
+      }
+    ],
+    "summary": "Updated Gemini 1.5 Pro and Gemini 1.5 Flash pricing to reflect correct costs for their 1M token context window, as the listed prices were for the 128K context."
+  },
+  "new_apis": {
+    "new_apis": [
+      {
+        "name": "Pinecone API",
+        "provider": "Pinecone",
+        "url": "https://www.pinecone.io/",
+        "category": "Embeddings & Vector",
+        "tier": "freemium",
+        "description": "High-performance vector database as a service for AI applications.",
+        "pricing": "Free starter plan / Pay-as-you-go",
+        "table_row": "| [Pinecone API](https://www.pinecone.io/) | Pinecone | Embeddings & Vector | Free starter plan | Pay-as-you-go"
+      },
+      {
+        "name": "Weaviate Cloud",
+        "provider": "Weaviate",
+        "url": "https://weaviate.io/",
+        "category": "Embeddings & Vector",
+        "tier": "freemium",
+        "description": "Managed cloud service for the open-source vector database.",
+        "pricing": "Free sandbox tier / Pay-as-you-go",
+        "table_row": "| [Weaviate Cloud](https://weaviate.io/) | Weaviate | Embeddings & Vector | Free sandbox tier | Pay-as-you-go"
+      },
+      {
+        "name": "RunwayML Gen-2 API",
+        "provider": "RunwayML",
+        "url": "https://runwayml.com/api",
+        "category": "Video Generation",
+        "tier": "freemium",
+        "description": "Generate videos from text, images, or existing clips using Gen-2 models.",
+        "pricing": "Limited free credits / From $12/month",
+        "table_row": "| [RunwayML Gen-2 API](https://runwayml.com/api) | RunwayML | Video Generation | Limited free credits | From $12/month"
+      },
+      {
+        "name": "Azure AI Vision",
+        "provider": "Microsoft Azure",
+        "url": "https://azure.microsoft.com/en-us/products/ai-services/ai-vision",
+        "category": "Specialized",
+        "tier": "freemium",
+        "description": "Comprehensive suite of computer vision APIs for image analysis, OCR, spatial analysis, and more.",
+        "pricing": "Azure Free Tier (limited) / Pay-as-you-go",
+        "table_row": "| [Azure AI Vision](https://azure.microsoft.com/en-us/products/ai-services/ai-vision) | Microsoft Azure | Specialized (Vision) | Azure Free Tier (limited) | Pay-as-you-go"
+      },
+      {
+        "name": "Google Cloud Vision AI",
+        "provider": "Google Cloud",
+        "url": "https://cloud.google.com/vision",
+        "category": "Specialized",
+        "tier": "freemium",
+        "description": "APIs for image analysis, including object detection, facial detection, OCR, and landmark recognition.",
+        "pricing": "GCP Free Tier (limited) / Pay-as-you-go",
+        "table_row": "| [Google Cloud Vision AI](https://cloud.google.com/vision) | Google Cloud | Specialized (Vision) | GCP Free Tier (limited) | Pay-as-you-go"
+      }
+    ],
+    "count": 5
+  },
+  "deprecated": {
+    "deprecated": [
+      {
+        "name": "text-davinci-003",
+        "provider": "OpenAI",
+        "shutdown_date": "2024-01",
+        "reason": "Replaced by more advanced and cost-effective models (gpt-3.5-turbo, gpt-4) offering superior performance.",
+        "replacement": "gpt-3.5-turbo, gpt-4"
+      },
+      {
+        "name": "text-curie-001",
+        "provider": "OpenAI",
+        "shutdown_date": "2024-01",
+        "reason": "Replaced by more advanced and cost-effective models offering superior performance.",
+        "replacement": "gpt-3.5-turbo"
+      },
+      {
+        "name": "text-babbage-001",
+        "provider": "OpenAI",
+        "shutdown_date": "2024-01",
+        "reason": "Replaced by more advanced and cost-effective models offering superior performance.",
+        "replacement": "gpt-3.5-turbo"
+      },
+      {
+        "name": "text-ada-001",
+        "provider": "OpenAI",
+        "shutdown_date": "2024-01",
+        "reason": "Replaced by more advanced and cost-effective models offering superior performance.",
+        "replacement": "gpt-3.5-turbo"
+      },
+      {
+        "name": "Legacy Fine-tuning models (e.g., davinci-002, curie-002)",
+        "provider": "OpenAI",
+        "shutdown_date": "2024-01",
+        "reason": "Replaced by newer fine-tuning capabilities based on gpt-3.5-turbo and gpt-4, offering improved performance and flexibility.",
+        "replacement": "gpt-3.5-turbo fine-tuning, gpt-4 fine-tuning"
+      }
+    ]
+  },
+  "timestamp": "2026-05-03T07:19:15.339Z",
+  "update_type": "all"
+}

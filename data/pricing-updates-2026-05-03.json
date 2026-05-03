@@ -1,0 +1,25 @@
+{
+  "updates": [
+    {
+      "provider": "Google",
+      "model": "Gemini 1.5 Pro",
+      "old_input_price": "$3.50",
+      "new_input_price": "$7.00",
+      "old_output_price": "$10.50",
+      "new_output_price": "$21.00",
+      "confidence": "high",
+      "note": "Pricing listed for 1M context window is outdated; these prices are for 128K context. Updated to correct 1M context prices."
+    },
+    {
+      "provider": "Google",
+      "model": "Gemini 1.5 Flash",
+      "old_input_price": "$0.075",
+      "new_input_price": "$0.15",
+      "old_output_price": "$0.30",
+      "new_output_price": "$0.60",
+      "confidence": "high",
+      "note": "Pricing listed for 1M context window is outdated; these prices are for 128K context. Updated to correct 1M context prices."
+    }
+  ],
+  "summary": "Updated Gemini 1.5 Pro and Gemini 1.5 Flash pricing to reflect correct costs for their 1M token context window, as the listed prices were for the 128K context."
+}
