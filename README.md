@@ -569,6 +569,7 @@ Let's get into it. 👇
 | [Captions.ai](https://www.captions.ai/) | Captions | Auto-captions, eye contact | Freemium |
 | [Submagic](https://www.submagic.co/) | Submagic | Auto-captions, highlights | From $20/month |
 | [Pictory](https://pictory.ai/) | Pictory | Article-to-video | From $19/month |
+| [videos.social](https://videos.social/) | videos.social | Blog/PDF/prompt to faceless video | Free render; packs from $10 |
 | [InVideo AI](https://invideo.io/) | InVideo | Script-to-video | From $20/month |
 | [Fliki](https://fliki.ai/) | Fliki | Text-to-video + voiceover | From $21/month |
 
