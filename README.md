@@ -167,11 +167,6 @@ Let's get into it. 👇
 
 | API | Provider | Category | Pricing Model | Input Cost | Output Cost | Context | Notes |
 |-----|----------|----------|---------------|------------|-------------|---------|-------|
-| [OpenAI GPT-7 Astra](https://developers.openai.com/api/docs/models/gpt-7-astra) | OpenAI | LLM + Multimodal | Per token | $15/1M | $75/1M | — | ✨ OpenAI's new flagship, integrates advanced vision/audio. |
-| [OpenAI GPT-7 Sol](https://developers.openai.com/api/docs/models/gpt-7-sol) | OpenAI | LLM + Multimodal | Per token | $3/1M | $15/1M | — | High-performance, cost-effective general intelligence. |
-| [Claude Fable 6.0](https://www.anthropic.com/api) | Anthropic | Reasoning LLM | Per token | $12/1M | $60/1M | 2M+ | Breakthrough agentic reasoning, massive context window. |
-| [Claude Opus 6.0](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $5/1M | $25/1M | 500K | Anthropic's top-tier general model. |
-| [Gemini 5 Ultra](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | $3.50/1M | $17.50/1M | — | 🚀 Google's new multimodal flagship, unparalleled integration. |
 | [Grok 5 Vision](https://docs.x.ai/developers/models) | xAI | LLM + Multimodal | Per token | $2.50/1M | $7.50/1M | 1M | Enhanced real-time grounding, advanced vision understanding. |
 | [Mistral Ultra 5](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.80/1M | $2.50/1M | 256K | 💪 European powerhouse, strong reasoning & efficiency. |
 | [DeepSeek V5-Pro](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $1.50/1M | $4.50/1M | — | Flagship Chinese LLM, strong coding & reasoning. |
@@ -386,10 +381,6 @@ Let's get into it. 👇
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| GPT-7 Nova | OpenAI | — | Unparalleled reasoning, multimodal, advanced agent capabilities | 💰 $15.00/$60.00 per 1M |
-| Claude Fable 6.0 | Anthropic | — | Groundbreaking long-context understanding, complex reasoning, agentic planning | 💰 $14.00/$58.00 per 1M |
-| Gemini 5 Ultra | Google | — | Seamless multimodal understanding, enterprise-grade safety, leading general intelligence | 💰 $12.00/$55.00 per 1M |
-| Grok 6.0 | xAI | — | Real-time information access, controversial humor mode, strong multimodal | 💰 $3.00/$12.00 per 1M |
 | GPT-6 Astra | OpenAI | — | Previous flagship tool use + reasoning, now more accessible | 💰 $6.00/$30.00 per 1M |
 | Claude Fable 5.1 | Anthropic | — | Long-horizon agentic reasoning (previous generation) | 💰 $5.00/$25.00 per 1M |
 | Claude Opus 5.5 | Anthropic | — | Top Anthropic general quality (mid-tier frontier) | 💰 $3.00/$15.00 per 1M |
@@ -401,7 +392,6 @@ Let's get into it. 👇
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| GPT-7 Luna | OpenAI | — | Cost-effective, very fast inference, highly capable for its tier | 💸 $0.15/$0.75 per 1M |
 | Claude Haiku 6.0 | Anthropic | 200K+ | Blazing fast, excellent for high-throughput, retains strong safety | 💸 $0.12/$0.60 per 1M |
 | Gemini 5 Flash | Google | — | Fast, multimodal, great free tier for developers | 🆓 Free / $0.80/$4.00 per 1M |
 | Mistral Small 5 | Mistral | 200K | Highly optimized for speed, strong reasoning for its size, European | 💸 $0.18/$0.72 per 1M |
@@ -417,7 +407,6 @@ Let's get into it. 👇
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
 | DeepSeek V5-Flash (off-peak) | DeepSeek | 200K | Aggressive off-peak discounts (00–10 & 12–01 UTC), solid performance | 💸 $0.12/$0.48 per 1M |
-| OpenAI GPT-7 Nano | OpenAI | 64K | Extremely cost-effective for simple tasks, very fast inference | 💸 $0.05/$0.25 per 1M |
 | Mistral Tiny 5 | Mistral | 32K | Smallest, fastest, and most affordable Mistral model | 💸 $0.08/$0.32 per 1M |
 | Google Gemma 2.0 (free) | Google | 128K | Open-source, excellent for local deployment or free tier API access | 🆓 Free |
 | DeepSeek V4.1-Flash (off-peak) | DeepSeek | — | 50% off-peak discount (00–10 & 12–01 UTC) (previous generation) | 💸 $0.10/$0.40 per 1M |
@@ -430,8 +419,6 @@ Let's get into it. 👇
 
 | Model | Provider | Context | Notes |
 |-------|----------|---------|-------|
-| GPT-7 Sol | OpenAI | — | Advanced multi-step reasoning, code generation, complex problem-solving |
-| Claude Fable 6.0 | Anthropic | — | Unmatched long-horizon reasoning, strategic planning for agents |
 | Gemini 5 Pro | Google | — | Robust reasoning across modalities, strong performance on benchmark tasks |
 | DeepSeek V5-Pro | DeepSeek | — | Strong logical reasoning, excellent for code and math, competitive pricing |
 | Llama 4.0 Instruct | Meta | 256K | Open-source leader in complex instruction following and structured output |
