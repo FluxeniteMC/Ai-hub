@@ -95,6 +95,11 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
+    # The Pages service occasionally stalls in "in_progress" for many minutes.
+    # Because this workflow serializes on the `pages` concurrency group, a
+    # hung deploy would block every later one. Failing fast frees the group so
+    # the next push (or a manual re-run) can deploy instead.
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
