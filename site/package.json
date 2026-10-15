@@ -1,0 +1,35 @@
+{
+  "name": "fluxenite-ai-hub-site",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Static React site for the Fluxenite AI Hub catalog, generated from README.md at build time.",
+  "scripts": {
+    "generate": "node scripts/generate-data.mjs",
+    "dev": "npm run generate && vite",
+    "build": "npm run generate && tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --pretty",
+    "validate:data": "node scripts/generate-data.mjs",
+    "test": "node --test scripts/*.test.mjs",
+    "verify:output": "node scripts/verify-build.mjs",
+    "check": "npm run test && npm run build && npm run verify:output"
+  },
+  "dependencies": {
+    "lucide-react": "^0.469.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.7"
+  },
+  "engines": {
+    "node": ">=20.19"
+  }
+}

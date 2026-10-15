@@ -1,0 +1,2 @@
+# GitHub Pages serves the directory as-is; .nojekyll prevents Jekyll from
+# discarding files/directories that start with an underscore.

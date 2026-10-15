@@ -1,0 +1,22 @@
+# Generated at build time from ../../README.md — never committed.
+src/data/catalog.json
+
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor / OS noise
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# TypeScript incremental build state
+*.tsbuildinfo
+
+# Local scratch
+_inspect.mjs
+*.log
+npm-debug.log*

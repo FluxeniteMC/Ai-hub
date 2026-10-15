@@ -1349,6 +1349,55 @@ Suggested-but-unverified new APIs and deprecations are still logged to `data/` f
 
 ---
 
+## 🌐 AI Hub Website
+
+This repository powers a static website that turns the tables above into a searchable, filterable catalog.
+
+**Live site:** https://fluxenitemc.github.io/Ai-hub/
+
+| | |
+|---|---|
+| **Stack** | React + TypeScript + Vite, deployed to GitHub Pages |
+| **Source** | [`site/`](site/) |
+| **Data source** | `README.md` — parsed at build time, never at runtime |
+| **Backend** | None. No server, no database, no API keys |
+
+### How it stays in sync
+
+```
+README.md  ──►  GitHub Actions  ──►  parse + validate  ──►  Vite build  ──►  GitHub Pages
+```
+
+Every push to `main` that touches `README.md`, `data/`, or the site rebuilds and redeploys automatically. Because the README is self-edited daily by the automation above, the site follows it without any manual step.
+
+### Data rules
+
+The site is a presentation layer, not a second database:
+
+- **Nothing is invented.** Fields the README does not state are omitted and shown as *Not stated*.
+- **No inferred pricing.** Input/output rates are only parsed when a matching pair is stated (e.g. `$6.00/$30.00 per 1M`). A value like `$15/1M image tokens` stays plain text.
+- **Duplicates merge.** The same listing in several tables becomes one entry with multiple source links.
+- **Non-catalog tables are excluded** (changelog, workflow docs, contribution guides), so nothing leaks into the catalog.
+- **Builds fail loudly** on duplicate identifiers, malformed ids, or non-absolute URLs.
+
+### Local development
+
+```bash
+cd site
+npm ci
+npm run dev      # regenerate the catalog, then start Vite
+npm run build    # regenerate, type-check, build, verify output
+npm test         # parser and validation unit tests
+```
+
+The generator writes `site/src/data/catalog.json`, which is git-ignored — it is always rebuilt from the README, so the published site never fetches from GitHub at runtime.
+
+### Brand assets
+
+`site/public/assets/brand/` holds the logo set — `logo-symbol.svg`, `logo-horizontal.svg` and `favicon.svg` — all generated from one identity.
+
+---
+
 ## 🤝 How to Contribute
 
 This directory is only as good as the people who maintain it. If you know of an API that's missing, pricing that's wrong, or a link that's dead — please fix it!

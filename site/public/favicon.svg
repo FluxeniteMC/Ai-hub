@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="Fluxenite AI Hub">
+  <title>Fluxenite AI Hub</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path d="M32 9 L55 32 L32 55 L9 32 Z" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3.5 32 C3.5 28.962 5.962 26.5 9 26.5 C12.038 26.5 14.5 28.962 14.5 32 C14.5 35.038 12.038 37.5 9 37.5 C5.962 37.5 3.5 35.038 3.5 32 Z" fill="#ffffff"/>
+    <path d="M26.5 9 C26.5 5.962 28.962 3.5 32 3.5 C35.038 3.5 37.5 5.962 37.5 9 C37.5 12.038 35.038 14.5 32 14.5 C28.962 14.5 26.5 12.038 26.5 9 Z" fill="#ffffff"/>
+    <path d="M49.5 32 C49.5 28.962 51.962 26.5 55 26.5 C58.038 26.5 60.5 28.962 60.5 32 C60.5 35.038 58.038 37.5 55 37.5 C51.962 37.5 49.5 35.038 49.5 32 Z" fill="#ffffff"/>
+    <path d="M26.5 55 C26.5 51.962 28.962 49.5 32 49.5 C35.038 49.5 37.5 51.962 37.5 55 C37.5 58.038 35.038 60.5 32 60.5 C28.962 60.5 26.5 58.038 26.5 55 Z" fill="#ffffff"/>
+    <path d="M32 22 L42 32 L32 42 L22 32 Z" fill="#f59e0b"/>
+  </g>
+</svg>

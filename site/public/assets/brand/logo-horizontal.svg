@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="284" height="64" viewBox="0 0 284 64" role="img" aria-label="Fluxenite AI Hub">
+  <title>Fluxenite AI Hub</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path d="M32 7 L57 32 L32 57 L7 32 Z" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 17 L32 23 M47 32 L41 32 M32 47 L32 41 M17 32 L23 32" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2.5 32 C2.5 29.515 4.515 27.5 7 27.5 C9.485 27.5 11.5 29.515 11.5 32 C11.5 34.485 9.485 36.5 7 36.5 C4.515 36.5 2.5 34.485 2.5 32 Z" fill="#ffffff"/>
+    <path d="M27.5 7 C27.5 4.515 29.515 2.5 32 2.5 C34.485 2.5 36.5 4.515 36.5 7 C36.5 9.485 34.485 11.5 32 11.5 C29.515 11.5 27.5 9.485 27.5 7 Z" fill="#ffffff"/>
+    <path d="M52.5 32 C52.5 29.515 54.515 27.5 57 27.5 C59.485 27.5 61.5 29.515 61.5 32 C61.5 34.485 59.485 36.5 57 36.5 C54.515 36.5 52.5 34.485 52.5 32 Z" fill="#ffffff"/>
+    <path d="M27.5 57 C27.5 54.515 29.515 52.5 32 52.5 C34.485 52.5 36.5 54.515 36.5 57 C36.5 59.485 34.485 61.5 32 61.5 C29.515 61.5 27.5 59.485 27.5 57 Z" fill="#ffffff"/>
+    <path d="M32 23 L41 32 L32 41 L23 32 Z" fill="#f59e0b"/>
+    <path d="M91 52 L104 15 M117 52 L104 15 M97.5 36 L110.5 36 M131 12 L131 52 M163 12 L163 52 M189 12 L189 52 M163 32 L189 32 M206 12 L206 37 C206 45 210.333 49 219 49 C227.667 49 232 45 232 37 L232 12 M249 6 L249 52 M249 24 L260 24 C270 24 275 28.667 275 38 C275 47.333 270 52 260 52 L249 52" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

@@ -1,0 +1,97 @@
+name: 🌐 Deploy AI Hub Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "README.md"
+      - "data/**"
+      - "site/**"
+      - ".github/workflows/deploy-site.yml"
+  workflow_dispatch:
+  # Lets a maintainer redeploy without touching content.
+  schedule:
+    # Weekly safety net in case a Pages deploy was interrupted.
+    - cron: "17 4 * * 1"
+
+# Least privilege: the workflow only ever reads the repo and writes Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Serialize deployments so a slow older build cannot overwrite a newer one.
+# cancel-in-progress is false: GitHub Pages publishes one deployment at a time.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "24"
+
+jobs:
+  build:
+    name: Build and Validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests (README parser and catalog validation)
+        run: npm test
+
+      # Parses ../README.md into src/data/catalog.json and fails on any
+      # validation problem, so a broken catalog can never reach Pages.
+      - name: Generate and validate catalog
+        run: npm run generate
+
+      - name: TypeScript check
+        run: npm run typecheck
+
+      - name: Build production site
+        run: npx vite build
+
+      - name: Verify build output
+        run: node scripts/verify-build.mjs
+
+      - name: Summary
+        run: |
+          {
+            echo "### 🌐 AI Hub website build"
+            echo ""
+            echo "- Listings: \`$(node -e "console.log(require('./src/data/catalog.json').entries.length)")\`"
+            echo "- Fingerprint: \`$(node -e "console.log(require('./src/data/catalog.json').source.fingerprint)")\`"
+            echo "- Source: README.md @ \`${GITHUB_SHA::8}\`"
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
