@@ -68,6 +68,11 @@ jobs:
       - name: Build production site
         run: npx vite build
 
+      # robots.txt and sitemap.xml are written after Vite so `lastmod` comes
+      # from the catalog that was just generated.
+      - name: Generate SEO files
+        run: node scripts/generate-seo.mjs
+
       - name: Verify build output
         run: node scripts/verify-build.mjs
 
