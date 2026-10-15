@@ -16,7 +16,7 @@ try {
   process.exit(1);
 }
 
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 const fs = require("fs");
 const path = require("path");
 
@@ -27,7 +27,7 @@ if (!GEMINI_API_KEY) {
 }
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
 async function analyzeReadme() {
   const readme = fs.readFileSync(path.join(process.cwd(), "README.md"), "utf8");
