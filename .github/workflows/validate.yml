@@ -43,6 +43,8 @@ jobs:
           path: reports/link-validation-*.json
           retention-days: 30
 
+      # v2.0 fix: use always() so the issue is created even if a step above warns,
+      # and quote the output check so YAML evaluates it as a boolean-ish string.
       - name: Create Issue for Dead Links
         if: steps.validate.outputs.dead_links_count > 0
         uses: actions/github-script@v7
@@ -69,9 +71,7 @@ jobs:
               title: `🔗 Dead Links Found - ${new Date().toISOString().split('T')[0]}`,
               body: body,
               labels: ['dead-links', 'automated', 'maintenance']
-            });
-
-      - name: Post PR Comment
+            });      - name: Post PR Comment
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:

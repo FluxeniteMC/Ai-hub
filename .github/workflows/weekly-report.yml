@@ -1,19 +1,27 @@
-name: 📊 Weekly AI API Report (Gemini)
+name: 📊 Daily AI API Report (Gemini)
 
 on:
   schedule:
-    # Every Saturday at 8 AM UTC
-    - cron: "0 8 * * 6"
+    # v2.0: runs EVERY DAY at 08:00 UTC (was weekly on Saturday)
+    - cron: "0 8 * * *"
   workflow_dispatch:
+    inputs:
+      period:
+        description: "Report period"
+        required: true
+        default: "daily"
+        type: choice
+        options:
+          - daily
+          - weekly
 
 permissions:
   contents: write
   issues: write
-  discussions: write
 
 jobs:
-  generate-weekly-report:
-    name: Generate Weekly Report with Gemini
+  generate-daily-report:
+    name: Generate Daily Report with Gemini
     runs-on: ubuntu-latest
 
     steps:
@@ -26,31 +34,34 @@ jobs:
           node-version: "24"
 
       - name: Install Dependencies
-        run: npm install @google/generative-ai node-fetch
+        run: npm install
 
       - name: Generate Report with Gemini
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # v2.0: daily by default; weekly via manual dispatch
+          REPORT_PERIOD: ${{ github.event.inputs.period || 'daily' }}
         run: node scripts/weekly-report.js
 
-      - name: Save Report
+      - name: Save Dated Copy + Update Live Report
         run: |
           mkdir -p reports
+          PERIOD=$( [ "${{ github.event.inputs.period || 'daily' }}" = "weekly" ] && echo weekly || echo daily )
           DATE=$(date +'%Y-%m-%d')
-          cp reports/weekly-report.md reports/weekly-report-$DATE.md
+          cp reports/weekly-report.md reports/${PERIOD}-report-$DATE.md
 
       - name: Commit Report
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "Gemini Report Bot 📊"
           git add reports/
-          git diff --staged --quiet || git commit -m "📊 Weekly AI API Report - $(date +'%Y-%m-%d')"
+          git diff --staged --quiet || git commit -m "📊 $( [ "${{ github.event.inputs.period || 'daily' }}" = "weekly" ] && echo Weekly || echo Daily ) AI API Report - $(date +'%Y-%m-%d')"
           git push
 
-      - name: Create Discussion Post
+      # v2.0 fix: the old "Create Discussion Post" step was a no-op (a try/catch
+      # around console.log that never created the issue). Now it really posts.
+      - name: Post Report as Issue
         uses: actions/github-script@v7
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         with:
           script: |
             const fs = require('fs');
@@ -58,37 +69,32 @@ jobs:
             try {
               reportContent = fs.readFileSync('reports/weekly-report.md', 'utf8');
             } catch(e) {
-              reportContent = 'Report generation in progress...';
+              reportContent = 'Report file missing — check the generation step logs.';
             }
 
-            const title = `📊 Weekly AI API Report - ${new Date().toISOString().split('T')[0]}`;
+            const period = context.payload.inputs?.period || 'daily';
+            const title = `📊 ${period === 'weekly' ? 'Weekly' : 'Daily'} AI API Report - ${new Date().toISOString().split('T')[0]}`;
 
-            // Post to discussions if available, otherwise create an issue
-            try {
-              // Note: Discussions API requires GraphQL
-              console.log('Report ready:', title);
-            } catch(e) {
-              github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: title,
-                body: reportContent,
-                labels: ['weekly-report', 'automated']
-              });
-            }
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: reportContent.slice(0, 60000) || '(empty report)',
+              labels: ['report', 'automated']
+            });
 
       - name: Summary
         run: |
-          echo "## 📊 Weekly Report Generated" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 $( [ "${{ github.event.inputs.period || 'daily' }}" = "weekly" ] && echo Weekly || echo Daily ) Report Generated (v2.0)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Report saved to \`reports/weekly-report.md\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          cat reports/weekly-report.md >> $GITHUB_STEP_SUMMARY
+          head -100 reports/weekly-report.md >> $GITHUB_STEP_SUMMARY || true
 
   update-stats:
     name: Update Repository Stats
     runs-on: ubuntu-latest
-    needs: generate-weekly-report
+    needs: generate-daily-report
 
     steps:
       - name: Checkout Repository
@@ -96,16 +102,18 @@ jobs:
         with:
           ref: main
 
+      # v2.0 fix: the old grep counted EVERY table row (headers, separators,
+      # changelog rows…) and logged 1414 APIs. Count actual API listing rows.
       - name: Count APIs
         run: |
-          TOTAL=$(grep -c "^\|" README.md || echo "0")
-          echo "Total table rows: $TOTAL"
+          TOTAL=$(grep -c '^| \[' README.md || echo "0")
           echo "API_COUNT=$TOTAL" >> $GITHUB_ENV
+          echo "Counted $TOTAL API listing rows"
 
       - name: Update Badge Data
         run: |
           mkdir -p data
-          echo "{\"total_apis\": $API_COUNT, \"last_updated\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > data/stats.json
+          echo "{\"total_api_listings\": $API_COUNT, \"version\": \"2.0.0\", \"updated_daily\": true, \"last_updated\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > data/stats.json
 
       - name: Commit Stats
         run: |

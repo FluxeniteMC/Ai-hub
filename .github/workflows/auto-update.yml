@@ -1,9 +1,9 @@
-name: 🤖 Auto-Update APIs (Gemini Powered)
+name: 🤖 Daily Auto-Update APIs (Gemini Powered)
 
 on:
   schedule:
-    # Runs every Sunday at midnight UTC
-    - cron: "0 0 * * 0"
+    # v2.0: runs EVERY DAY at 06:00 UTC (was weekly on Sunday)
+    - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
       update_type:
@@ -15,6 +15,7 @@ on:
           - all
           - pricing
           - new_apis
+          - deprecations
           - descriptions
 
 permissions:
@@ -23,7 +24,7 @@ permissions:
 
 jobs:
   update-with-gemini:
-    name: Update API Directory via Gemini
+    name: Update API Directory via Gemini (self-editing v2.0)
     runs-on: ubuntu-latest
 
     steps:
@@ -38,9 +39,12 @@ jobs:
           node-version: "24"
 
       - name: Install Dependencies
-        run: npm install @google/generative-ai node-fetch
+        run: npm install
 
-      - name: Run Gemini Update Script
+      - name: Sanity-check scripts compile
+        run: node --check scripts/gemini-updater.js
+
+      - name: Run Gemini Update Script (may self-edit README.md + data/)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           UPDATE_TYPE: ${{ github.event.inputs.update_type || 'all' }}
@@ -49,7 +53,7 @@ jobs:
       - name: Check for Changes
         id: git_status
         run: |
-          git diff --quiet && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --quiet README.md data/ && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and Push Changes
         if: steps.git_status.outputs.changed == 'true'
@@ -57,13 +61,16 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "Gemini AI Bot 🤖"
           git add README.md data/
-          git commit -m "🤖 Auto-update: AI APIs directory refreshed by Gemini [$(date +'%Y-%m-%d')]"
+          # v2.0 fix: exclude data/backups/ from history bloat — keep only live data
+          git reset -- data/backups/ 2>/dev/null || true
+          git commit -m "🤖 Daily auto-update (v2.0): AI APIs directory self-edited by Gemini [$(date +'%Y-%m-%d')]"
           git push
 
       - name: Create Summary
         run: |
-          echo "## 🤖 Gemini Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## 🤖 Daily Gemini Update Summary (v2.0)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Date**: $(date +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
           echo "- **Update Type**: ${{ github.event.inputs.update_type || 'scheduled (all)' }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Changes Made**: ${{ steps.git_status.outputs.changed }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Cadence**: daily (v2.0)" >> $GITHUB_STEP_SUMMARY

@@ -10,10 +10,11 @@
 [![Weekly Report](https://github.com/FluxeniteMC/Ai-hub/actions/workflows/weekly-report.yml/badge.svg)](https://github.com/FluxeniteMC/Ai-hub/actions/workflows/weekly-report.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
-[![APIs Count](https://img.shields.io/badge/APIs-300%2B-blue.svg?style=flat-square)](#)
+[![APIs Count](https://img.shields.io/badge/APIs-500%2B-blue.svg?style=flat-square)](#)
 [![Powered by Gemini](https://img.shields.io/badge/Powered%20by-Gemini%20AI-orange?style=flat-square&logo=google)](https://ai.google.dev/)
 [![Stars](https://img.shields.io/github/stars/FluxeniteMC/Ai-hub?style=flat-square&color=yellow)](https://github.com/FluxeniteMC/Ai-hub/stargazers)
-[![Last Updated](https://img.shields.io/badge/Updated-Weekly-brightgreen?style=flat-square)](#)
+[![Last Updated](https://img.shields.io/badge/Updated-Daily-brightgreen?style=flat-square)](#)
+[![Version](https://img.shields.io/badge/Version-2.0-blueviolet.svg?style=flat-square)](#)
 [![Coverage](https://img.shields.io/badge/Coverage-LLM%20%7C%20Vision%20%7C%20Audio%20%7C%20Video%20%7C%20Search-blueviolet?style=flat-square)](#)
 
 <br/>
@@ -22,7 +23,7 @@
 
 <br/>
 
-**This is the place.** A living, breathing directory of every AI API worth knowing about — from the ones that are completely free to the ones that cost more than a Tesla. Updated automatically every week by Gemini AI so you never have to wonder if the info is stale. Over **300+ APIs and models** catalogued, compared, and organized so you can make a decision in minutes, not hours.
+**This is the place.** A living, breathing directory of every AI API worth knowing about — from the ones that are completely free to the ones that cost more than a Tesla. As of **v2.0**, a self-editing Gemini agent refreshes this directory **every single day** — including the pricing tables and this README — so you never have to wonder if the info is stale. Over **500+ API listings and models** catalogued, compared, and organized so you can make a decision in minutes, not hours.
 
 <br/>
 
@@ -41,10 +42,11 @@ So this directory exists to answer one question: **"What AI API should I use for
 Everything here is:
 - ✅ Organized by price tier AND category
 - ✅ Auto-validated weekly (dead links get flagged)
-- ✅ Refreshed by Gemini AI every Sunday
+- ✅ 🆕 v2.0: **AI self-editing** — Gemini can update README.md and data files directly, with safety checks + backups
+- ✅ 🆕 v2.0: refreshed **daily** by Gemini AI (was weekly)
 - ✅ Community-maintained (PRs very welcome)
 - ✅ Includes integration examples and SDK links
-- ✅ Covers 300+ APIs across 15+ categories
+- ✅ Covers 500+ API listings across 15+ categories
 - ✅ Notes on latency, rate limits, and real-world gotchas
 
 Let's get into it. 👇
@@ -165,24 +167,26 @@ Let's get into it. 👇
 
 | API | Provider | Category | Pricing Model | Input Cost | Output Cost | Context | Notes |
 |-----|----------|----------|---------------|------------|-------------|---------|-------|
-| [OpenAI GPT-4o](https://platform.openai.com/) | OpenAI | LLM | Per token | $5/1M | $15/1M | 128K | The gold standard for tool use |
-| [OpenAI GPT-4o mini](https://platform.openai.com/) | OpenAI | LLM | Per token | $0.15/1M | $0.60/1M | 128K | Great value, most popular model |
-| [OpenAI o1](https://platform.openai.com/) | OpenAI | Reasoning LLM | Per token | $15/1M | $60/1M | 200K | Deep reasoning, math, science |
-| [OpenAI o3-mini](https://platform.openai.com/) | OpenAI | Reasoning LLM | Per token | $1.10/1M | $4.40/1M | 200K | Affordable reasoning model |
-| [Claude 3.5 Sonnet](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $3/1M | $15/1M | 200K | Best for writing, coding, analysis |
-| [Claude 3.5 Haiku](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $0.25/1M | $1.25/1M | 200K | Fast + cheap, great for pipelines |
-| [Claude 3 Opus](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $15/1M | $75/1M | 200K | Most intelligent Claude model |
-| [Gemini 1.5 Pro](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | $3.50/1M | $10.50/1M | 1M | Massive context, video support |
-| [Gemini 1.5 Flash](https://ai.google.dev/) | Google | LLM | Per token | $0.075/1M | $0.30/1M | 1M | Fastest Google model, huge context |
-| [Gemini 2.0 Flash](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | Custom | Custom | 1M | Latest Gemini, native tool use |
-| [Mistral Large 2](https://mistral.ai/) | Mistral AI | LLM | Per token | $8/1M | $24/1M | 128K | European flagship, strong reasoning |
-| [Mistral Small](https://mistral.ai/) | Mistral AI | LLM | Per token | $1/1M | $3/1M | 128K | Efficient, fast, good value |
-| [Mistral Nemo](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.15/1M | $0.15/1M | 128K | Tiny, efficient, 12B model |
+| [OpenAI GPT-6 Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) | OpenAI | LLM | Per token | $10/1M | $50/1M | — | Current OpenAI flagship — best tool use |
+| [OpenAI GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) | OpenAI | LLM | Per token | $2/1M | $10/1M | — | Near-Astra performance at 1/5 the cost |
+| [OpenAI GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) | OpenAI | LLM | Per token | $0.10/1M | $0.50/1M | — | 🔥 High-volume workhorse, dirt cheap |
+| [OpenAI GPT-5.6 Sol](https://developers.openai.com/api/docs/models/gpt-5.6-sol) | OpenAI | Reasoning LLM | Per token | $4/1M | $20/1M | — | Deep reasoning; promo pricing through Nov 2026 |
+| [OpenAI GPT-5.5](https://developers.openai.com/api/docs/models/gpt-5.5) | OpenAI | LLM | Per token | $5/1M | $30/1M | — | Flagship of the GPT-5 family |
+| [Claude Fable 5.1](https://www.anthropic.com/api) | Anthropic | Reasoning LLM | Per token | $10/1M | $50/1M | — | Long-horizon agentic reasoning |
+| [Claude Opus 5.5](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $4/1M | $20/1M | — | Top Anthropic general quality |
+| [Claude Sonnet 5.5](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $2/1M | $10/1M | — | Best value for writing, coding, analysis |
+| [Claude Haiku 5.5](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $0.10/1M | $0.50/1M | 100K+ | 🔥 Fast pipeline; $0.50/$2.50 beyond 100K input |
+| [Gemini 4 Argon](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | $2/1M | $10/1M | — | Google flagship (rises to $4/$20 Dec 1, 2026) |
+| [Gemini 3.8 Flash](https://ai.google.dev/) | Google | LLM | Per token | $0.75/1M | $3.75/1M | — | Fast Google workhorse (rises Jan 1, 2027) |
+| [Grok 4.7](https://docs.x.ai/developers/models) | xAI | LLM + Multimodal | Per token | $2/1M | $6/1M | 500K | Real-time grounding, image + video output |
+| [Mistral Large 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.68/1M | $2.09/1M | — | European flagship, sale pricing |
+| [Mistral Medium 3.5](https://mistral.ai/) | Mistral AI | LLM | Per token | $1.50/1M | $7.50/1M | — | Balanced quality/middle tier |
+| [Mistral Small 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.15/1M | $0.60/1M | — | Efficient, extremely cheap |
 | [Codestral](https://mistral.ai/) | Mistral AI | Code LLM | Per token | $0.20/1M | $0.60/1M | 32K | Code-focused, fill-in-middle |
 | [Command R+](https://cohere.com/) | Cohere | LLM | Per token | $3/1M | $15/1M | 128K | Best for RAG, enterprise search |
 | [Command R](https://cohere.com/) | Cohere | LLM | Per token | $0.50/1M | $1.50/1M | 128K | Affordable with grounded responses |
-| [DeepSeek V3](https://www.deepseek.com/) | DeepSeek | LLM | Per token | $0.14/1M | $0.28/1M | 128K | 🔥 Cheapest capable large model |
-| [DeepSeek R1](https://www.deepseek.com/) | DeepSeek | Reasoning LLM | Per token | $0.55/1M | $2.19/1M | 128K | Open weights, reasoning rival to o1 |
+| [DeepSeek V4-Pro](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $1.32/1M | $3.96/1M | — | Peak pricing; 50% off-peak + cache discounts |
+| [DeepSeek V4.1-Flash](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $0.30/1M | $1.20/1M | — | 🔥 $0.15/$0.60 off-peak — cheapest capable model |
 | [Llama API](https://www.llama-api.com/) | Meta (hosted) | LLM | Per token | Varies | Varies | 128K | Official hosted Llama access |
 | [Perplexity API](https://www.perplexity.ai/api) | Perplexity | LLM + Search | Per token + searches | $1/1M | $1/1M | 128K | Real-time web search included |
 | [DALL-E 3](https://platform.openai.com/) | OpenAI | Image Gen | Per image | $0.04–$0.12 | — | — | Best prompt adherence of any model |
@@ -372,40 +376,41 @@ Let's get into it. 👇
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| GPT-4o | OpenAI | 128K | Tool use, vision, real-time audio | 💰 $5/$15 per 1M |
-| o1 | OpenAI | 200K | Math, science, deep reasoning | 💰 $15/$60 per 1M |
-| Claude 3.5 Sonnet | Anthropic | 200K | Writing, coding, analysis, docs | 💰 $3/$15 per 1M |
-| Claude 3 Opus | Anthropic | 200K | Most intelligent Anthropic model | 💰 $15/$75 per 1M |
-| Gemini 1.5 Pro | Google | 1M | Massive docs, video understanding | 💰 $3.50/$10.50 per 1M |
-| Gemini 2.0 Flash | Google | 1M | Latest Google, fast + capable | 💸 Freemium |
+| GPT-6 Astra | OpenAI | — | Flagship tool use + reasoning | 💰 $10/$50 per 1M |
+| Claude Fable 5.1 | Anthropic | — | Long-horizon agentic reasoning | 💰 $10/$50 per 1M |
+| Claude Opus 5.5 | Anthropic | — | Top Anthropic general quality | 💰 $4/$20 per 1M |
+| Grok 4.7 | xAI | 500K | Real-time grounding + image output | 💰 $2/$6 per 1M |
+| Gemini 4 Argon | Google | — | Google flagship multimodal | 💰 $2/$10 per 1M |
+| GPT-6.1 Sol | OpenAI | — | Near-flagship at 1/5 the cost | 💰 $2/$10 per 1M |
 
 **Fast & Efficient**
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| GPT-4o mini | OpenAI | 128K | Cheap, fast, very capable | 💸 $0.15/$0.60 per 1M |
-| Claude 3.5 Haiku | Anthropic | 200K | Fastest Claude, great for pipelines | 💸 $0.25/$1.25 per 1M |
-| Gemini 1.5 Flash | Google | 1M | Fast, free tier, huge context | 🆓 Free / $0.075 per 1M |
-| Mistral Small | Mistral | 128K | European, cheap, reliable | 💸 $1/$3 per 1M |
-| Mistral Nemo | Mistral | 128K | Tiny 12B, very affordable | 💸 $0.15/$0.15 per 1M |
+| GPT-6 Luna | OpenAI | — | Dirt-cheap high-volume workhorse | 💸 $0.10/$0.50 per 1M |
+| Claude Haiku 5.5 | Anthropic | 100K+ | Fastest Claude, great for pipelines | 💸 $0.10/$0.50 per 1M |
+| Gemini 3.8 Flash | Google | — | Fast, multimodal, free tier | 🆓 Free / $0.75/$3.75 per 1M |
+| Mistral Small 4 | Mistral | — | European, ultra-cheap, reliable | 💸 $0.15/$0.60 per 1M |
 | Llama 3.3 70B (Groq) | Meta/Groq | 128K | Free tier, insanely fast | 🆓 Free |
 
 **Ultra Cheap**
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| DeepSeek V3 | DeepSeek | 128K | Best capability/$ ratio available | 💰 $0.14/$0.28 per 1M |
-| DeepSeek R1 | DeepSeek | 128K | Reasoning, open weights | 💰 $0.55/$2.19 per 1M |
-| Gemini Flash (free) | Google | 1M | Literally free | 🆓 Free |
-| Groq (free tier) | Groq | 32K | Free + fastest inference | 🆓 Free |
+| DeepSeek V4.1-Flash (off-peak) | DeepSeek | — | 50% off-peak discount (00–10 & 12–01 UTC) | 💰 $0.15/$0.60 per 1M |
+| GPT-6 Luna | OpenAI | — | Cheapest frontier-family model | 💰 $0.10/$0.50 per 1M |
+| Mistral Small 4 | Mistral | — | Apache roots, extremely cheap | 💰 $0.15/$0.60 per 1M |
+| Gemini Flash (free) | Google | — | Literally free | 🆓 Free |
+| Groq (free tier) | Groq | — | Free + fastest inference | 🆓 Free |
 
 **Reasoning Specialists**
 
 | Model | Provider | Context | Notes |
 |-------|----------|---------|-------|
-| o1 | OpenAI | 200K | Chain-of-thought at scale, best at math/code |
-| o3-mini | OpenAI | 200K | Affordable reasoning, strong STEM |
-| DeepSeek R1 | DeepSeek | 128K | Open weights reasoning rival to o1 |
+| GPT-5.6 Sol | OpenAI | — | Pro reasoning; promo pricing through Nov 2026 |
+| Claude Fable 5.1 | Anthropic | — | Long-horizon reasoning & agents |
+| DeepSeek V4-Pro | DeepSeek | — | Off-peak rates make it a reasoning bargain |
+| o3 / o4-mini (legacy) | OpenAI | 200K | Deprecated — succeeded by the GPT-6/5.6 family |
 | Gemini Thinking | Google | — | Experimental extended thinking mode |
 | QwQ-32B | Alibaba | 32K | Open source reasoning model |
 | Llama 3.1 (instruct) | Meta | 128K | Long reasoning chains with proper prompting |
@@ -418,6 +423,9 @@ Let's get into it. 👇
 
 | API | Provider | Best For | Style | Speed | Cost |
 |-----|----------|---------|-------|-------|------|
+| [GPT Image 2.5](https://developers.openai.com/api/docs/guides/image-generation) | OpenAI | Conversational gen + editing | Diverse | Medium | $30/1M image tokens | Multi-turn image workflows |
+| [Gemini 2.5 Flash Image (Nano Banana)](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-image) | Google | Conversational image editing | Polished | Fast | Gemini API pricing | 2025–26 viral editor |
+| [FLUX.2](https://docs.bfl.ai/flux_2/flux2_overview) | Black Forest Labs | Pro gen + multi-reference editing | Realistic | Fast | 1 credit = $0.01 | Typography + color control |
 | [DALL-E 3](https://platform.openai.com/) | OpenAI | Prompt adherence, creativity | Diverse | Medium | $0.04–$0.12/image |
 | [DALL-E 2](https://platform.openai.com/) | OpenAI | Inpainting, editing | Older style | Fast | $0.016–$0.020/image |
 | [Midjourney v6.1](https://docs.midjourney.com/) | Midjourney | Artistic quality, aesthetics | Painterly | Slow | From $10/month |
@@ -519,6 +527,8 @@ Let's get into it. 👇
 
 | API | Provider | Style Control | Max Length | Cost |
 |-----|----------|---------------|------------|------|
+| [Eleven Music](https://elevenlabs.io/eleven-music-api) | ElevenLabs | Text + section control | Full songs | Pay-as-you-go |
+| [Google Lyria 3.5](https://ai.google.dev/gemini-api/docs/music-generation) | Google | Text/Image conditioned | Full songs + 30s clips | Gemini API paid tier |
 | [Suno v4](https://suno.com/) | Suno | Text prompt | 4 minutes | From $10/month |
 | [Udio](https://www.udio.com/) | Udio | Text prompt | 3 minutes | Freemium |
 | [MusicGen](https://huggingface.co/facebook/musicgen-large) | Meta | Text + melody | 30 sec | Free (self-host) |
@@ -537,13 +547,19 @@ Let's get into it. 👇
 
 | API | Provider | Input | Max Length | Max Res | Notes |
 |-----|----------|-------|------------|---------|-------|
-| [Sora](https://sora.com/) | OpenAI | Text + Image | 60 seconds | 1080p | OpenAI's flagship, incredible quality |
+| [Sora](https://sora.com/) | OpenAI | Text + Image | 60 seconds | 1080p | OpenAI's flagship — now with audio (API via Azure) |
+| [Veo 3.1](https://ai.google.dev/gemini-api/docs/video) | Google | Text + Image | 8 seconds | 4K | 🔥 Native audio generation; $0.40/sec (Fast $0.10/sec) |
+| [Sora 2 (Azure)](https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation) | OpenAI via Azure | Text/Image/Video | 60+ seconds | 1080p | Generated audio + remix; per-second billing |
+| [Kling 3.0 Omni](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | Minutes | 1080p | Synchronized audio-video, storyboard control |
+| [Hailuo 2.3](https://platform.minimax.io/docs/guides/video-generation) | MiniMax | Text + Image | 6 seconds | 1080p | $0.28–$0.49 per 6s clip — great value |
 | [Runway Gen-3 Alpha](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | Best cinematic/creative quality |
 | [Runway Gen-3 Turbo](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | 4x faster than Alpha |
 | [Kling 1.6 Pro](https://klingai.com/) | Kuaishou | Text + Image | 3 minutes | 1080p | Longest duration, great motion |
 | [Pika 2.0](https://pika.art/) | Pika | Text + Image | 10 seconds | 720p | Good lipsyncing, scene changes |
 | [Luma Dream Machine](https://lumalabs.ai/) | Luma | Text + Image | 30 seconds | 720p | Fast, photorealistic, smooth |
 | [Hailuo AI](https://hailuoai.com/) | MiniMax | Text + Image | 6 seconds | 720p | Very realistic human motion |
+| [FLUX 3 Video](https://docs.bfl.ai/quick_start/pricing) | Black Forest Labs | Text + Image | Variable | 1080p | Synchronized audio; per-second billing |
+| [xAI Imagine](https://docs.x.ai/developers/models) | xAI | Text + Image | Variable | 1080p | $0.02/sec — cheapest new video API |
 | [Vidu](https://www.vidu.studio/) | Vidu | Text + Image | 8 seconds | 1080p | Strong consistency, Chinese provider |
 | [Haiper 2.0](https://haiper.ai/) | Haiper | Text + Image | 8 seconds | 720p | Good quality, generous free tier |
 | [Wan 2.1](https://github.com/Wan-Video/Wan2.1) | Alibaba | Text + Image | Variable | 720p | Open source, self-hostable |
@@ -769,6 +785,8 @@ Let's get into it. 👇
 
 | Framework | Language | License | Best For |
 |-----------|----------|---------|----------|
+| [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) | Python | MIT | OpenAI's production agent framework — tools, handoffs, guardrails, tracing |
+| [Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/) | Python, Java | Apache 2.0 | Google's open-source multi-agent framework, deploys to Cloud Run |
 | [LangChain](https://langchain.com/) | Python, JS | MIT | Most popular, huge ecosystem |
 | [LangGraph](https://langchain-ai.github.io/langgraph/) | Python, JS | MIT | Graph-based agent workflows |
 | [LlamaIndex](https://www.llamaindex.ai/) | Python, TS | MIT | RAG-focused agents |
@@ -788,6 +806,7 @@ Let's get into it. 👇
 
 | Tool | Provider | Function | Cost |
 |------|----------|---------|------|
+| [OpenAI AgentKit](https://developers.openai.com/api/docs/pricing) | OpenAI | Agent workflow builder + ChatKit | Usage-based (model + tools billed separately) |
 | [E2B](https://e2b.dev/) | E2B | Code execution sandbox | $0.000014/sec |
 | [Browserbase](https://www.browserbase.com/) | Browserbase | Browser automation | Custom |
 | [Steel](https://steel.dev/) | Steel | Browser for agents | Freemium |
@@ -920,7 +939,7 @@ Let's get into it. 👇
 
 ## 📊 Pricing Comparison
 
-> Numbers current as of early 2025. AI pricing changes constantly — always verify on official pages before budgeting.
+> Numbers current as of October 2026 (v2.0 daily refresh). AI pricing changes constantly — always verify on official pages before budgeting.
 
 ### LLM Cost Per 1M Tokens (Input → Output)
 
@@ -930,29 +949,27 @@ Let's get into it. 👇
 ╠══════════════════╦══════════════╦══════════════╦═══════════╦════════════════╣
 ║  Model           ║  Input ($)   ║  Output ($)  ║  Context  ║  Best For      ║
 ╠══════════════════╬══════════════╬══════════════╬═══════════╬════════════════╣
-║  o1              ║  $15.00      ║  $60.00      ║  200K     ║  Reasoning     ║
-║  Claude 3 Opus   ║  $15.00      ║  $75.00      ║  200K     ║  Intelligence  ║
-║  GPT-4o          ║  $5.00       ║  $15.00      ║  128K     ║  General/Tools ║
-║  Claude 3.5 Son. ║  $3.00       ║  $15.00      ║  200K     ║  Writing/Code  ║
-║  Gemini 1.5 Pro  ║  $3.50       ║  $10.50      ║  1M       ║  Docs/Video    ║
-║  Mistral Large 2 ║  $8.00       ║  $24.00      ║  128K     ║  EU Compliance ║
+║  GPT-6 Astra     ║  $10.00      ║  $50.00      ║  —        ║  Flagship      ║
+║  Claude Fable5.1 ║  $10.00      ║  $50.00      ║  —        ║  Agentic       ║
+║  Claude Opus 5.5 ║  $4.00       ║  $20.00      ║  —        ║  Writing/Code  ║
+║  Grok 4.7        ║  $2.00       ║  $6.00       ║  500K     ║  Real-time     ║
+║  Gemini 4 Argon  ║  $2.00       ║  $10.00      ║  —        ║  Docs/Video    ║
+║  GPT-6.1 Sol     ║  $2.00       ║  $10.00      ║  —        ║  Value flagship║
 ║  Command R+      ║  $3.00       ║  $15.00      ║  128K     ║  RAG/Search    ║
 ╠══════════════════╩══════════════╩══════════════╩═══════════╩════════════════╣
 ║  EFFICIENT MODELS                                                            ║
 ╠══════════════════╦══════════════╦══════════════╦═══════════╦════════════════╣
-║  o3-mini         ║  $1.10       ║  $4.40       ║  200K     ║  Cheap reason. ║
-║  GPT-4o mini     ║  $0.15       ║  $0.60       ║  128K     ║  General tasks ║
-║  Claude 3.5 Hku  ║  $0.25       ║  $1.25       ║  200K     ║  Fast pipeline ║
-║  Gemini 1.5 Flash║  $0.075      ║  $0.30       ║  1M       ║  High volume   ║
-║  Mistral Small   ║  $1.00       ║  $3.00       ║  128K     ║  EU, efficient ║
-║  Mistral Nemo    ║  $0.15       ║  $0.15       ║  128K     ║  Ultra cheap   ║
+║  GPT-5.6 Sol     ║  $4.00       ║  $20.00      ║  —        ║  Pro reasoning ║
+║  GPT-6 Luna      ║  $0.10       ║  $0.50       ║  —        ║  High volume   ║
+║  Claude Hku 5.5  ║  $0.10       ║  $0.50       ║  100K     ║  Fast pipeline ║
+║  Gemini 3.8 Flash║  $0.75       ║  $3.75       ║  —        ║  Multimodal    ║
+║  Mistral Small 4 ║  $0.15       ║  $0.60       ║  —        ║  EU, efficient ║
 ╠══════════════════╩══════════════╩══════════════╩═══════════╩════════════════╣
 ║  ULTRA CHEAP / FREE                                                          ║
-╠══════════════════╦══════════════╦══════════════╦═══════════╦════════════════╣
-║  DeepSeek V3     ║  $0.14  🔥   ║  $0.28  🔥   ║  128K     ║  Best $/cap   ║
-║  DeepSeek R1     ║  $0.55       ║  $2.19       ║  128K     ║  Cheap reason. ║
-║  Gemini Flash 🆓 ║  FREE        ║  FREE        ║  1M       ║  Free+capable  ║
-║  Groq (free) 🆓  ║  FREE        ║  FREE        ║  32K      ║  Free+fastest  ║
+╠══════════════════╦══════════════╦══════════════╦═══════════╦════════════════╣║  DeepSeek Flash  ║  $0.15  🔥   ║  $0.60  🔥   ║  —        ║  off-peak      ║
+║  DeepSeek V4-Pro ║  $0.66*      ║  $1.98*      ║  —        ║  off-peak      ║
+║  Gemini Flash 🆓 ║  FREE        ║  FREE        ║  —        ║  Free+capable  ║
+║  Groq (free) 🆓  ║  FREE        ║  FREE        ║  —        ║  Free+fastest  ║
 ╠══════════════════╩══════════════╩══════════════╩═══════════╩════════════════╣
 ║  SELF-HOSTED (electricity cost only)                                         ║
 ╠══════════════════╦══════════════╦══════════════╦═══════════╦════════════════╣
@@ -1094,15 +1111,15 @@ Let's get into it. 👇
 > New to AI APIs? Here's a practical roadmap based on your use case.
 
 ### If you're building a chatbot or assistant:
-1. **Start with**: Gemini 1.5 Flash (free tier) or GPT-4o mini
+1. **Start with**: Gemini 3.8 Flash (free tier) or GPT-6 Luna
 2. **Add memory**: Mem0, Zep, or just a vector DB + embeddings
 3. **Add guardrails**: OpenAI Moderation API (free)
-4. **Scale to**: Claude 3.5 Sonnet or GPT-4o for complex tasks
+4. **Scale to**: Claude Sonnet 5.5 or GPT-6.1 Sol for complex tasks
 
 ### If you're building a RAG application:
 1. **Embeddings**: Start with OpenAI text-embedding-3-small
 2. **Vector DB**: Chroma (local) → Pinecone (managed)
-3. **LLM**: Claude 3.5 Sonnet (best at reading documents)
+3. **LLM**: Claude Sonnet 5.5 (best at reading documents)
 4. **Evaluate**: RAGAS or TruLens for quality metrics
 
 ### If you're building a code assistant:
@@ -1228,9 +1245,9 @@ This repo uses **5 GitHub Actions workflows** all powered by the Gemini API to k
 
 | Workflow | Schedule | What It Does | Trigger |
 |----------|----------|--------------|---------|
-| `auto-update.yml` | Every Sunday at midnight UTC | Asks Gemini to check for pricing changes, new APIs, deprecated entries | Scheduled + Manual |
+| `auto-update.yml` | **Every day at 6 AM UTC** (v2.0) | Asks Gemini to check for pricing changes, new APIs, deprecated entries — and **self-edits README.md + data/** | Scheduled + Manual |
 | `validate.yml` | Every Wednesday at 6 AM UTC | Checks every single link in the README is still alive (HTTP 200) | Scheduled + Manual |
-| `weekly-report.yml` | Every Saturday at 8 AM UTC | Generates a Markdown digest of AI API news for the week | Scheduled |
+| `weekly-report.yml` | **Every day at 8 AM UTC** (v2.0; weekly still supported) | Generates a Markdown digest of AI API news | Scheduled |
 | `pr-automation.yml` | Every PR opened | Auto-labels PRs using Gemini, posts welcome message, checks format | PR Event |
 | `changelog.yml` | Every release tag | Generates a formatted changelog from commit history using Gemini | Release Tag |
 
@@ -1240,18 +1257,18 @@ This repo uses **5 GitHub Actions workflows** all powered by the Gemini API to k
                     ┌─────────────────────────────────────┐
                     │          GitHub Actions              │
                     │                                     │
-         Sunday     │  ┌───────────────┐                 │
-         Midnight ──┼─▶│ auto-update   │──▶ Gemini API   │
+         Daily       │  ┌───────────────┐                 │
+         6AM UTC ───┼─▶│ auto-update   │──▶ Gemini API   │
                     │  └───────────────┘    │             │
                     │                       ▼             │
-                    │                  Data Check         │
-                    │                  + Suggestions      │
+                    │              v2.0: Self-Edit        │
+                    │              README.md + data/      │
          Wednesday  │  ┌───────────────┐                 │
          6AM UTC ───┼─▶│   validate    │──▶ Link Checker │
                     │  └───────────────┘                 │
                     │                                     │
-         Saturday   │  ┌───────────────┐                 │
-         8AM UTC ───┼─▶│ weekly-report │──▶ Gemini API   │
+         Daily      │  ┌───────────────┐                 │
+         8AM UTC ───┼─▶│  daily-report │──▶ Gemini API   │
                     │  └───────────────┘    │             │
                     │                       ▼             │
                     │                  Digest File        │
@@ -1272,25 +1289,36 @@ This repo uses **5 GitHub Actions workflows** all powered by the Gemini API to k
 #    Name:  GEMINI_API_KEY
 #    Value: your key from aistudio.google.com (it's free!)
 
-# 4. That's it — workflows run automatically every week
+# 4. That's it — workflows run automatically every day (v2.0)
 ```
 
 You can also trigger any workflow manually from the **Actions** tab → select workflow → **Run workflow**.
 
 ### The `data/` Folder
 
-Every time the auto-update workflow runs, it writes suggestions to `data/`:
+Every time the auto-update workflow runs, it writes to `data/`:
 
 ```
 data/
-├── pricing-changes.md      # Detected pricing changes since last run
-├── new-apis.md             # Newly discovered APIs Gemini suggests adding
-├── deprecated-apis.md      # APIs that appear to have shut down
-├── weekly-digest.md        # Latest weekly AI API news digest
-└── validation-report.md    # Dead links found during validation
+├── daily-updates-YYYY-MM-DD.json  # v2.0: sections Gemini self-edited today
+├── new-apis-YYYY-MM-DD.json       # Newly discovered APIs Gemini suggests adding
+├── deprecations-YYYY-MM-DD.json   # APIs that appear to have shut down
+├── update-YYYY-MM-DD.json         # Full run log
+├── stats.json                     # Badge stats (auto-counted, v2.0)
+└── backups/                       # v2.0: README snapshots before every AI edit
 ```
 
-Human review is always required before changes go into the main README. Gemini suggests; humans approve.
+### 🆕 How v2.0 Self-Editing Works
+
+Since v2.0, Gemini doesn't just suggest — it **applies changes** to `README.md` and `data/stats.json` (the only two files it may ever touch):
+
+1. Each table section is sent to Gemini one at a time
+2. Gemini returns the fully rewritten section (updated prices, new rows)
+3. A safety gate validates the rewrite: same table header, row count can't drop by >20%, no code fences, no chatter
+4. If validation passes, the change is written and a backup is saved to `data/backups/`
+5. If validation fails, the original section is kept untouched
+
+Suggested-but-unverified new APIs and deprecations are still logged to `data/` for human review — the AI never deletes rows on its own.
 
 ---
 
@@ -1341,7 +1369,7 @@ We have templates for:
 ## ❓ FAQ
 
 **Q: How often is this updated?**
-A: Automatically every Sunday via Gemini AI. Links are validated every Wednesday. You can also manually trigger updates anytime via the Actions tab.
+A: Automatically **every day** (v2.0) via Gemini AI. Links are validated every Wednesday. You can also manually trigger updates anytime via the Actions tab.
 
 **Q: I found wrong pricing — how do I report it?**
 A: Open an issue using the "Update Pricing" template, or submit a PR with a source link. Pricing changes fast in this space — we appreciate the corrections.
@@ -1353,10 +1381,10 @@ A: Yes! MIT licensed. Credit this repo if you can, but it's not required.
 A: Free = genuinely free with permanent limits, no CC required. Freemium = free to start but designed to convert you to a paid plan. If it asks for a CC upfront, it goes in freemium or paid.
 
 **Q: Is Gemini actually updating the README automatically?**
-A: Gemini updates the `data/` folder with suggestions every Sunday. Direct edits to the README still require human review and a PR merge. We don't let an AI blindly rewrite the main document.
+A: Yes — as of v2.0 it can self-edit `README.md` and `data/stats.json`, but only through a strict safety gate: every AI-generated rewrite is validated (header preserved, row count preserved, no unstructured junk) and backed up to `data/backups/` before being written. Riskier suggestions (new APIs, deprecations) are still logged for human review.
 
 **Q: Which API should I use for [X]?**
-A: The short answers: writing = Claude 3.5 Sonnet, speed = Groq, cheap = DeepSeek V3, free = Gemini Flash, images = Flux Schnell (cheap) or Midjourney (aesthetic), voice = ElevenLabs (TTS) + Deepgram (STT), local = Ollama + Llama 3.2.
+A: The short answers: writing = Claude Sonnet 5.5, speed = Groq, cheap = GPT-6 Luna ($0.10/$0.50) or DeepSeek off-peak, free = Gemini Flash, images = Flux Schnell (cheap) or Midjourney (aesthetic), voice = ElevenLabs (TTS) + Deepgram (STT), local = Ollama.
 
 **Q: My API isn't listed — can I add it?**
 A: Absolutely. Open a PR or use the issue template. If it's a real, functional API with documented pricing (or clearly documented free tier), it belongs here.
@@ -1384,6 +1412,7 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 | Date | Change | Type |
 |------|--------|------|
+| 2026-10-15 | 🚀 **v2.0**: daily cron, Gemini self-editing (README + data w/ safety gate + backups), refreshed pricing (GPT-6 family, Claude 5.x, Gemini 4 Argon, Grok 4.7, DeepSeek V4, Mistral 4) and added Veo 3.1, Sora 2, Kling 3.0, Hailuo 2.3, GPT Image 2.5, FLUX.2, Eleven Music, Lyria 3.5, xAI Imagine, Agents SDK/ADK/AgentKit | 🎉 v2.0 |
 | 2025-05-01 | Added Wan 2.1, CogVideoX open video models | ➕ Added |
 | 2025-04-28 | Updated DeepSeek R1 pricing, added distilled models | 💰 Pricing |
 | 2025-04-21 | Added Gemini 2.0 Flash and Thinking mode | ➕ Added |
@@ -1410,6 +1439,8 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 [🐛 Report an Issue](https://github.com/FluxeniteMC/Ai-hub/issues) · [➕ Add an API](https://github.com/FluxeniteMC/Ai-hub/issues/new?template=add_api.yml) · [💰 Update Pricing](https://github.com/FluxeniteMC/Ai-hub/issues/new?template=update_pricing.yml) · [📖 Setup Guide](SETUP.md) · [🤝 Contributing](CONTRIBUTING.md)
 
-*Auto-updated every Sunday by Gemini AI · Validated every Wednesday · 300+ APIs catalogued · Maintained with ❤️ by the community*
+*Validated every Wednesday · 500+ API listings catalogued · v2.0 · Maintained with ❤️ by the community*
+
+*Auto-updated daily by Gemini AI · Last run: 2026-10-15 (Thursday)*
 
 </div>

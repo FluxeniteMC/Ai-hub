@@ -51,9 +51,9 @@ The following workflows are now active:
 
 | Workflow | Schedule | What it does |
 |----------|----------|--------------|
-| `auto-update.yml` | Every Sunday midnight | Updates pricing, finds new APIs |
+| `auto-update.yml` | Every day 6 AM (v2.0) | Updates pricing, finds new APIs, self-edits README + data |
 | `validate.yml` | Every Wednesday 6 AM | Checks all links are alive |
-| `weekly-report.yml` | Every Saturday 8 AM | Generates weekly digest |
+| `weekly-report.yml` | Every day 8 AM (v2.0) | Generates daily digest (weekly still supported) |
 | `pr-automation.yml` | On every PR | Auto-labels, welcomes contributors |
 | `changelog.yml` | On release | Auto-generates changelog |
 
@@ -96,6 +96,7 @@ cp .env.example .env
 npm run update          # Full update
 npm run update:pricing  # Pricing only
 npm run validate        # Check links
+npm run report:daily    # Daily report (v2.0)
 npm run report          # Weekly report
 npm run analyze         # Quality analysis
 npm run check-format    # Lint markdown tables

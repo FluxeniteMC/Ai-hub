@@ -9,22 +9,40 @@
 const fs = require("fs");
 const path = require("path");
 
+/**
+ * v2.0 fix: many API marketing sites reject HEAD requests with 405/403.
+ * Try HEAD first, fall back to a GET before declaring a link dead.
+ */
 async function fetchWithTimeout(url, timeout = 10000) {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  try {
-    const res = await fetch(url, {
-      signal: controller.signal,
-      method: "HEAD",
-      headers: { "User-Agent": "Mozilla/5.0 AI-APIs-Directory-Bot/1.0" },
-      redirect: "follow",
-    });
-    clearTimeout(id);
-    return { status: res.status, ok: res.ok, redirected: res.redirected };
-  } catch (e) {
-    clearTimeout(id);
-    return { status: 0, ok: false, error: e.message };
+  const attempt = async (method) => {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+      const res = await fetch(url, {
+        signal: controller.signal,
+        method,
+        headers: {
+          "User-Agent": "Mozilla/5.0 (compatible; AI-APIs-Directory-Bot/2.0; +https://github.com/FluxeniteMC/Ai-hub)",
+          Accept: "text/html,*/*",
+        },
+        redirect: "follow",
+      });
+      clearTimeout(id);
+      return { status: res.status, ok: res.ok, redirected: res.redirected };
+    } catch (e) {
+      clearTimeout(id);
+      return { status: 0, ok: false, error: e.message };
+    }
+  };
+
+  const head = await attempt("HEAD");
+  if (head.ok || (head.status && head.status !== 405 && head.status !== 403)) return head;
+  if (head.status === 405 || head.status === 403 || head.status === 0) {
+    const get = await attempt("GET");
+    if (get.ok) return get;
+    return get.error ? head : get;
   }
+  return head;
 }
 
 async function main() {
@@ -93,9 +111,13 @@ async function main() {
     fs.appendFileSync(outputFile, `dead_links_count=${results.dead_links.length}\n`);
   }
 
-  if (results.dead_links.length > 0) {
-    process.exit(1); // Signal failure for GH Actions
-  }
+  // v2.0 fix: DO NOT exit(1) here. The previous behaviour aborted the GitHub
+  // Actions job, which meant the "Create Issue for Dead Links" step NEVER ran
+  // (its non-zero status skipped the follow-up steps). The workflow decides
+  // what to do with the report via `steps.validate.outputs.dead_links_count`.
+  console.log(
+    `ℹ️  ${results.dead_links.length} dead link(s) reported to the workflow (script exits 0).`
+  );
 }
 
 main().catch((e) => {

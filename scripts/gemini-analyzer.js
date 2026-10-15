@@ -7,7 +7,16 @@
  * Env: GEMINI_API_KEY
  */
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+let ai;
+try {
+  const { GoogleGenAI } = require("@google/genai");
+  ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+} catch (e) {
+  console.error("❌ @google/genai is not installed. Run: npm install @google/genai");
+  process.exit(1);
+}
+
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-2.5-flash";
 const fs = require("fs");
 const path = require("path");
 
@@ -41,8 +50,8 @@ ${readme.substring(0, 8000)}
 Return a structured Markdown report. Be specific and actionable.`;
 
   console.log("🧠 Analyzing README with Gemini...");
-  const result = await model.generateContent(prompt);
-  const analysis = result.response.text();
+  const result = await ai.models.generateContent({ model: MODEL_NAME, contents: prompt });
+  const analysis = result.text;
 
   const reportsDir = path.join(process.cwd(), "reports");
   if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
