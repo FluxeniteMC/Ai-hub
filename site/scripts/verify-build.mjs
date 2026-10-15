@@ -117,6 +117,45 @@ for (const file of ['logo-symbol.svg', 'logo-horizontal.svg']) {
 }
 check(existsSync(join(distDir, 'favicon.svg')), 'dist/favicon.svg is missing');
 
+// 7. SEO files must exist, be well-formed and agree with the deployed origin.
+const ORIGIN = 'https://fluxenitemc.github.io/Ai-hub';
+const robotsPath = join(distDir, 'robots.txt');
+const sitemapPath = join(distDir, 'sitemap.xml');
+
+if (!existsSync(robotsPath)) {
+  check(false, 'dist/robots.txt is missing');
+} else {
+  const robots = readFileSync(robotsPath, 'utf8');
+  check(/^User-agent:\s*\*/m.test(robots), 'robots.txt has no User-agent group');
+  check(/^Sitemap:\s*https?:\/\//m.test(robots), 'robots.txt does not declare an absolute Sitemap');
+  check(!/Disallow:\s*\/\s*$/m.test(robots), 'robots.txt blocks the whole site');
+}
+
+if (!existsSync(sitemapPath)) {
+  check(false, 'dist/sitemap.xml is missing');
+} else {
+  const sitemap = readFileSync(sitemapPath, 'utf8');
+  check(
+    sitemap.startsWith('<?xml version="1.0" encoding="UTF-8"?>'),
+    'sitemap.xml is missing its XML declaration',
+  );
+  check(
+    sitemap.includes('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'),
+    'sitemap.xml has no urlset namespace',
+  );
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  check(locs.length > 0, 'sitemap.xml lists no URLs');
+  check(
+    locs.every((loc) => loc.startsWith(`${ORIGIN}/`)),
+    'sitemap.xml contains URLs outside the deployed origin',
+  );
+  check(
+    [...sitemap.matchAll(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)].every((m) => m[1] <= new Date().toISOString().slice(0, 10)),
+    'sitemap.xml has a future lastmod',
+  );
+  check(!/<lastmod>undefined/.test(sitemap), 'sitemap.xml has an undefined lastmod');
+}
+
 if (failures.length > 0) {
   console.error(`✖ Build verification failed (${failures.length}):\n`);
   for (const failure of failures) console.error(`  • ${failure}`);

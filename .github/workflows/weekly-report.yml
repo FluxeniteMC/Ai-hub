@@ -2,7 +2,9 @@ name: 📊 Daily AI API Report (Gemini)
 
 on:
   schedule:
-    # v2.0: runs EVERY DAY at 08:00 UTC (was weekly on Saturday)
+    # Cron is UTC. 08:00 UTC == 14:00 (+06:00). v2.0: EVERY DAY
+    # (deliberately offset from the 00:01 auto-update so the two do not push
+    # to main at the same moment).
     - cron: "0 8 * * *"
   workflow_dispatch:
     inputs:
@@ -104,9 +106,13 @@ jobs:
 
       # v2.0 fix: the old grep counted EVERY table row (headers, separators,
       # changelog rows…) and logged 1414 APIs. Count actual API listing rows.
+      # Fix: `grep -c` already prints 0 and exits 1 when nothing matches, so the old
+      # `|| echo "0"` appended a SECOND 0 ("0\n0") and wrote invalid JSON to
+      # data/stats.json. `|| true` keeps the step green without corrupting TOTAL.
       - name: Count APIs
         run: |
-          TOTAL=$(grep -c '^| \[' README.md || echo "0")
+          TOTAL=$(grep -c '^| \[' README.md || true)
+          TOTAL=${TOTAL:-0}
           echo "API_COUNT=$TOTAL" >> $GITHUB_ENV
           echo "Counted $TOTAL API listing rows"
 

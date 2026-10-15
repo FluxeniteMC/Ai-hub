@@ -2,8 +2,10 @@ name: 🤖 Daily Auto-Update APIs (Gemini Powered)
 
 on:
   schedule:
-    # v2.0: runs EVERY DAY at 06:00 UTC (was weekly on Sunday)
-    - cron: "0 6 * * *"
+    # GitHub Actions cron is always UTC.
+    # Target: 00:01 (+06:00 Bangladesh) == 18:01 UTC of the previous day.
+    # v2.0: runs EVERY DAY (was weekly on Sunday).
+    - cron: "1 18 * * *"
   workflow_dispatch:
     inputs:
       update_type:

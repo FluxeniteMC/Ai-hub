@@ -14,6 +14,7 @@ import {
   toPlainText,
 } from './lib/readme-parser.mjs';
 import { validateCatalog } from './lib/validate-catalog.mjs';
+import { inlineToText, parseInline, parseMarkdown } from './lib/markdown.mjs';
 
 test('stripEmoji removes pictographs but keeps words', () => {
   // Heading markers are removed by the caller before this runs.
@@ -225,7 +226,101 @@ test('validateCatalog rejects duplicate ids and bad urls', () => {
   assert.match(joined, /contextTokens/);
 });
 
-test('real repository README produces a valid catalog', async () => {
+test('parseInline understands bold, italic, code and links', () => {
+  assert.deepEqual(parseInline('plain'), [{ t: 'text', v: 'plain' }]);
+  assert.deepEqual(parseInline('**bold**'), [{ t: 'b', v: 'bold' }]);
+  assert.deepEqual(parseInline('*em*'), [{ t: 'i', v: 'em' }]);
+  assert.deepEqual(parseInline('`x`'), [{ t: 'code', v: 'x' }]);
+  assert.deepEqual(parseInline('[t](https://e.com)'), [{ t: 'a', v: 't', href: 'https://e.com' }]);
+});
+
+test('parseInline refuses non-http link targets', () => {
+  // javascript: URLs must never survive into renderable nodes.
+  for (const input of ['[click](javascript:alert(1))', '[x](data:text/html,<h1>x</h1>)', '[y](ftp://a.b)']) {
+    const nodes = parseInline(input);
+    assert.equal(nodes.some((n) => n.t === 'a'), false, `${input} must not produce a link`);
+    assert.ok(inlineToText(nodes).includes('click') || inlineToText(nodes).includes('x') || inlineToText(nodes).includes('y'));
+  }
+});
+
+test('parseMarkdown builds headings, lists, rules and tables', () => {
+  const blocks = parseMarkdown(
+    [
+      '# Title',
+      '',
+      'Intro paragraph.',
+      '',
+      '---',
+      '',
+      '### Section',
+      '',
+      '1. **first**',
+      '2. second',
+      '',
+      '* alpha',
+      '* beta',
+      '',
+      '| A | B |',
+      '|---|---|',
+      '| 1 | 2 |',
+    ].join('\n'),
+  );
+
+  const types = blocks.map((b) => b.type);
+  assert.deepEqual(types, [
+    'heading', 'paragraph', 'hr', 'heading', 'list', 'list', 'table',
+  ]);
+  assert.equal(blocks[0].level, 1);
+  assert.equal(inlineToText(blocks[0].children), 'Title');
+  assert.equal(blocks[4].ordered, true);
+  assert.equal(blocks[4].items.length, 2);
+  assert.equal(blocks[5].ordered, false);
+  assert.equal(blocks[6].header.length, 2);
+  assert.equal(blocks[6].rows.length, 1);
+});
+
+test('parseMarkdown keeps HTML as inert text, never as markup', () => {
+  const blocks = parseMarkdown('<script>alert(1)</script>\n\nText here.');
+  // Two blank-line-separated paragraphs, which is correct Markdown.
+  assert.equal(blocks.length, 2);
+  assert.ok(blocks.every((b) => b.type === 'paragraph'));
+  // The tag survives only as a text node, which React escapes — never executed.
+  assert.equal(inlineToText(blocks[0].children), '<script>alert(1)</script>');
+  assert.equal(inlineToText(blocks[1].children), 'Text here.');
+});
+
+test('parseMarkdown returns an empty list for empty input', () => {
+  assert.deepEqual(parseMarkdown(''), []);
+  assert.deepEqual(parseMarkdown(null), []);
+});
+
+test('the real weekly report parses into usable blocks', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { resolve } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+
+  const here = fileURLToPath(new URL('.', import.meta.url));
+  const markdown = readFileSync(resolve(here, '../../reports/weekly-report.md'), 'utf8');
+  const blocks = parseMarkdown(markdown);
+
+  assert.ok(blocks.length > 5, 'expected the report to produce blocks');
+  assert.ok(blocks.some((b) => b.type === 'heading' && b.level === 1), 'expected a title heading');
+  assert.ok(blocks.some((b) => b.type === 'list'), 'expected at least one list');
+
+  // Nothing dangerous may reach a link node.
+  for (const block of blocks) {
+    const nodeLists = [];
+    if (block.children) nodeLists.push(block.children);
+    if (block.items) nodeLists.push(...block.items);
+    for (const nodes of nodeLists) {
+      for (const node of nodes) {
+        if (node.t === 'a') assert.match(node.href, /^https?:\/\//);
+      }
+    }
+  }
+});
+
+test('the real repository README produces a valid catalog', async () => {
   const { readFileSync } = await import('node:fs');
   const { resolve } = await import('node:path');
   const { fileURLToPath } = await import('node:url');

@@ -14,6 +14,8 @@ import { fileURLToPath } from 'node:url';
 
 import { parseReadme } from './lib/readme-parser.mjs';
 import { validateCatalog } from './lib/validate-catalog.mjs';
+import { parseMarkdown, inlineToText } from './lib/markdown.mjs';
+import { fetchRepoStatus } from './lib/repo-status.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const siteRoot = resolve(here, '..');
@@ -23,6 +25,10 @@ const OUTPUT_PATH = resolve(siteRoot, 'src/data/catalog.json');
 const README_PATH = resolve(repoRoot, 'README.md');
 const STATS_PATH = resolve(repoRoot, 'data/stats.json');
 const CHANGELOG_PATH = resolve(repoRoot, 'data/changelog.json');
+const REPORT_PATH = resolve(repoRoot, 'reports/weekly-report.md');
+
+const REPO = 'FluxeniteMC/Ai-hub';
+const DEPLOY_WORKFLOW = 'deploy-site.yml';
 
 function readJsonIfPresent(path) {
   try {
@@ -68,6 +74,31 @@ function extractChangelog(markdown) {
   return rows;
 }
 
+/** Parses reports/weekly-report.md into a block tree for safe rendering. */
+function buildReport() {
+  let markdown = '';
+  try {
+    markdown = readFileSync(REPORT_PATH, 'utf8');
+  } catch {
+    return { available: false, title: null, date: null, sourceUrl: null, blocks: [] };
+  }
+
+  const blocks = parseMarkdown(markdown);
+  const heading = blocks.find((block) => block.type === 'heading' && block.level === 1);
+
+  // The report title carries its own date, e.g. "Weekly AI API Report — 2026-10-10".
+  const rawTitle = heading ? inlineToText(heading.children) : null;
+  const dateMatch = rawTitle ? /(\d{4}-\d{2}-\d{2})/.exec(rawTitle) : null;
+
+  return {
+    available: blocks.length > 0,
+    title: rawTitle,
+    date: dateMatch ? dateMatch[1] : null,
+    sourceUrl: `https://github.com/${REPO}/blob/main/reports/weekly-report.md`,
+    blocks,
+  };
+}
+
 function buildSourceMeta(markdown) {
   const repoStats = readJsonIfPresent(STATS_PATH);
   const lastUpdatedMatch = markdown.match(/Last run:\s*(\d{4}-\d{2}-\d{2})/);
@@ -84,7 +115,7 @@ function buildSourceMeta(markdown) {
   };
 }
 
-function main() {
+async function main() {
   const markdown = readFileSync(README_PATH, 'utf8');
   const result = parseReadme(markdown);
 
@@ -104,8 +135,24 @@ function main() {
   catalog.source.fingerprint = fingerprint;
 
   const changelog = readJsonIfPresent(CHANGELOG_PATH) ?? extractChangelog(markdown);
-
   catalog.changelog = changelog;
+
+  // Live repository status: latest commit + latest Pages deployment.
+  // Resolved here at build time so the browser never calls the GitHub API.
+  const status = await fetchRepoStatus({
+    repo: REPO,
+    workflow: DEPLOY_WORKFLOW,
+    fallbackSha: process.env.GITHUB_SHA ?? null,
+  });
+  catalog.repoStatus = {
+    commit: status.commit,
+    deployment: status.deployment,
+    fetchedAt: status.fetchedAt,
+  };
+
+  // Latest weekly report, parsed into a block tree for safe rendering.
+  const report = buildReport();
+  catalog.report = report;
 
   const problems = validateCatalog(catalog);
   if (problems.length > 0) {
@@ -131,6 +178,9 @@ function main() {
   console.log(`  rows        ${result.stats.occurrenceCount}`);
   console.log(`  unique      ${result.stats.entryCount} (${result.stats.duplicateCount} merged duplicates)`);
   console.log(`  changelog   ${changelog.length} entries`);
+  console.log(`  report      ${report.available ? `${report.blocks.length} blocks (${report.date ?? 'no date'})` : 'unavailable'}`);
+  console.log(`  commit      ${catalog.repoStatus.commit ? catalog.repoStatus.commit.shortSha : 'unavailable'}`);
+  console.log(`  deployment  ${catalog.repoStatus.deployment ? (catalog.repoStatus.deployment.conclusion ?? catalog.repoStatus.deployment.status) : 'unavailable'}`);
   console.log(`  fingerprint ${fingerprint}`);
   if (warnLine) console.log(`  warnings    ${warnLine}`);
   console.log(`  output      ${OUTPUT_PATH}`);

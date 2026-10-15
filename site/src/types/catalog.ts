@@ -80,12 +80,66 @@ export interface Catalog {
   entries: CatalogEntry[];
   /** Rows of the README Changelog table, verbatim. */
   changelog: ChangelogItem[];
+  /** Latest commit + deployment, resolved during the build. */
+  repoStatus: RepoStatus;
+  /** reports/weekly-report.md, parsed at build time. */
+  report: WeeklyReport;
 }
 
 export interface ChangelogItem {
   date: string;
   change: string;
   type: string;
+}
+
+/** Inline node produced by the build-time Markdown parser. */
+export interface InlineNode {
+  t: 'text' | 'b' | 'i' | 'code' | 'a';
+  v: string;
+  href?: string;
+}
+
+/** Block node produced by the build-time Markdown parser. */
+export type ReportBlock =
+  | { type: 'heading'; level: number; children: InlineNode[] }
+  | { type: 'paragraph'; children: InlineNode[] }
+  | { type: 'list'; ordered: boolean; items: InlineNode[][] }
+  | { type: 'table'; header: InlineNode[][]; rows: InlineNode[][][] }
+  | { type: 'code'; language: string; value: string }
+  | { type: 'hr' };
+
+export interface WeeklyReport {
+  available: boolean;
+  title: string | null;
+  date: string | null;
+  sourceUrl: string | null;
+  blocks: ReportBlock[];
+}
+
+/** Latest repository commit, captured at build time. */
+export interface RepoCommit {
+  sha: string;
+  shortSha: string;
+  message: string;
+  author: string;
+  date: string | null;
+  htmlUrl: string;
+  isDeployed: boolean | null;
+}
+
+/** Latest GitHub Pages deployment run, captured at build time. */
+export interface RepoDeployment {
+  status: string | null;
+  conclusion: string | null;
+  htmlUrl: string | null;
+  updatedAt: string | null;
+  sha: string | null;
+}
+
+export interface RepoStatus {
+  commit: RepoCommit | null;
+  deployment: RepoDeployment | null;
+  fetchedAt: string;
 }
 
 /** Sort options exposed in the explorer. None of them imply a quality ranking. */

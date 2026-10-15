@@ -9,6 +9,7 @@ import './styles/base.css';
 import './styles/layout.css';
 import './styles/components.css';
 import './styles/catalog.css';
+import './styles/report.css';
 import './styles/pages.css';
 
 const container = document.getElementById('root');

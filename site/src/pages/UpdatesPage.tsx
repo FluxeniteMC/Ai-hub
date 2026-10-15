@@ -1,7 +1,9 @@
-import { CalendarClock, ExternalLink, FileJson, GitCommitVertical } from 'lucide-react';
+import { CalendarClock, ExternalLink, FileJson, GitCommitVertical, Newspaper } from 'lucide-react';
 
 import { Callout } from '../components/ui/Callout';
 import { EmptyState } from '../components/ui/EmptyState';
+import { LiveStatusCard } from '../components/report/LiveStatusCard';
+import { ReportDocument } from '../components/report/ReportDocument';
 import { changelog, catalog } from '../lib/catalog';
 import { formatIsoDate, formatRelativeTime } from '../lib/format';
 
@@ -9,6 +11,7 @@ const REPO_URL = catalog.source.repository;
 
 export function UpdatesPage() {
   const { stats, source } = catalog;
+  const report = catalog.report;
 
   const dataFiles = [
     { file: 'data/stats.json', label: 'Repository statistics' },
@@ -73,6 +76,59 @@ export function UpdatesPage() {
             </div>
           </dl>
         </div>
+      </section>
+
+      <section className="section">
+        <div className="section__header">
+          <h2 className="section__title">Live status</h2>
+          <p className="section__description">
+            Captured from GitHub during this build, so it always reflects the deployed state.
+          </p>
+        </div>
+
+        <div className="panel panel--padded">
+          <LiveStatusCard />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section__header">
+          <h2 className="section__title">Latest weekly report</h2>
+          <p className="section__description">
+            Reproduced from <code>reports/weekly-report.md</code>
+            {report.date ? ` — dated ${formatIsoDate(report.date)}` : ''}.
+          </p>
+        </div>
+
+        {!report.available ? (
+          <div className="panel">
+            <EmptyState
+              icon={<Newspaper size={22} />}
+              title="No weekly report found"
+              description="reports/weekly-report.md was not available when this build ran. The weekly report workflow writes it on its schedule."
+            />
+          </div>
+        ) : (
+          <>
+            <Callout icon={<Newspaper size={16} />} tone="warning" className="doc-callout">
+              This report is written automatically by the repository&apos;s Gemini workflow and is
+              commentary, not verified data. Models and prices it mentions may be speculative — the
+              listings in the <strong>catalog itself</strong> come only from the README tables.
+            </Callout>
+
+            <article className="panel panel--padded report__panel">
+              {report.sourceUrl ? (
+                <p className="report__source">
+                  <a href={report.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    View the raw report on GitHub
+                    <ExternalLink size={11} aria-hidden="true" />
+                  </a>
+                </p>
+              ) : null}
+              <ReportDocument blocks={report.blocks} />
+            </article>
+          </>
+        )}
       </section>
 
       <section className="section">

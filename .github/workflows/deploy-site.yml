@@ -6,12 +6,15 @@ on:
     paths:
       - "README.md"
       - "data/**"
+      # The weekly report is rendered on /updates, so a report change is a
+      # content change and must trigger a rebuild.
+      - "reports/**"
       - "site/**"
       - ".github/workflows/deploy-site.yml"
   workflow_dispatch:
-  # Lets a maintainer redeploy without touching content.
   schedule:
     # Weekly safety net in case a Pages deploy was interrupted.
+    # Cron is UTC. 04:17 UTC Monday == 10:17 (+06:00) Monday.
     - cron: "17 4 * * 1"
 
 # Least privilege: the workflow only ever reads the repo and writes Pages.
