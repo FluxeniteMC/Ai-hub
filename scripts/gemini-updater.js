@@ -13,7 +13,7 @@
  * Usage: node scripts/gemini-updater.js
  * Env:   GEMINI_API_KEY (required)
  *        UPDATE_TYPE (all | pricing | new_apis | deprecations | descriptions)
- *        GEMINI_MODEL (optional, default: gemini-2.5-flash)
+ *        GEMINI_MODEL (optional, default: gemini-3-flash-preview)
  *        GEMINI_DAILY_BASE_URL (optional: real-time context source, e.g. a search/news API)
  */
 
@@ -22,7 +22,7 @@ const path = require("path");
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const UPDATE_TYPE = process.env.UPDATE_TYPE || "all";
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 const ROOT = process.cwd();
 
 if (!GEMINI_API_KEY) {
