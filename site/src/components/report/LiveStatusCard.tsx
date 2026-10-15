@@ -6,7 +6,7 @@ import {
   XCircle,
 } from 'lucide-react';
 
-import { catalog } from '../../lib/catalog';
+import { catalog, repoStatus } from '../../lib/catalog';
 import { formatRelativeTime } from '../../lib/format';
 import type { RepoDeployment } from '../../types/catalog';
 
@@ -22,7 +22,7 @@ const STATUS_META: Record<string, { label: string; tone: 'positive' | 'danger' |
  * Both were resolved during the build, so this renders instantly and offline.
  */
 export function LiveStatusCard() {
-  const { commit, deployment, fetchedAt } = catalog.repoStatus;
+  const { commit, deployment, fetchedAt } = repoStatus;
   const meta = deployment?.conclusion ? STATUS_META[deployment.conclusion] : undefined;
   const StatusIcon =
     deployment?.conclusion === 'success'

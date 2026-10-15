@@ -12,6 +12,8 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+
 import { catalog, facets } from '../lib/catalog';
 import { formatCount, formatIsoDate } from '../lib/format';
 import { Callout } from '../components/ui/Callout';
@@ -47,6 +49,10 @@ const KINDS = [
 ];
 
 export function HomePage() {
+  useDocumentMeta(
+    'Fluxenite AI Hub',
+    'Searchable directory of AI APIs, models, vector databases and developer tools, generated from the repository README.',
+  );
   const { stats, source } = catalog;
   const topProviders = facets.providers
     .filter((provider) => provider.value !== 'Unspecified')

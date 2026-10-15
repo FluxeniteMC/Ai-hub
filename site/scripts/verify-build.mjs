@@ -156,6 +156,39 @@ if (!existsSync(sitemapPath)) {
   check(!/<lastmod>undefined/.test(sitemap), 'sitemap.xml has an undefined lastmod');
 }
 
+// 8. Crawlable SEO essentials in the built index.html.
+if (html) {
+  check(/<title>[^<]{10,}<\/title>/.test(html), 'index.html has no meaningful <title>');
+  check(
+    /<meta\s+name="description"\s+content="[^"]{80,}"/.test(html),
+    'index.html has no substantive meta description',
+  );
+  check(/<link\s+rel="canonical"/.test(html), 'index.html has no canonical link');
+  check(/property="og:title"/.test(html) && /property="og:description"/.test(html),
+    'index.html is missing Open Graph tags');
+  check(/name="twitter:card"/.test(html), 'index.html has no Twitter card tag');
+  check(/<noscript>/.test(html), 'index.html has no <noscript> fallback');
+  check(/id="boot"/.test(html), 'index.html has no pre-hydration shell');
+
+  const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  if (!ld) {
+    check(false, 'index.html has no JSON-LD structured data');
+  } else {
+    let parsed = null;
+    try {
+      parsed = JSON.parse(ld[1]);
+    } catch {
+      check(false, 'JSON-LD is not valid JSON');
+    }
+    if (parsed) {
+      const types = (parsed['@graph'] ?? []).map((n) => n['@type']);
+      check(types.includes('WebSite'), 'JSON-LD is missing a WebSite node');
+      check(types.includes('Dataset'), 'JSON-LD is missing a Dataset node');
+      check(types.includes('ItemList'), 'JSON-LD is missing an ItemList node');
+    }
+  }
+}
+
 if (failures.length > 0) {
   console.error(`✖ Build verification failed (${failures.length}):\n`);
   for (const failure of failures) console.error(`  • ${failure}`);

@@ -1,5 +1,7 @@
 import { BookOpen, ExternalLink, FileCode2, Github, Info, Scale, Workflow } from 'lucide-react';
 
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+
 import { Callout } from '../components/ui/Callout';
 import { catalog } from '../lib/catalog';
 import { formatIsoDate, formatRelativeTime } from '../lib/format';
@@ -30,6 +32,10 @@ const PIPELINE = [
 ];
 
 export function DocsPage() {
+  useDocumentMeta(
+    'Documentation & Data Provenance',
+    'How the AI Hub catalog is generated from the repository README, and the rules that keep it free of invented data.',
+  );
   const { source, stats } = catalog;
 
   return (

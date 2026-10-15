@@ -130,6 +130,27 @@ export const changelogReference: { url: string } = {
   url: `${catalog.source.repository}/blob/main/README.md${CHANGELOG_HEADING}`,
 };
 
+/**
+ * Latest commit + deployment, captured at build time.
+ * Defaults keep the UI working if a build somehow produced an older catalog
+ * shape — a missing field must never blank the page.
+ */
+const EMPTY_STATUS = {
+  commit: null,
+  deployment: null,
+  fetchedAt: new Date(0).toISOString(),
+} as const;
+
+export const repoStatus = catalog.repoStatus ?? EMPTY_STATUS;
+
+/**
+ * reports/weekly-report.md parsed at build time. `available: false` means the
+ * Updates page renders its "no report" state rather than crashing.
+ */
+export const report =
+  catalog.report ??
+  ({ available: false, title: null, date: null, sourceUrl: null, blocks: [] } as const);
+
 export const changelog: readonly ChangelogItem[] = catalog.changelog ?? [];
 
 /** Sections that read as "catalog" groupings, used for home page navigation. */

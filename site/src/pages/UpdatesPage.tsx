@@ -1,17 +1,22 @@
 import { CalendarClock, ExternalLink, FileJson, GitCommitVertical, Newspaper } from 'lucide-react';
 
 import { Callout } from '../components/ui/Callout';
+
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { EmptyState } from '../components/ui/EmptyState';
 import { LiveStatusCard } from '../components/report/LiveStatusCard';
 import { ReportDocument } from '../components/report/ReportDocument';
-import { changelog, catalog } from '../lib/catalog';
+import { changelog, catalog, report } from '../lib/catalog';
 import { formatIsoDate, formatRelativeTime } from '../lib/format';
 
 const REPO_URL = catalog.source.repository;
 
 export function UpdatesPage() {
+  useDocumentMeta(
+    'Repository Updates & Weekly Report',
+    'Live repository status, the latest commit and deployment state, plus the latest AI API weekly report.',
+  );
   const { stats, source } = catalog;
-  const report = catalog.report;
 
   const dataFiles = [
     { file: 'data/stats.json', label: 'Repository statistics' },

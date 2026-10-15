@@ -5,21 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0a0b0d" />
-    <title>Fluxenite AI Hub — Community-maintained AI API &amp; model directory</title>
+    <title>Fluxenite AI Hub — Searchable AI API &amp; Model Directory</title>
     <meta
       name="description"
-      content="A searchable, filterable directory of AI APIs, models and developer tools. Every listing is generated directly from the FluxeniteMC/Ai-hub repository README."
+      content="Search, filter and compare 500+ AI APIs, LLM models, vector databases and developer tools. A community-maintained directory, generated directly from the FluxeniteMC/Ai-hub repository README and rebuilt on every commit."
     />
+    <meta name="author" content="FluxeniteMC" />
+    <meta
+      name="keywords"
+      content="AI API directory, LLM list, AI models, OpenAI alternatives, Anthropic Claude, Gemini, vector database comparison, AI pricing, developer tools, machine learning APIs"
+    />
+    <link rel="canonical" href="https://fluxenitemc.github.io/Ai-hub/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <meta property="og:title" content="Fluxenite AI Hub" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fluxenite AI Hub" />
+    <meta property="og:title" content="Fluxenite AI Hub — Searchable AI API &amp; Model Directory" />
     <meta
       property="og:description"
-      content="Searchable directory of AI APIs, models and developer tools, generated from the repository README."
+      content="Search, filter and compare 500+ AI APIs, models and developer tools. Generated from the repository README and rebuilt on every commit."
     />
-    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fluxenitemc.github.io/Ai-hub/" />
+    <meta property="og:image" content="https://fluxenitemc.github.io/Ai-hub/favicon.svg" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Fluxenite AI Hub" />
+    <meta
+      name="twitter:description"
+      content="Search, filter and compare 500+ AI APIs, models and developer tools."
+    />
+
+    <!--
+      Static shell shown before React hydrates. It is removed once the app
+      mounts, so a slow or blocked script leaves readable text instead of a
+      blank dark page.
+    -->
+    <style>
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding: 24px;
+        background: #0a0b0d;
+        color: #a8b0bd;
+        font: 400 15px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        text-align: center;
+        z-index: 200;
+      }
+      #boot b { color: #f2f4f7; font-size: 17px; }
+      #boot small { color: #767e8c; }
+      noscript p { margin: 6px 0; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <div id="boot">
+      <b>Fluxenite AI Hub</b>
+      <small>Loading the AI API catalog…</small>
+      <noscript>
+        <p>
+          This site needs JavaScript to search the catalog.
+        </p>
+        <p>
+          The full directory is readable without it at
+          <a href="https://github.com/FluxeniteMC/Ai-hub" style="color: #8b93ff"
+            >github.com/FluxeniteMC/Ai-hub</a
+          >.
+        </p>
+      </noscript>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

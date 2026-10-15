@@ -8,6 +8,8 @@ import { EmptyState } from '../components/ui/EmptyState';
 import { SearchInput } from '../components/ui/SearchInput';
 import { Select } from '../components/ui/Select';
 import { useCompareSelection } from '../hooks/useCompareSelection';
+
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 import { useUrlFilters } from '../hooks/useUrlFilters';
 import {
   activeFilterCount,
@@ -23,6 +25,10 @@ import type { SortKey } from '../types/catalog';
 const PAGE_SIZE = 24;
 
 export function ExplorePage() {
+  useDocumentMeta(
+    'Explore AI APIs & Models',
+    'Search and filter every AI API, model and tool catalogued in the community directory. Filter by provider, category and pricing.',
+  );
   const { filters, patchFilters, resetFilters } = useUrlFilters();
   const [rawQuery, setRawQuery] = useState(filters.query);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);

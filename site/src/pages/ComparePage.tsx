@@ -1,6 +1,8 @@
 import { GitCompare, Info, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
+
 import { ComparisonTable } from '../components/catalog/ComparisonTable';
 import { Callout } from '../components/ui/Callout';
 import { EmptyState } from '../components/ui/EmptyState';
@@ -9,6 +11,10 @@ import { getEntriesByIds } from '../lib/catalog';
 import { KIND_LABELS } from '../lib/format';
 
 export function ComparePage() {
+  useDocumentMeta(
+    'Compare AI Models',
+    'Compare up to four AI models side by side: provider, context window, published pricing and shared attributes.',
+  );
   const { selectedIds, remove, clear } = useCompareSelection();
   const selected = getEntriesByIds(selectedIds);
 
