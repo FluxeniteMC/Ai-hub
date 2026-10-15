@@ -1,0 +1,45 @@
+{
+  "new_apis": [
+    {
+      "name": "Groq API",
+      "provider": "Groq",
+      "url": "https://groq.com/",
+      "category": "LLM",
+      "tier": "paid",
+      "description": "Provides lightning-fast inference for open-source LLMs using Language Processing Units (LPUs).",
+      "pricing": "Per token/millisecond",
+      "table_row": "| [Groq API](https://groq.com/) | Groq | LLM | Ultra-low latency LPU inference for LLMs | Offers some of the fastest LLM inference currently available for supported models |"
+    },
+    {
+      "name": "OpenRouter.ai",
+      "provider": "OpenRouter",
+      "url": "https://openrouter.ai/",
+      "category": "LLM",
+      "tier": "freemium",
+      "description": "A unified API gateway to access a wide range of LLMs from various providers with a single interface.",
+      "pricing": "Pass-through model cost (first $0.05/day free)",
+      "table_row": "| [OpenRouter.ai](https://openrouter.ai/) | OpenRouter | LLM | Unified API for hundreds of LLMs from various providers | Simplifies model switching and cost optimization for developers; supports fine-tuning |"
+    },
+    {
+      "name": "Suno AI API",
+      "provider": "Suno AI",
+      "url": "https://www.suno.ai/api",
+      "category": "Audio & Speech",
+      "tier": "freemium",
+      "description": "Generate high-quality songs and instrumental music from text prompts.",
+      "pricing": "Free tier, then credit-based subscriptions",
+      "table_row": "| [Suno AI API](https://www.suno.ai/api) | Suno AI | Audio & Speech | Text-to-music generation, including vocals and instrumentals | Creates full songs from simple prompts; highly popular for music creation |"
+    },
+    {
+      "name": "OpenAI Sora API",
+      "provider": "OpenAI",
+      "url": "https://openai.com/sora",
+      "category": "Video Generation",
+      "tier": "paid",
+      "description": "Generates realistic and imaginative scenes from text instructions, producing high-quality videos.",
+      "pricing": "Per second/resolution (anticipated)",
+      "table_row": "| [OpenAI Sora API](https://openai.com/sora) | OpenAI | Video Generation | State-of-the-art realistic text-to-video synthesis | Expected to be a major player in video generation if released publicly by 2026-10-15 |"
+    }
+  ],
+  "count": 4
+}
