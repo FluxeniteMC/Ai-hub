@@ -65,7 +65,11 @@ export async function fetchRepoStatus({ repo, workflow, fallbackSha = null }) {
 
   let deployment = null;
   // The Actions API wraps results in { workflow_runs: [...] }, not a bare array.
-  const run = Array.isArray(runData?.workflow_runs) ? runData.workflow_runs[0] : null;
+  const runs = Array.isArray(runData?.workflow_runs) ? runData.workflow_runs : [];
+  // Prefer the most recent FINISHED run. While a build is running its own run
+  // already exists with status "in_progress", so taking runs[0] would make every
+  // deployed page report itself as in-flight instead of the real last outcome.
+  const run = runs.find((item) => item.status === 'completed') ?? runs[0] ?? null;
   if (run) {
     deployment = {
       status: run.status ?? null,
