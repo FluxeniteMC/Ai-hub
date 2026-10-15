@@ -1,45 +1,105 @@
 {
   "new_apis": [
     {
-      "name": "Groq API",
-      "provider": "Groq",
+      "name": "Sora API",
+      "provider": "OpenAI",
+      "url": "https://openai.com/sora",
+      "category": "Video",
+      "tier": "paid",
+      "description": "High-fidelity cinematic video generation up to 60 seconds with physical consistency.",
+      "pricing": "Per minute of video",
+      "table_row": "| [Sora API](https://openai.com/sora) | OpenAI | Video | Cinematic text-to-video generation | High-latency, professional grade |"
+    },
+    {
+      "name": "Claude 4 Opus",
+      "provider": "Anthropic",
+      "url": "https://www.anthropic.com/api",
+      "category": "LLM",
+      "tier": "paid",
+      "description": "Next-gen model with near-human reasoning and massive 1M token context window.",
+      "pricing": "$15/1M input | $75/1M output",
+      "table_row": "| [Claude 4 Opus](https://www.anthropic.com/api) | Anthropic | LLM | State-of-the-art reasoning & long context | Industry leader in coding/logic |"
+    },
+    {
+      "name": "Grok-3 API",
+      "provider": "xAI",
+      "url": "https://x.ai/api",
+      "category": "LLM",
+      "tier": "paid",
+      "description": "Real-time access to X data with ultra-high reasoning capabilities.",
+      "pricing": "Competitive token pricing",
+      "table_row": "| [Grok-3](https://x.ai/api) | xAI | LLM | Real-time world knowledge via X | Best for current events and uncensored logic |"
+    },
+    {
+      "name": "Gemini 2.0 Flash-Realtime",
+      "provider": "Google",
+      "url": "https://ai.google.dev/",
+      "category": "Multimodal",
+      "tier": "freemium",
+      "description": "Sub-100ms latency for native multimodal audio/video streaming.",
+      "pricing": "Free tier available | Pay-per-token",
+      "table_row": "| [Gemini 2.0 Flash](https://ai.google.dev/) | Google | Multimodal | Ultra-low latency voice/vision streaming | Best for AI NPCs and live assistants |"
+    },
+    {
+      "name": "Llama 4 (405B-Instruct)",
+      "provider": "Meta (via Groq/Cerebras)",
       "url": "https://groq.com/",
       "category": "LLM",
       "tier": "paid",
-      "description": "Provides lightning-fast inference for open-source LLMs using Language Processing Units (LPUs).",
-      "pricing": "Per token/millisecond",
-      "table_row": "| [Groq API](https://groq.com/) | Groq | LLM | Ultra-low latency LPU inference for LLMs | Offers some of the fastest LLM inference currently available for supported models |"
+      "description": "Open-weight flagship model running at 500+ tokens/sec on LPU hardware.",
+      "pricing": "Approx $0.60/1M tokens",
+      "table_row": "| [Llama 4](https://groq.com/) | Meta/Groq | LLM | Fastest open-weights inference | Massive throughput for agentic workflows |"
     },
     {
-      "name": "OpenRouter.ai",
-      "provider": "OpenRouter",
-      "url": "https://openrouter.ai/",
-      "category": "LLM",
-      "tier": "freemium",
-      "description": "A unified API gateway to access a wide range of LLMs from various providers with a single interface.",
-      "pricing": "Pass-through model cost (first $0.05/day free)",
-      "table_row": "| [OpenRouter.ai](https://openrouter.ai/) | OpenRouter | LLM | Unified API for hundreds of LLMs from various providers | Simplifies model switching and cost optimization for developers; supports fine-tuning |"
-    },
-    {
-      "name": "Suno AI API",
-      "provider": "Suno AI",
-      "url": "https://www.suno.ai/api",
-      "category": "Audio & Speech",
-      "tier": "freemium",
-      "description": "Generate high-quality songs and instrumental music from text prompts.",
-      "pricing": "Free tier, then credit-based subscriptions",
-      "table_row": "| [Suno AI API](https://www.suno.ai/api) | Suno AI | Audio & Speech | Text-to-music generation, including vocals and instrumentals | Creates full songs from simple prompts; highly popular for music creation |"
-    },
-    {
-      "name": "OpenAI Sora API",
-      "provider": "OpenAI",
-      "url": "https://openai.com/sora",
-      "category": "Video Generation",
+      "name": "Kling AI API",
+      "provider": "Kuaishou",
+      "url": "https://klingai.com/",
+      "category": "Video",
       "tier": "paid",
-      "description": "Generates realistic and imaginative scenes from text instructions, producing high-quality videos.",
-      "pricing": "Per second/resolution (anticipated)",
-      "table_row": "| [OpenAI Sora API](https://openai.com/sora) | OpenAI | Video Generation | State-of-the-art realistic text-to-video synthesis | Expected to be a major player in video generation if released publicly by 2026-10-15 |"
+      "description": "Leading realistic video generation with complex motion dynamics.",
+      "pricing": "Subscription/Credits",
+      "table_row": "| [Kling AI](https://klingai.com/) | Kuaishou | Video | Realistic human motion generation | Strongest competitor to Sora |"
+    },
+    {
+      "name": "ElevenLabs Music API",
+      "provider": "ElevenLabs",
+      "url": "https://elevenlabs.io/music",
+      "category": "Audio",
+      "tier": "paid",
+      "description": "API for generating full high-fidelity songs from lyrics and style tags.",
+      "pricing": "Per character/generation",
+      "table_row": "| [ElevenLabs Music](https://elevenlabs.io/music) | ElevenLabs | Audio | Professional quality song generation | Includes vocals and instrumentation |"
+    },
+    {
+      "name": "Flux.1 Pro API",
+      "provider": "Black Forest Labs",
+      "url": "https://docs.bfl.ml/",
+      "category": "Image",
+      "tier": "paid",
+      "description": "State-of-the-art image generation with perfect text rendering.",
+      "pricing": "$0.05 per image",
+      "table_row": "| [Flux.1 Pro](https://docs.bfl.ml/) | Black Forest Labs | Image | Superior prompt adherence and text | Best for graphic design and UI |"
+    },
+    {
+      "name": "LangGraph Cloud API",
+      "provider": "LangChain",
+      "url": "https://langchain.com/langgraph",
+      "category": "Agents",
+      "tier": "freemium",
+      "description": "Production-grade orchestration for cyclic agentic workflows.",
+      "pricing": "Usage-based on steps",
+      "table_row": "| [LangGraph Cloud](https://langchain.com/langgraph) | LangChain | Agents | Managed stateful multi-agent systems | Essential for complex reasoning loops |"
+    },
+    {
+      "name": "Tavily Search API",
+      "provider": "Tavily",
+      "url": "https://tavily.com/",
+      "category": "Specialized",
+      "tier": "freemium",
+      "description": "AI-optimized search engine designed for LLM RAG and agents.",
+      "pricing": "1,000 free searches/mo",
+      "table_row": "| [Tavily](https://tavily.com/) | Tavily | Specialized | Search engine for LLM agents | Filters out SEO spam for better RAG |"
     }
   ],
-  "count": 4
+  "count": 10
 }

@@ -1,25 +1,3 @@
 {
-  "deprecated": [
-    {
-      "name": "OpenAI Legacy Completion Models (text-davinci-003, text-curie-001, text-babbage-001, text-ada-001)",
-      "provider": "OpenAI",
-      "shutdown_date": "2024-01",
-      "reason": "Shift to more advanced and cost-effective chat-based models via the Chat Completions API.",
-      "replacement": "gpt-3.5-turbo (via Chat Completions API)"
-    },
-    {
-      "name": "OpenAI Older GPT Snapshot Models (e.g., gpt-3.5-turbo-0301, gpt-4-0314, gpt-4-0613)",
-      "provider": "OpenAI",
-      "shutdown_date": "Various, e.g., 2023-09 to 2024-06",
-      "reason": "Replaced by newer, improved, and more recent snapshot versions or the latest rolling models.",
-      "replacement": "Latest gpt-3.5-turbo, gpt-4, or specific newer snapshots (e.g., gpt-3.5-turbo-0125, gpt-4-0125, gpt-4o)"
-    },
-    {
-      "name": "Google PaLM API (text-bison-001 model)",
-      "provider": "Google",
-      "shutdown_date": "2024-04",
-      "reason": "Transition to the more advanced, multimodal Gemini models.",
-      "replacement": "Gemini API (gemini-pro, gemini-1.0-pro, gemini-1.5-pro)"
-    }
-  ]
+  "deprecated": []
 }

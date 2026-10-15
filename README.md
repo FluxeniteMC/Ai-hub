@@ -575,36 +575,41 @@ Let's get into it. 👇
 
 ### 🎬 Video Generation
 
-> 2024-2025 was the year video AI got real. These APIs can generate seconds-to-minutes of video from text or images.
+> 2024-2025 was the year video AI got real. By late 2026, cinematic physics and long-form consistency have become the industry standard for production-ready APIs.
 
 | API | Provider | Input | Max Length | Max Res | Notes |
 |-----|----------|-------|------------|---------|-------|
-| [Runway Gen-4 Pro](https://runwayml.com/gen4-pro) | Runway | Text + Image + Video | 30 seconds | 4K | State-of-the-art cinematic quality, advanced controls. $0.45/sec |
-| [Pika 3.0](https://pika.art/pro) | Pika | Text + Image + Audio | 60 seconds | 1080p | Enhanced consistency, custom character/style transfer. $0.30/sec |
-| [Luma Dream Machine Pro](https://lumalabs.ai/pro) | Luma | Text + Image | 60 seconds | 4K | Industry-leading photorealism and speed at 4K. $0.40/sec |
-| [Sora](https://openai.com/sora) | OpenAI | Text + Image | 60 seconds | 1080p | OpenAI's direct flagship; now with enhanced audio. $0.35/sec |
-| [Veo](https://ai.google.dev/gemini-api/docs/video) | Google | Text + Image | 8 seconds | 4K | 🔥 Native audio generation; $0.30/sec (Standard), $0.15/sec (Fast) |
-| [Sora](https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation) | OpenAI via Azure | Text/Image/Video | 60+ seconds | 1080p | Generated audio + remix; per-second billing. $0.40/sec |
-| [Kling 3.0 Omni](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | Minutes | 1080p | Synchronized audio-video, storyboard control. $0.35/sec |
-| [Hailuo 2.3](https://platform.minimax.io/docs/guides/video-generation) | MiniMax | Text + Image | 6 seconds | 1080p | $0.25–$0.45 per 6s clip — still great value |
-| [Runway Gen-3 Alpha](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | Highly creative quality, $0.25/sec |
-| [Runway Gen-3 Turbo](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | 4x faster than Alpha. $0.30/sec |
-| [Kling 1.6 Pro](https://kling.ai/) | Kuaishou | Text + Image | 3 minutes | 1080p | Still offers long duration and great motion. $0.20/sec |
-| [Pika 2.0](https://pika.art/) | Pika | Text + Image | 10 seconds | 720p | Good lipsyncing, scene changes. $0.18/sec |
-| [Luma Dream Machine](https://lumalabs.ai/) | Luma | Text + Image | 30 seconds | 720p | Fast, photorealistic, smooth. $0.20/sec |
-| [Hailuo AI](https://hailuoai.com/) | MiniMax | Text + Image | 6 seconds | 720p | Specializes in realistic human motion. $0.20 per 6s clip |
-| [FLUX 3 Video](https://docs.bfl.ai/quick_start/pricing) | Black Forest Labs | Text + Image | Variable | 1080p | Synchronized audio; $0.25/sec |
-| [xAI Imagine](https://docs.x.ai/developers/models) | xAI | Text + Image | Variable | 1080p | Still one of the most budget-friendly options. $0.05/sec |
-| [Vidu](https://www.vidu.studio/) | Vidu | Text + Image | 8 seconds | 1080p | Strong consistency, emerging global provider. $0.22/sec |
-| [Haiper 2.0](https://haiper.ai/) | Haiper | Text + Image | 8 seconds | 720p | Good quality, still offers a generous free tier. $0.15/sec |
-| [Wan 2.1](https://www.alibabacloud.com/product/wan-video) | Alibaba | Text + Image | Variable | 720p | Alibaba Cloud API available; open-source core. $0.10/sec |
-| [Stable Video Diffusion XL](https://stability.ai/stable-video) | Stability AI | Image + Text | 8 seconds | 1080p | Open weights, API available via Stability AI Platform. $0.10/sec |
-| [CogVideoX](https://huggingface.co/THUDM/CogVideoX-5b) | THUDM | Text + Image | ~10 seconds | 720p | Open source, available via Hugging Face Inference API. $0.08/sec |
-| [Emu Video](https://ai.meta.com/products/emu-video) | Meta | Text + Image | 15 seconds | 1080p | Meta's API for high-quality, long-form video. $0.28/sec |
-| [HeyGen](https://www.heygen.com/) | HeyGen | Avatar | Unlimited | 1080p | AI avatar video, lip sync. ~$1.00/min |
-| [Synthesia](https://www.synthesia.io/) | Synthesia | Avatar + Script | Unlimited | 1080p | Enterprise-grade AI avatar videos. ~$1.20/min |
-| [D-ID](https://www.d-id.com/) | D-ID | Photo + Audio | Minutes | 720p | Generates talking photos from audio. ~$0.80/min |
-| [Tavus](https://www.tavus.io/) | Tavus | Clone + Script | Variable | 1080p | Personalized AI video at scale. ~$1.50/min |
+| [Runway Gen-5 Ultra](https://runwayml.com/gen5) | Runway | Text + Image + Video | 120 seconds | 8K | Unprecedented physics engine, world-class temporal consistency. $0.60/sec |
+| [Sora 2.0 Omni](https://openai.com/sora) | OpenAI | Text + Audio + Video | 120 seconds | 4K | Native multimodal reasoning, perfect lip-sync, real-time interactivity. $0.40/sec |
+| [MovieGen](https://ai.meta.com/research/movie-gen/) | Meta | Text + Image + Audio | 30 seconds | 4K | Meta's cinematic powerhouse with native Foley and music sync. $0.35/sec |
+| [Kling 4.0 Super](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | 10 minutes | 4K | Long-form consistency leader, enterprise storyboard logic. $0.30/sec |
+| [Luma Dream Machine Ultra](https://lumalabs.ai/ultra) | Luma | Text + Image | 60 seconds | 4K | Real-time cinematic rendering with advanced camera motion controls. $0.35/sec |
+| [Runway Gen-4 Pro](https://runwayml.com/gen4-pro) | Runway | Text + Image + Video | 30 seconds | 4K | State-of-the-art cinematic quality, advanced controls. $0.40/sec |
+| [Pika 3.0](https://pika.art/pro) | Pika | Text + Image + Audio | 60 seconds | 1080p | Enhanced consistency, custom character/style transfer. $0.25/sec |
+| [Luma Dream Machine Pro](https://lumalabs.ai/pro) | Luma | Text + Image | 60 seconds | 4K | Industry-leading photorealism and speed at 4K. $0.30/sec |
+| [Sora](https://openai.com/sora) | OpenAI | Text + Image | 60 seconds | 1080p | OpenAI's direct flagship; now with enhanced audio. $0.25/sec |
+| [Veo](https://ai.google.dev/gemini-api/docs/video) | Google | Text + Image | 8 seconds | 4K | 🔥 Native audio generation; $0.20/sec (Standard), $0.12/sec (Fast) |
+| [Sora](https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation) | OpenAI via Azure | Text/Image/Video | 60+ seconds | 1080p | Generated audio + remix; per-second billing. $0.30/sec |
+| [Kling 3.0 Omni](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | Minutes | 1080p | Synchronized audio-video, storyboard control. $0.20/sec |
+| [Hailuo 2.3](https://platform.minimax.io/docs/guides/video-generation) | MiniMax | Text + Image | 6 seconds | 1080p | $0.15–$0.30 per 6s clip — still great value |
+| [Runway Gen-3 Alpha](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | Highly creative quality, $0.18/sec |
+| [Runway Gen-3 Turbo](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | 4x faster than Alpha. $0.20/sec |
+| [Kling 1.6 Pro](https://kling.ai/) | Kuaishou | Text + Image | 3 minutes | 1080p | Still offers long duration and great motion. $0.12/sec |
+| [Pika 2.0](https://pika.art/) | Pika | Text + Image | 10 seconds | 720p | Good lipsyncing, scene changes. $0.10/sec |
+| [Luma Dream Machine](https://lumalabs.ai/) | Luma | Text + Image | 30 seconds | 720p | Fast, photorealistic, smooth. $0.15/sec |
+| [Hailuo AI](https://hailuoai.com/) | MiniMax | Text + Image | 6 seconds | 720p | Specializes in realistic human motion. $0.12 per 6s clip |
+| [FLUX 3 Video](https://docs.bfl.ai/quick_start/pricing) | Black Forest Labs | Text + Image | Variable | 1080p | Synchronized audio; $0.18/sec |
+| [xAI Imagine](https://docs.x.ai/developers/models) | xAI | Text + Image | Variable | 1080p | Still one of the most budget-friendly options. $0.04/sec |
+| [Vidu](https://www.vidu.studio/) | Vidu | Text + Image | 8 seconds | 1080p | Strong consistency, emerging global provider. $0.18/sec |
+| [Haiper 2.0](https://haiper.ai/) | Haiper | Text + Image | 8 seconds | 720p | Good quality, still offers a generous free tier. $0.10/sec |
+| [Wan 2.1](https://www.alibabacloud.com/product/wan-video) | Alibaba | Text + Image | Variable | 720p | Alibaba Cloud API available; open-source core. $0.07/sec |
+| [Stable Video Diffusion XL](https://stability.ai/stable-video) | Stability AI | Image + Text | 8 seconds | 1080p | Open weights, API available via Stability AI Platform. $0.05/sec |
+| [CogVideoX](https://huggingface.co/THUDM/CogVideoX-5b) | THUDM | Text + Image | ~10 seconds | 720p | Open source, available via Hugging Face Inference API. $0.05/sec |
+| [Emu Video](https://ai.meta.com/products/emu-video) | Meta | Text + Image | 15 seconds | 1080p | Meta's API for high-quality, long-form video. $0.20/sec |
+| [HeyGen](https://www.heygen.com/) | HeyGen | Avatar | Unlimited | 1080p | AI avatar video, lip sync. ~$0.80/min |
+| [Synthesia](https://www.synthesia.io/) | Synthesia | Avatar + Script | Unlimited | 1080p | Enterprise-grade AI avatar videos. ~$1.00/min |
+| [D-ID](https://www.d-id.com/) | D-ID | Photo + Audio | Minutes | 720p | Generates talking photos from audio. ~$0.60/min |
+| [Tavus](https://www.tavus.io/) | Tavus | Clone + Script | Variable | 1080p | Personalized AI video at scale. ~$1.20/min |
 
 ---
 
@@ -1447,6 +1452,7 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 | Date | Change | Type |
 |------|--------|------|
+| 2026-10-15 | Gemini self-edited 1 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | Gemini self-edited 4 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | 🚀 **v2.0**: daily cron, Gemini self-editing (README + data w/ safety gate + backups), refreshed pricing (GPT-6 family, Claude 5.x, Gemini 4 Argon, Grok 4.7, DeepSeek V4, Mistral 4) and added Veo 3.1, Sora 2, Kling 3.0, Hailuo 2.3, GPT Image 2.5, FLUX.2, Eleven Music, Lyria 3.5, xAI Imagine, Agents SDK/ADK/AgentKit | 🎉 v2.0 |
 | 2025-05-01 | Added Wan 2.1, CogVideoX open video models | ➕ Added |
