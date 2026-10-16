@@ -235,19 +235,26 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          # The data was generated in the working tree, so checking the catalog
+          # branch out over it would abort with "local changes would be
+          # overwritten". Snapshot the output first, rebuild the branch from the
+          # current base, then replay it.
+          SNAPSHOT="$(mktemp -d)"
+          trap 'rm -rf "$SNAPSHOT"' EXIT
+          cp data/*.json "$SNAPSHOT/"
+
           if git ls-remote --exit-code --heads origin "$CATALOG_BRANCH" >/dev/null 2>&1; then
             git fetch origin "$CATALOG_BRANCH"
-            git checkout -B "$CATALOG_BRANCH" "origin/$CATALOG_BRANCH"
-          elif [ "${{ inputs.force_branch }}" = "true" ]; then
-            git checkout -B "$CATALOG_BRANCH"
-          else
-            git checkout -B "$CATALOG_BRANCH"
           fi
 
+          # Always rebuild from the current base branch so the catalog branch
+          # never drifts behind main.
+          git checkout -B "$CATALOG_BRANCH"
+          cp "$SNAPSHOT"/*.json data/
           git add data/
 
-          # The branch may already hold this exact content — for example when a
-          # previous run already published today's data. `git commit` exits 1
+          # The branch may already hold exactly this content — for example when
+          # a previous run already published today's data. `git commit` exits 1
           # with nothing staged, which would fail the run even though there is
           # nothing wrong. Compare before committing.
           if git diff --cached --quiet; then
@@ -255,9 +262,12 @@ jobs:
             echo "Catalog branch is already current." >> "$GITHUB_STEP_SUMMARY"
           else
             git commit -m "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))"
-            # Never force-push. A non-fast-forward means someone edited the
-            # branch; stop and let a human resolve it.
-            git push origin "$CATALOG_BRANCH"
+            # This branch is automation-owned and is rebuilt from the base on
+            # every run, so it legitimately moves non-fast-forward when main
+            # advances. `--force-with-lease` is the correct idiom here: it still
+            # refuses if a human pushed to the branch unexpectedly. A plain
+            # `--force` would silently discard their work.
+            git push --force-with-lease origin "$CATALOG_BRANCH"
             echo "Pushed catalog branch." >> "$GITHUB_STEP_SUMMARY"
           fi
 
