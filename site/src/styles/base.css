@@ -1,4 +1,4 @@
-/* Reset and base element styles. */
+/* Reset, base elements, Swiss grid backdrop, focus and motion rules. */
 
 *,
 *::before,
@@ -13,6 +13,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  background: var(--canvas);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -23,7 +24,7 @@ html {
 
 body {
   min-height: 100dvh;
-  background-color: var(--color-canvas);
+  background: var(--canvas);
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: var(--text-base);
@@ -31,18 +32,46 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  transition:
+    background-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out);
 }
 
-/* Two very restrained radial washes. No neon, no glow spam. */
+/*
+ * Theme switch transition.
+ * Only colour properties transition, and only while .theme-changing is
+ * present (added and removed by the theme hook), so nothing animates on load.
+ */
+.theme-changing body,
+.theme-changing .panel,
+.theme-changing .entry-card,
+.theme-changing .button,
+.theme-changing .badge,
+.theme-changing .stat,
+.theme-changing .select-menu,
+.theme-changing .site-header,
+.theme-changing .site-footer,
+.theme-changing .chip,
+.theme-changing .kind-card,
+.theme-changing .provider-pill,
+.theme-changing .crash {
+  transition:
+    background-color var(--duration-normal) var(--ease-out),
+    border-color var(--duration-normal) var(--ease-out),
+    color var(--duration-normal) var(--ease-out),
+    box-shadow var(--duration-normal) var(--ease-out);
+}
+
+/* Swiss backdrop: a precise measurement grid, barely there. */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
-  background:
-    radial-gradient(900px 500px at 12% -8%, rgba(139, 147, 255, 0.09), transparent 62%),
-    radial-gradient(760px 460px at 92% 4%, rgba(79, 209, 197, 0.055), transparent 60%);
   pointer-events: none;
+  background:
+    radial-gradient(820px 460px at 8% -10%, var(--accent-soft), transparent 60%),
+    radial-gradient(700px 420px at 96% 2%, var(--yellow-soft), transparent 62%);
 }
 
 body::after {
@@ -50,12 +79,13 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.016) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.016) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 78%);
   pointer-events: none;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 96px 96px;
+  opacity: 0.5;
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 62%);
 }
 
 img,
@@ -84,7 +114,7 @@ a {
 }
 
 a:hover {
-  color: var(--accent-strong);
+  color: var(--accent-hover);
 }
 
 h1,
@@ -93,7 +123,7 @@ h3,
 h4 {
   line-height: var(--leading-tight);
   font-weight: 600;
-  letter-spacing: -0.018em;
+  letter-spacing: var(--tracking-tight);
   text-wrap: balance;
 }
 
@@ -116,25 +146,23 @@ samp {
 
 hr {
   border: none;
-  border-top: 1px solid var(--glass-border);
+  border-top: var(--rule);
 }
 
-/* Visible, consistent keyboard focus everywhere. */
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-xs);
 }
 
 ::selection {
-  background: var(--accent-dim);
+  background: var(--accent-soft);
   color: var(--text-primary);
 }
 
-/* Scrollbars */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+  scrollbar-color: var(--border-strong) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -147,18 +175,19 @@ hr {
 }
 
 *::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--border-strong);
   border: 3px solid transparent;
   background-clip: content-box;
   border-radius: var(--radius-full);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: var(--text-muted);
   background-clip: content-box;
 }
 
-/* Screen-reader-only utility */
+/* ── Utilities ───────────────────────────────────────────────────────── */
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -175,15 +204,38 @@ hr {
   position: absolute;
   top: var(--space-2);
   left: var(--space-2);
-  z-index: 100;
+  z-index: 200;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-sm);
-  background: var(--color-surface-raised);
-  border: 1px solid var(--accent-border);
-  transform: translateY(-150%);
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  color: var(--text-primary);
+  transform: translateY(-160%);
   transition: transform var(--duration-fast) var(--ease-out);
 }
 
 .skip-link:focus-visible {
   transform: translateY(0);
+}
+
+/* Shared entrance animation; disabled under reduced motion. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise-in var(--duration-slow) var(--ease-out) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
 }

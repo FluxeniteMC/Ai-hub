@@ -1,113 +1,185 @@
 /**
- * Design tokens.
+ * Design tokens — AI Hub
  *
- * A restrained dark palette: near-black canvas, charcoal surfaces, translucent
- * panels and a single cool accent. Contrast targets meet WCAG AA for body text
- * against their own backgrounds.
+ * Swiss International Style meets restrained glassmorphism.
+ * Palette is anchored on black/white neutrals with a red primary and a warm
+ * yellow secondary. Both themes are defined here so every component reads
+ * semantic tokens only; nothing below hardcodes a theme colour.
+ *
+ * Light is the default in :root. Dark is applied via [data-theme="dark"] on
+ * <html>, set before first paint by the inline script in index.html.
  */
 
 :root {
-  /* Canvas */
-  --color-canvas: #0a0b0d;
-  --color-canvas-elevated: #0e1014;
-  --color-surface: #12151a;
-  --color-surface-raised: #171b21;
+  color-scheme: light;
 
-  /* Glass panels */
-  --glass-bg: rgba(255, 255, 255, 0.035);
-  --glass-bg-hover: rgba(255, 255, 255, 0.06);
-  --glass-bg-active: rgba(255, 255, 255, 0.085);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-border-hover: rgba(255, 255, 255, 0.16);
-  --glass-blur: 14px;
+  /* ── Canvas & surfaces ─────────────────────────────────────────────── */
+  --canvas: #f6f6f4;
+  --canvas-alt: #ededea;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
 
-  /* Text */
-  --text-primary: #f2f4f7;
-  --text-secondary: #a8b0bd;
-  --text-muted: #767e8c;
-  --text-inverse: #0a0b0d;
+  /* ── Glass ─────────────────────────────────────────────────────────── */
+  --glass-bg: rgba(255, 255, 255, 0.66);
+  --glass-bg-hover: rgba(255, 255, 255, 0.86);
+  --glass-bg-active: rgba(255, 255, 255, 0.96);
+  --glass-blur: 16px;
+  --glass-sheen: rgba(255, 255, 255, 0.55);
 
-  /* Accent — cool indigo with a teal companion, used sparingly */
-  --accent: #8b93ff;
-  --accent-strong: #a5abff;
-  --accent-dim: rgba(139, 147, 255, 0.14);
-  --accent-border: rgba(139, 147, 255, 0.34);
-  --accent-secondary: #4fd1c5;
-  --accent-secondary-dim: rgba(79, 209, 197, 0.12);
+  /* ── Text ──────────────────────────────────────────────────────────── */
+  --text-primary: #0b0b0b;
+  --text-secondary: #4d4d4a;
+  /* Verified >= 4.5:1 against --canvas and glass panels. */
+  --text-muted: #6b6b64;
+  --text-inverse: #ffffff;
 
-  /* Semantic */
-  --color-positive: #5fd39a;
-  --color-positive-dim: rgba(95, 211, 154, 0.12);
-  --color-caution: #e8b464;
-  --color-caution-dim: rgba(232, 180, 100, 0.12);
-  --color-danger: #f2837f;
-  --color-danger-dim: rgba(242, 131, 127, 0.12);
+  /* ── Borders ───────────────────────────────────────────────────────── */
+  --border: rgba(11, 11, 11, 0.1);
+  --border-strong: rgba(11, 11, 11, 0.2);
+  --border-accent: rgba(214, 40, 40, 0.4);
 
-  /* Typography — prefers a technical grotesque when locally available, with
-     system fallbacks so nothing is fetched at runtime. */
+  /* ── Accents ───────────────────────────────────────────────────────── */
+  --accent: #d62828;
+  --accent-hover: #b31f1f;
+  --accent-fg: #ffffff;
+  --accent-soft: rgba(214, 40, 40, 0.09);
+  --accent-ring: rgba(214, 40, 40, 0.28);
+
+  --yellow: #d99400;
+  --yellow-soft: rgba(217, 148, 0, 0.13);
+  --yellow-fg: #3a2600;
+
+  /* ── Semantic ──────────────────────────────────────────────────────── */
+  --positive: #157a4a;
+  --positive-soft: rgba(21, 122, 74, 0.1);
+  --caution: #a86800;
+  --caution-soft: rgba(168, 104, 0, 0.1);
+  --danger: #c02020;
+  --danger-soft: rgba(192, 32, 32, 0.09);
+
+  /* ── Focus ─────────────────────────────────────────────────────────── */
+  --focus-ring: var(--accent);
+
+  /* ── Typography ────────────────────────────────────────────────────── */
   --font-sans:
-    'IBM Plex Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
   --font-mono:
-    'JetBrains Mono', ui-monospace, 'SF Mono', 'Fira Code', Menlo, Consolas,
-    'Liberation Mono', monospace;
+    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
-  --text-xs: 0.75rem;
+  --text-xs: 0.6875rem;
   --text-sm: 0.8125rem;
   --text-base: 0.9375rem;
   --text-md: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.375rem;
-  --text-2xl: 1.75rem;
-  --text-3xl: 2.25rem;
-  --text-4xl: 3rem;
+  --text-2xl: 1.875rem;
+  --text-3xl: 2.5rem;
+  --text-4xl: 3.5rem;
 
-  --leading-tight: 1.2;
+  --leading-tight: 1.08;
+  --leading-snug: 1.28;
   --leading-normal: 1.55;
   --leading-relaxed: 1.7;
 
-  /* Spacing scale (4px base) */
+  /* Swiss headings run tight. */
+  --tracking-tight: -0.035em;
+  --tracking-snug: -0.02em;
+  --tracking-wide: 0.1em;
+
+  /* ── Spacing — 4px base, mathematical ──────────────────────────────── */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
   --space-4: 1rem;
   --space-5: 1.25rem;
   --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
+  --space-7: 2rem;
+  --space-8: 2.5rem;
+  --space-9: 3rem;
+  --space-10: 4rem;
+  --space-11: 5rem;
+  --space-12: 6rem;
 
-  /* Radii */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  /* ── Radii — restrained; Swiss avoids pill-shaped everything ────────── */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
   --radius-full: 999px;
 
-  /* Elevation — subtle, never glowy */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.34);
-  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.44);
+  /* ── Elevation ─────────────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.12);
 
-  /* Motion */
+  /* ── Motion ────────────────────────────────────────────────────────── */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --duration-fast: 120ms;
-  --duration-normal: 200ms;
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 140ms;
+  --duration-normal: 240ms;
+  --duration-slow: 420ms;
 
-  /* Layout */
-  --container-max: 1240px;
-  --container-wide: 1440px;
-  --header-height: 64px;
+  /* ── Layout ────────────────────────────────────────────────────────── */
+  --container-max: 1280px;
+  --container-wide: 1480px;
+  --header-height: 62px;
+  --rule: 1px solid var(--border);
+}
 
+/* ── Dark theme ──────────────────────────────────────────────────────── */
+
+[data-theme='dark'] {
   color-scheme: dark;
+
+  --canvas: #0a0a0b;
+  --canvas-alt: #101012;
+  --surface: #131316;
+  --surface-raised: #19191d;
+
+  --glass-bg: rgba(255, 255, 255, 0.045);
+  --glass-bg-hover: rgba(255, 255, 255, 0.075);
+  --glass-bg-active: rgba(255, 255, 255, 0.1);
+  --glass-sheen: rgba(255, 255, 255, 0.06);
+
+  --text-primary: #f4f4f2;
+  --text-secondary: #adada7;
+  /* Verified >= 4.5:1 against the near-black canvas. */
+  --text-muted: #8b8b84;
+  --text-inverse: #0a0a0b;
+
+  --border: rgba(255, 255, 255, 0.11);
+  --border-strong: rgba(255, 255, 255, 0.2);
+  --border-accent: rgba(240, 64, 64, 0.45);
+
+  /* Lifted for contrast against a near-black canvas. */
+  --accent: #f04040;
+  --accent-hover: #ff5555;
+  --accent-fg: #ffffff;
+  --accent-soft: rgba(240, 64, 64, 0.13);
+  --accent-ring: rgba(240, 64, 64, 0.35);
+
+  --yellow: #f5b70a;
+  --yellow-soft: rgba(245, 183, 10, 0.14);
+  --yellow-fg: #241900;
+
+  --positive: #45c48a;
+  --positive-soft: rgba(69, 196, 138, 0.13);
+  --caution: #e0a44a;
+  --caution-soft: rgba(224, 164, 74, 0.13);
+  --danger: #f26d6d;
+  --danger-soft: rgba(242, 109, 109, 0.13);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.62);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --duration-fast: 0ms;
     --duration-normal: 0ms;
+    --duration-slow: 0ms;
   }
 }

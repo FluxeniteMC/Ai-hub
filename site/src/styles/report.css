@@ -1,7 +1,5 @@
 /* Weekly report rendering and the live repository status card. */
 
-/* ---------- Live status ---------- */
-
 .live-status {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -19,9 +17,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: 0.07em;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--text-muted);
 }
@@ -32,12 +31,12 @@
   gap: var(--space-1);
   font-size: var(--text-lg);
   font-weight: 600;
-  color: var(--accent-strong);
+  color: var(--accent);
   width: fit-content;
 }
 
 a.live-status__sha:hover {
-  color: var(--accent);
+  color: var(--accent-hover);
   text-decoration: underline;
 }
 
@@ -62,8 +61,8 @@ a.live-status__sha:hover {
   display: inline-flex;
   align-items: center;
   padding: 2px var(--space-3);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xs);
+  border: var(--rule);
   background: var(--glass-bg);
   font-size: var(--text-sm);
   font-weight: 500;
@@ -71,15 +70,15 @@ a.live-status__sha:hover {
 }
 
 .live-status__pill--positive {
-  background: var(--color-positive-dim);
-  border-color: rgba(95, 211, 154, 0.32);
-  color: var(--color-positive);
+  background: var(--positive-soft);
+  border-color: var(--positive);
+  color: var(--positive);
 }
 
 .live-status__pill--danger {
-  background: var(--color-danger-dim);
-  border-color: rgba(242, 131, 127, 0.32);
-  color: var(--color-danger);
+  background: var(--danger-soft);
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .live-status__pill--muted {
@@ -95,20 +94,20 @@ a.live-status__sha:hover {
 }
 
 .live-status__link:hover {
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
-/* ---------- Report ---------- */
+/* ── Report ──────────────────────────────────────────────────────────── */
 
 .report__panel {
   margin-top: var(--space-4);
-  max-width: 90ch;
+  max-width: 88ch;
 }
 
 .report__source {
   margin-bottom: var(--space-5);
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: var(--rule);
   font-size: var(--text-sm);
 }
 
@@ -120,7 +119,7 @@ a.live-status__sha:hover {
 }
 
 .report__source a:hover {
-  color: var(--accent-strong);
+  color: var(--accent);
 }
 
 .report {
@@ -131,7 +130,7 @@ a.live-status__sha:hover {
 
 .report__h {
   line-height: var(--leading-tight);
-  letter-spacing: -0.015em;
+  letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
   margin-top: var(--space-4);
 }
@@ -140,7 +139,7 @@ a.live-status__sha:hover {
   margin-top: 0;
   font-size: var(--text-xl);
   padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: var(--rule);
 }
 
 .report__h2 {
@@ -149,7 +148,7 @@ a.live-status__sha:hover {
 
 .report__h3 {
   font-size: var(--text-md);
-  color: var(--accent-strong);
+  color: var(--accent);
 }
 
 .report__h4 {
@@ -187,23 +186,23 @@ a.live-status__sha:hover {
 }
 
 .report__code {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--glass-border);
-  border-radius: 4px;
+  background: var(--canvas-alt);
+  border: var(--rule);
+  border-radius: var(--radius-xs);
   padding: 1px 5px;
-  color: var(--accent-secondary);
+  color: var(--yellow);
 }
 
 .report__hr {
-  border-top: 1px solid var(--glass-border);
+  border-top: var(--rule);
   margin-block: var(--space-2);
 }
 
 .report__pre {
   padding: var(--space-4);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--glass-border);
-  background: rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-sm);
+  border: var(--rule);
+  background: var(--canvas-alt);
   overflow-x: auto;
   font-size: var(--text-sm);
   color: var(--text-secondary);

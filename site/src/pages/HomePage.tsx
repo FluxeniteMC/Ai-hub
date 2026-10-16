@@ -62,50 +62,52 @@ export function HomePage() {
     <>
       <section className="hero">
         <div className="container hero__inner">
-          <p className="eyebrow">
-            <ShieldCheck size={13} aria-hidden="true" />
-            Generated from the repository README
-          </p>
-          <h1 className="hero__title">
-            Every AI API and model the community has catalogued — searchable.
-          </h1>
-          <p className="hero__subtitle">
-            Fluxenite AI Hub turns the <code>FluxeniteMC/Ai-hub</code> README into a fast,
-            filterable catalog. {formatCount(stats.entryCount)} listings across{' '}
-            {facets.sections.length} sections, refreshed automatically on every repository update.
-          </p>
+          <div className="hero__content rise">
+            <p className="eyebrow">
+              <ShieldCheck size={13} aria-hidden="true" />
+              Generated from the repository README
+            </p>
+            <h1 className="hero__title">
+              Every AI API and model the community has catalogued — <em>searchable</em>.
+            </h1>
+            <p className="hero__subtitle">
+              Fluxenite AI Hub turns the <code>FluxeniteMC/Ai-hub</code> README into a fast,
+              filterable catalog of {formatCount(stats.entryCount)} listings across{' '}
+              {facets.sections.length} sections — rebuilt automatically on every repository commit.
+            </p>
 
-          <div className="hero__actions">
-            <Link className="button button--primary" to="/explore">
-              <Search size={16} aria-hidden="true" />
-              Explore the catalog
-            </Link>
-            <a
-              className="button"
-              href={source.repository}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github size={16} aria-hidden="true" />
-              View repository
-            </a>
+            <div className="hero__actions">
+              <Link className="button button--primary" to="/explore">
+                <Search size={16} aria-hidden="true" />
+                Explore the catalog
+              </Link>
+              <a
+                className="button"
+                href={source.repository}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github size={16} aria-hidden="true" />
+                View repository
+              </a>
+            </div>
           </div>
 
           <dl className="stat-grid hero__stats">
-            <div className="panel stat">
+            <div className="stat">
               <dt className="stat__label">Listings</dt>
               <dd className="stat__value">{formatCount(stats.entryCount)}</dd>
             </div>
-            <div className="panel stat">
-              <dt className="stat__label">README tables parsed</dt>
-              <dd className="stat__value">{stats.tableCount}</dd>
-            </div>
-            <div className="panel stat">
+            <div className="stat">
               <dt className="stat__label">Providers</dt>
               <dd className="stat__value">{formatCount(facets.providers.length - 1)}</dd>
             </div>
-            <div className="panel stat">
-              <dt className="stat__label">With free tier</dt>
+            <div className="stat">
+              <dt className="stat__label">Tables parsed</dt>
+              <dd className="stat__value">{stats.tableCount}</dd>
+            </div>
+            <div className="stat">
+              <dt className="stat__label">Free tier</dt>
               <dd className="stat__value">{formatCount(facets.freeCount)}</dd>
             </div>
           </dl>

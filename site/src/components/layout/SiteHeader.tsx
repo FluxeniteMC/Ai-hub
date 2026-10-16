@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 import { BrandLogo } from '../ui/BrandLogo';
+import { ThemeToggle } from '../ui/ThemeToggle';
 import { cx } from '../../lib/format';
 
 const NAV_ITEMS = [
@@ -66,6 +67,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="site-header__actions">
+          <ThemeToggle />
           <a
             className="button button--sm"
             href={REPO_URL}
