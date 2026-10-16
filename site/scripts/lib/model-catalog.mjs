@@ -172,6 +172,13 @@ export function buildModelDataset(siteRoot) {
       groq: diagnostics.groq ?? 0,
       merged: diagnostics.merged ?? 0,
       readmeOnly: models.filter((m) => m.availability === 'readme-only').length,
+      /**
+       * Raw listing rows found in README.md. Two README rows that resolve to the
+       * same underlying model become one card, so this can exceed
+       * `directoryCount`. Reported separately so the two numbers cannot be
+       * confused for a bug.
+       */
+      readmeListingCount: diagnostics.readme ?? models.filter((m) => m.listing === 'directory').length,
       needsReview: reviewQueue.length,
       withPricing: models.filter((m) => m.pricing.inputPerMTokens !== null).length,
       directoryCount: models.filter((m) => m.listing === 'directory').length,

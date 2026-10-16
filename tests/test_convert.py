@@ -306,6 +306,84 @@ class ParseTests(unittest.TestCase):
         models, _ = self.parse(markdown)
         self.assertEqual(models, [])
 
+    # ── header fallbacks and split pricing ───────────────────────────────
+
+    def test_an_unknown_first_column_header_still_parses_when_rows_are_linked(self):
+        # Real tables in this README name the first column "Framework",
+        # "Key For" and similar. Skipping them silently deletes real listings.
+        markdown = """
+### Agents
+
+| Framework | Language | License | Best For |
+|-----------|----------|---------|----------|
+| [Agno](https://github.com/agno-agi/agno) | Python | Apache | Fast agents |
+| [CrewAI](https://www.crewai.com/) | Python | MIT | Role-based |
+"""
+        models, _ = self.parse(markdown)
+        self.assertEqual({m["name"] for m in models}, {"Agno", "CrewAI"})
+
+    def test_a_prose_column_is_not_mistaken_for_the_name_column(self):
+        # Project documentation tables have unlinked first columns
+        # ("Stack", "Backend", workflow filenames). They must never become models.
+        markdown = """
+## How Automation Works
+
+| Workflow | Trigger | What it does |
+|----------|---------|--------------|
+| auto-update.yml | Daily | Edits README rows |
+| validate.yml | Weekly | Checks links |
+"""
+        models, _ = self.parse(markdown)
+        self.assertEqual(models, [])
+
+    def test_project_documentation_sections_are_excluded(self):
+        markdown = """
+## How Automation Works
+
+| Framework | Language |
+|-----------|----------|
+| [Agno](https://example.com) | Python |
+"""
+        models, _ = self.parse(markdown)
+        self.assertEqual(models, [], "the section itself is excluded")
+
+    def test_split_input_and_output_price_columns_are_combined(self):
+        markdown = """
+## Paid
+
+| API | Provider | Category | Pricing Model | Input Cost | Output Cost | Context |
+|-----|----------|----------|---------------|------------|-------------|---------|
+| [Mistral Large 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.45/1M | $1.40/1M | 128K |
+"""
+        models, _ = self.parse(markdown)
+        entry = models[0]
+        self.assertEqual(entry["pricing"]["input_per_1m_usd"], 0.45)
+        self.assertEqual(entry["pricing"]["output_per_1m_usd"], 1.4)
+
+    def test_split_pricing_requires_both_columns(self):
+        markdown = """
+## Paid
+
+| API | Input Cost | Output Cost |
+|-----|------------|-------------|
+| Only Input | $0.45/1M | - |
+"""
+        models, _ = self.parse(markdown)
+        self.assertEqual(models[0]["pricing"]["input_per_1m_usd"], None)
+        self.assertEqual(models[0]["pricing"]["output_per_1m_usd"], None)
+
+    def test_db_header_is_recognised_as_the_name_column(self):
+        markdown = """
+## Embeddings
+
+| DB | Best For | Cost |
+|----|----------|------|
+| Pinecone | Production RAG | $70/month |
+| Redis Vector | Low-latency | Redis cost |
+"""
+        models, _ = self.parse(markdown)
+        self.assertEqual({m["name"] for m in models}, {"Pinecone", "Redis Vector"})
+
     # ── non-English ───────────────────────────────────────────────────────
 
     def test_non_english_content_is_preserved(self):

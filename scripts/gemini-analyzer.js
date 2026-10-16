@@ -1,33 +1,58 @@
 #!/usr/bin/env node
 /**
  * 🧠 Gemini README Analyzer
- * Analyzes the README for quality, completeness, and accuracy
+ *
+ * Analyzes the README for quality, completeness and accuracy.
  *
  * Usage: node scripts/gemini-analyzer.js
- * Env: GEMINI_API_KEY
+ * Env:   GEMINI_API_KEY (required)
+ *        GEMINI_MODEL    (optional)
+ *
+ * Fix history
+ * -----------
+ * v2.1: Removed a leftover `new GoogleGenerativeAI(...)` / `getGenerativeModel()`
+ *       pair. `GoogleGenerativeAI` was never imported (the SDK is `@google/genai`,
+ *       which exports `GoogleGenAI`), so the script threw a ReferenceError at
+ *       module load and could never reach its own generateContent call.
+ *
+ * v2.1: The API key is now validated *before* the client is constructed. Building
+ *       the client first meant a missing key surfaced as
+ *       "…is not installed", which sent people looking for a dependency problem
+ *       that did not exist.
  */
 
-let ai;
-try {
-  const { GoogleGenAI } = require("@google/genai");
-  ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-} catch (e) {
-  console.error("❌ @google/genai is not installed. Run: npm install @google/genai");
-  process.exit(1);
-}
-
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 const fs = require("fs");
 const path = require("path");
 
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
+
+// ── Validate configuration before constructing the client ────────────────
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 if (!GEMINI_API_KEY) {
-  console.error("❌ GEMINI_API_KEY is required");
+  console.error("❌ GEMINI_API_KEY is required (get one at https://aistudio.google.com/)");
   process.exit(1);
 }
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
+// ── Initialise the SDK ───────────────────────────────────────────────────
+let ai;
+try {
+  const { GoogleGenAI } = require("@google/genai");
+  ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+} catch (error) {
+  // Distinguish "the package is missing" from "the package failed to load".
+  let missing = false;
+  try {
+    require.resolve("@google/genai");
+  } catch {
+    missing = true;
+  }
+  console.error(
+    missing
+      ? "❌ @google/genai is not installed. Run: npm install"
+      : `❌ @google/genai failed to load: ${error.message}`,
+  );
+  process.exit(1);
+}
 
 async function analyzeReadme() {
   const readme = fs.readFileSync(path.join(process.cwd(), "README.md"), "utf8");
@@ -49,20 +74,30 @@ ${readme.substring(0, 8000)}
 
 Return a structured Markdown report. Be specific and actionable.`;
 
-  console.log("🧠 Analyzing README with Gemini...");
+  console.log(`🧠 Analyzing README with ${MODEL_NAME}...`);
+
   const result = await ai.models.generateContent({ model: MODEL_NAME, contents: prompt });
-  const analysis = result.text;
+  const analysis = result?.text;
+
+  if (typeof analysis !== "string" || analysis.trim() === "") {
+    throw new Error("Gemini returned no text");
+  }
 
   const reportsDir = path.join(process.cwd(), "reports");
   if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
 
   const reportFile = path.join(reportsDir, `gemini-analysis-${date}.md`);
-  fs.writeFileSync(reportFile, `# 🧠 Gemini Analysis Report — ${date}\n\n${analysis}`);
+  fs.writeFileSync(reportFile, `# 🧠 Gemini Analysis Report — ${date}\n\n${analysis}\n`);
 
   console.log(`✅ Analysis saved to: ${reportFile}`);
+  return reportFile;
 }
 
-analyzeReadme().catch((e) => {
-  console.error("❌ Analysis failed:", e.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  analyzeReadme().catch((e) => {
+    console.error("❌ Analysis failed:", e.message);
+    process.exit(1);
+  });
+}
+
+module.exports = { analyzeReadme };

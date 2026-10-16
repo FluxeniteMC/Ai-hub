@@ -75,7 +75,27 @@ DEFAULT_OUTPUT = REPO_ROOT / "data" / "readme-models.json"
 
 # Order encodes precedence: exact alias match takes the first free field.
 COLUMN_ALIASES: dict[str, tuple[str, ...]] = {
-    "name": ("model name", "name", "model", "api", "service", "tool", "product"),
+    "name": (
+        "model name",
+        "name",
+        "model",
+        "api",
+        "service",
+        "tool",
+        "product",
+        "framework",
+        "library",
+        "engine",
+        "platform",
+        "suite",
+        "database",
+        "runner",
+        "vendor",
+        "db",
+        "vector db",
+        "engine name",
+        "product name",
+    ),
     "model_id": ("model id", "modelid", "id", "slug", "identifier"),
     "provider": ("provider", "vendor", "by", "from", "company", "organization"),
     "description": (
@@ -99,7 +119,12 @@ COLUMN_ALIASES: dict[str, tuple[str, ...]] = {
         "max context",
         "tokens",
     ),
-    "pricing": ("input cost", "pricing", "cost", "price", "input pricing"),
+    "pricing": ("input cost", "pricing", "cost", "price", "input pricing", "pricing model"),
+    # Some tables split the pair across two columns instead of writing
+    # "$6/$30 per 1M" in one cell. Without these aliases the input and output
+    # rates are silently dropped.
+    "input_price": ("input cost", "input price", "input cost / 1m", "input ($/1m)", "cost / input"),
+    "output_price": ("output cost", "output price", "output cost / 1m", "output ($/1m)", "cost / output"),
     "tier": ("tier", "pricing tier", "plan", "type"),
     "notes": ("notes", "availability / notes", "availability", "caveats"),
     "url": ("url", "link", "website", "homepage", "docs"),
@@ -135,6 +160,13 @@ EXCLUDED_SECTION_PATTERNS = (
     r"faq",
     r"terms of service",
     r"privacy policy",
+    # Documentation about this project itself. Its tables describe workflows and
+    # site architecture, not AI services, and must never become catalog entries.
+    r"how automation works",
+    r"ai hub website",
+    r"repository structure",
+    r"file structure",
+    r"contributors? and credits",
 )
 
 # A genuine input/output pair looks like "$6.00/$30.00" or "$6/$30": both
@@ -282,6 +314,45 @@ def parse_modalities(modalities: str, architecture: str) -> dict[str, list[str]]
     return {"input": sorted(set(parts)), "output": []}
 
 
+#: A bare per-1M figure in its own cell, e.g. "$6/1M", "$0.80/1M", "$2 per 1M".
+CELL_RATE_RE = re.compile(
+    r"\$\s*(?P<amount>\d[\d,]*(?:\.\d+)?)\s*(?:/|per)\s*(?:1\s*m(?:illion)?|1m\s*tokens?)",
+    re.IGNORECASE,
+)
+
+
+def parse_split_pricing(input_cell: str | None, output_cell: str | None) -> dict[str, Any]:
+    """Build a pricing block from separate input and output columns.
+
+    Returns an unknown block unless BOTH columns state a per-1M rate, which
+    keeps the same "never half-a-pair" rule as the single-cell parser.
+    """
+    empty = unknown_price_block()
+    if not input_cell or not output_cell:
+        return empty
+
+    def rate(cell: str) -> float | None:
+        match = CELL_RATE_RE.search(strip_inline(cell))
+        if not match:
+            return None
+        try:
+            return float(match.group("amount").replace(",", ""))
+        except ValueError:
+            return None
+
+    input_rate = rate(input_cell)
+    output_rate = rate(output_cell)
+    if input_rate is None or output_rate is None:
+        return empty
+
+    return {
+        "currency": "USD",
+        "input_per_1m_usd": input_rate,
+        "output_per_1m_usd": output_rate,
+        "raw": f"{strip_inline(input_cell)} in / {strip_inline(output_cell)} out",
+    }
+
+
 def parse_pricing(value: str | None) -> dict[str, Any]:
     """Parse a pricing cell conservatively.
 
@@ -381,7 +452,23 @@ def is_separator_row(cells: list[str]) -> bool:
 MIN_SUBSTRING_ALIAS = 3
 
 
-def map_header(header_cells: list[str]) -> dict[str, int]:
+def looks_like_listing_column(cells: list[str]) -> bool:
+    """True when a column's values read like linked listing names.
+
+    Used as a positional fallback. Some catalog tables name their first column
+    something the alias table has never seen — "Framework", "Key For" — and
+    skipping those tables silently deletes real listings.
+
+    The test is deliberately strict: most values must be markdown links to
+    external pages. A weaker "short string" test also matched this project's own
+    documentation tables, where the first column held workflow filenames and
+    headings like "Stack" or "Backend", and turned them into fake models.
+    """
+    linked = sum(1 for cell in cells if first_link(cell)[1])
+    return linked >= max(1, len(cells) * 0.5)
+
+
+def map_header(header_cells: list[str], body: list[str] | None = None) -> dict[str, int]:
     """Header text -> field name -> column index.
 
     Two passes per header:
@@ -394,6 +481,10 @@ def map_header(header_cells: list[str]) -> dict[str, int]:
     belongs to context_window). Taking the first match by declaration order
     would map that column to context, silently discarding the price. Longer,
     more specific aliases must win.
+
+    `body` is the table's data rows. When no header resolves to a name column
+    but the first column clearly holds listing names, column 0 is used
+    instead of dropping the table.
     """
     mapping: dict[str, int] = {}
 
@@ -421,6 +512,11 @@ def map_header(header_cells: list[str]) -> dict[str, int]:
                         best_field, best_length = field_name, len(alias)
             if best_field:
                 mapping[best_field] = position
+
+    if "name" not in mapping and body and header_cells:
+        first_column = [row[0] for row in body if row]
+        if first_column and looks_like_listing_column(first_column):
+            mapping["name"] = 0
 
     return mapping
 
@@ -538,7 +634,7 @@ class ReadmeParser:
             self.diagnostics.notes.append(f"section excluded: {subsection or section}")
             return index
 
-        mapping = map_header(header_cells)
+        mapping = map_header(header_cells, [cells for _line, cells in body])
         if "name" not in mapping:
             self.diagnostics.notes.append(
                 f"table at line {header_line} has no recognisable name column; skipped"
@@ -596,6 +692,13 @@ class ReadmeParser:
         if model_id and model_id != name:
             aliases.append(model_id)
 
+        pricing = parse_pricing(cell("pricing"))
+        # Tables that split the pair across separate input/output columns.
+        if pricing["input_per_1m_usd"] is None and pricing["output_per_1m_usd"] is None:
+            split = parse_split_pricing(cell("input_price"), cell("output_price"))
+            if split["input_per_1m_usd"] is not None:
+                pricing = split
+
         record: dict[str, Any] = {
             "id": slugify(name),
             "name": name,
@@ -605,7 +708,7 @@ class ReadmeParser:
             "description": description,
             "capabilities": split_capabilities(cell("capabilities")),
             "modalities": parse_modalities(cell("modalities"), cell("architecture")),
-            "pricing": parse_pricing(cell("pricing")),
+            "pricing": pricing,
             "context_window": normalize_context(strip_inline(cell("context_window")) or None),
             "tier": strip_inline(cell("tier")) or None,
             "notes": strip_inline(cell("notes")) or None,

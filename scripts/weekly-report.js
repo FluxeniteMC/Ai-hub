@@ -7,30 +7,53 @@
  *
  * Usage: node scripts/weekly-report.js
  * Env: GEMINI_API_KEY, REPORT_PERIOD (daily|weekly)
+ *
+ * Fix history
+ * -----------
+ * v2.1: `GEMINI_API_KEY` was referenced by the client constructor several lines
+ *       *before* its `const` declaration. That is a temporal dead zone access,
+ *       so the script threw a ReferenceError on every run. The surrounding
+ *       try/catch then printed "…is not installed", which pointed at a
+ *       dependency problem that did not exist.
+ *
+ * v2.1: Removed a leftover `new GoogleGenerativeAI(...)` /
+ *       `getGenerativeModel()` pair. `GoogleGenerativeAI` is not exported by
+ *       `@google/genai` (which exports `GoogleGenAI`), so it would have been a
+ *       second ReferenceError. Neither was ever used.
  */
 
+const fs = require("fs");
+const path = require("path");
+
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
+
+// ── Validate configuration before constructing the client ────────────────
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const REPORT_PERIOD = (process.env.REPORT_PERIOD || "daily").toLowerCase();
+if (!GEMINI_API_KEY) {
+  console.error("❌ GEMINI_API_KEY is required (get one at https://aistudio.google.com/)");
+  process.exit(1);
+}
+
+// ── Initialise the SDK ───────────────────────────────────────────────────
 let ai;
 try {
   const { GoogleGenAI } = require("@google/genai");
   ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-} catch (e) {
-  console.error("❌ @google/genai is not installed. Run: npm install @google/genai");
+} catch (error) {
+  let missing = false;
+  try {
+    require.resolve("@google/genai");
+  } catch {
+    missing = true;
+  }
+  console.error(
+    missing
+      ? "❌ @google/genai is not installed. Run: npm install"
+      : `❌ @google/genai failed to load: ${error.message}`,
+  );
   process.exit(1);
 }
-
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
-const fs = require("fs");
-const path = require("path");
-
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-const REPORT_PERIOD = (process.env.REPORT_PERIOD || "daily").toLowerCase();
-if (!GEMINI_API_KEY) {
-  console.error("❌ GEMINI_API_KEY is required");
-  process.exit(1);
-}
-
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
 async function generateWeeklyReport() {
   const readme = fs.readFileSync(path.join(process.cwd(), "README.md"), "utf8");
@@ -80,7 +103,11 @@ Start with: # 📊 ${REPORT_PERIOD === "weekly" ? "Weekly" : "Daily"} AI API Rep
   return report;
 }
 
-generateWeeklyReport().catch((e) => {
-  console.error("❌ Failed:", e.message);
-  process.exit(1);
-});
+if (require.main === module) {
+  generateWeeklyReport().catch((e) => {
+    console.error("❌ Failed:", e.message);
+    process.exit(1);
+  });
+}
+
+module.exports = { generateWeeklyReport };

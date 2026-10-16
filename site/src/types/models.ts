@@ -85,6 +85,8 @@ export interface ModelDataset {
     groq: number;
     merged: number;
     readmeOnly: number;
+    /** Listing rows found in README.md, before duplicate rows merge into one card. */
+    readmeListingCount: number;
     needsReview: number;
     withPricing: number;
     /** Curated directory entries, shown by default. */

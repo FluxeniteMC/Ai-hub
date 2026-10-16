@@ -123,22 +123,23 @@ export function ModelsPage() {
         <div>
           <p className="eyebrow">
             <ShieldCheck size={13} aria-hidden="true" />
-            Verified catalog
+            README catalog
           </p>
           <h1 className="page-header__title">AI model catalog</h1>
           <p className="page-header__subtitle">
-            {modelDataset.stats.directoryCount.toLocaleString()} curated models, read from{' '}
-            <code>data/models.json</code> — generated at build time from the directory and the
-            OpenRouter and Groq APIs. Exact model ids and stated pricing, nothing filled in: a
-            price that is not stated shows as “Not stated”, never as zero.
+            Every AI API, model and tool listed in this project&rsquo;s <code>README.md</code> —{' '}
+            {modelDataset.stats.readmeListingCount.toLocaleString()} listings, generated at build
+            time into <code>data/models.json</code>. The browser reads only that file and never
+            calls a provider. A price the README does not state shows as “Not stated”; it is never
+            shown as zero.
           </p>
         </div>
       </header>
 
       <dl className="stat-grid" style={{ marginBottom: 'var(--space-6)' }}>
         <div className="stat">
-          <dt className="stat__label">Directory models</dt>
-          <dd className="stat__value">{modelDataset.stats.directoryCount.toLocaleString()}</dd>
+          <dt className="stat__label">README listings</dt>
+          <dd className="stat__value">{modelDataset.stats.readmeListingCount.toLocaleString()}</dd>
         </div>
         <div className="stat">
           <dt className="stat__label">With stated price</dt>
@@ -220,7 +221,7 @@ export function ModelsPage() {
           options={[
             {
               value: 'directory',
-              label: 'Directory models',
+              label: 'README listings',
               hint: modelDataset.stats.directoryCount,
             },
             {
@@ -458,14 +459,16 @@ export function ModelsPage() {
         <div>
           <p className="callout__title">Where this data comes from</p>
           <p>
-            This page reads <code>data/models.json</code> — generated at build time and bundled into
-            the site, so the browser never calls a provider and no credential is ever shipped here.
-            It merges the directory with the OpenRouter and Groq model APIs.{' '}
-            {modelDataset.stats.providerOnlyCount.toLocaleString()} raw provider listings (routed
-            aliases, forks and date-pinned snapshots) are held back under{' '}
-            <strong>Show&nbsp;→&nbsp;Raw provider listings</strong> so they don&rsquo;t bury the
-            directory. Pricing and availability change constantly — confirm on the provider&rsquo;s
-            own documentation before committing money.
+            The catalog is generated from <code>README.md</code> by <code>convert.py</code> at
+            build time and bundled into <code>data/models.json</code>. The browser reads only that
+            file — it never calls a provider, and no credential is shipped here.{' '}
+            {modelDataset.stats.merged.toLocaleString()} entries are additionally confirmed against
+            the OpenRouter and Groq model APIs, which is where their exact provider ids and live
+            prices come from.{' '}
+            {modelDataset.stats.providerOnlyCount.toLocaleString()} raw provider listings are held
+            back under <strong>Show&nbsp;→&nbsp;Raw provider listings</strong> so they don&rsquo;t
+            bury the README catalog. Pricing and availability change constantly — confirm on the
+            provider&rsquo;s own documentation before committing money.
           </p>
         </div>
       </Callout>
