@@ -12,6 +12,7 @@ import './styles/catalog.css';
 import './styles/report.css';
 import './styles/pages.css';
 import './styles/legal.css';
+import './styles/models.css';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Root element #root was not found in index.html');

@@ -20,6 +20,7 @@ const SITE_ORIGIN = process.env.SITE_ORIGIN ?? 'https://fluxenitemc.github.io/Ai
 const ROUTES = [
   { hash: '', priority: '1.0', freq: 'daily' },
   { hash: '/explore', priority: '0.9', freq: 'daily' },
+  { hash: '/models', priority: '0.9', freq: 'daily' },
   { hash: '/compare', priority: '0.5', freq: 'weekly' },
   { hash: '/docs', priority: '0.6', freq: 'weekly' },
   { hash: '/updates', priority: '0.5', freq: 'weekly' },

@@ -16,6 +16,7 @@ const EntryDetailPage = lazy(() =>
 );
 const ComparePage = lazy(() => import('./pages/ComparePage').then((m) => ({ default: m.ComparePage })));
 const DocsPage = lazy(() => import('./pages/DocsPage').then((m) => ({ default: m.DocsPage })));
+const ModelsPage = lazy(() => import('./pages/ModelsPage').then((m) => ({ default: m.ModelsPage })));
 const UpdatesPage = lazy(() =>
   import('./pages/UpdatesPage').then((m) => ({ default: m.UpdatesPage })),
 );
@@ -61,6 +62,7 @@ export default function App({ onReady }: { onReady?: () => void } = {}) {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/explore" element={<ExplorePage />} />
+              <Route path="/models" element={<ModelsPage />} />
               <Route path="/listing/:id" element={<EntryDetailPage />} />
               <Route path="/compare" element={<ComparePage />} />
               <Route path="/docs" element={<DocsPage />} />
