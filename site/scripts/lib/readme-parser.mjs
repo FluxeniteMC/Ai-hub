@@ -352,7 +352,13 @@ export function parseReadme(markdown) {
       // Reject non-catalog rows that slipped into a catalog section.
       if (/^\d{4}-\d{2}-\d{2}$/.test(name)) continue;
 
-      const link = extractLink(nameCell);
+      // Prefer a link on the name cell; otherwise fall back to the first link
+      // anywhere in the row (some tables carry the official source in a
+      // dedicated column rather than on the name).
+      const link =
+        extractLink(nameCell) ??
+        normalized.map((cell) => extractLink(cell)).find((found) => found !== null) ??
+        null;
       const provider = providerIndex >= 0 ? toPlainText(normalized[providerIndex] ?? '') : '';
       const contextCell = contextIndex >= 0 ? normalized[contextIndex] : '';
 

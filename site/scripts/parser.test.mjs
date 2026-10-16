@@ -320,6 +320,24 @@ test('the real weekly report parses into usable blocks', async () => {
   }
 });
 
+test('a source link is picked up from any column when the name has none', () => {
+  const markdown = [
+    '### Verified',
+    '',
+    '| Model | Provider | Focus | Official source |',
+    '|-------|----------|-------|-----------------|',
+    '| **Bold Only** | Someone | Tasks | [Docs](https://example.com/docs) |',
+    '| [Linked](https://example.com/x) | Other | Tasks | [Docs](https://example.com/y) |',
+  ].join('\n');
+
+  const result = parseReadme(markdown);
+  const bold = result.entries.find((e) => e.name === 'Bold Only');
+  const linked = result.entries.find((e) => e.name === 'Linked');
+  // Name-cell link wins; otherwise fall back to the row's first link.
+  assert.equal(bold.url, 'https://example.com/docs');
+  assert.equal(linked.url, 'https://example.com/x');
+});
+
 test('the website never invents data it cannot attribute', async () => {
   const { readFileSync } = await import('node:fs');
   const { resolve } = await import('node:path');
