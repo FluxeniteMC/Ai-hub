@@ -167,10 +167,6 @@ Let's get into it. 👇
 
 | API | Provider | Category | Pricing Model | Input Cost | Output Cost | Context | Notes |
 |-----|----------|----------|---------------|------------|-------------|---------|-------|
-| [Grok 5 Vision](https://docs.x.ai/developers/models) | xAI | LLM + Multimodal | Per token | $2.50/1M | $7.50/1M | 1M | Enhanced real-time grounding, advanced vision understanding. |
-| [Mistral Ultra 5](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.80/1M | $2.50/1M | 256K | 💪 European powerhouse, strong reasoning & efficiency. |
-| [DeepSeek V5-Pro](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $1.50/1M | $4.50/1M | — | Flagship Chinese LLM, strong coding & reasoning. |
-| [Stable Diffusion 5 Turbo](https://platform.stability.ai/) | Stability AI | Image Gen | Per credit | $0.09/image | — | — | Ultra-fast, high-fidelity image generation. |
 | [Kling 2.0 Pro](https://klingai.com/) | Kuaishou | Video Gen | Per credit | $0.15/sec | — | — | Extended durations, advanced motion control, high realism. |
 | [OpenAI GPT-6 Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) | OpenAI | LLM | Per token | $6/1M | $30/1M | — | Current OpenAI flagship — best tool use |
 | [OpenAI GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) | OpenAI | LLM | Per token | $1.20/1M | $6/1M | — | Near-Astra performance at 1/5 the cost |
@@ -178,9 +174,6 @@ Let's get into it. 👇
 | [OpenAI GPT-5.6 Sol](https://developers.openai.com/api/docs/models/gpt-5.6-sol) | OpenAI | Reasoning LLM | Per token | $2.50/1M | $12.50/1M | — | Deep reasoning; discounted pricing |
 | [OpenAI GPT-5.5](https://developers.openai.com/api/docs/models/gpt-5.5) | OpenAI | LLM | Per token | $0.80/1M | $4/1M | — | Legacy GPT-5 model |
 | [Claude Fable 5.1](https://www.anthropic.com/api) | Anthropic | Reasoning LLM | Per token | $6/1M | $30/1M | — | Long-horizon agentic reasoning |
-| [Claude Opus 5.5](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $2.50/1M | $12.50/1M | — | Top Anthropic general quality |
-| [Claude Sonnet 5.5](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $1.20/1M | $6/1M | — | Best value for writing, coding, analysis |
-| [Claude Haiku 5.5](https://www.anthropic.com/api) | Anthropic | LLM | Per token | $0.07/1M | $0.35/1M | 100K+ | 🔥 Fast pipeline; $0.35/$1.75 beyond 100K input |
 | [Gemini 4 Argon](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | $2/1M | $10/1M | — | Google mid-tier multimodal |
 | [Gemini 3.8 Flash](https://ai.google.dev/) | Google | LLM | Per token | $0.40/1M | $2/1M | — | Fast Google workhorse |
 | [Grok 4.7](https://docs.x.ai/developers/models) | xAI | LLM + Multimodal | Per token | $1.50/1M | $4.50/1M | 500K | Real-time grounding, image + video output |
@@ -383,7 +376,6 @@ Let's get into it. 👇
 |-------|----------|---------|-----------|------|
 | GPT-6 Astra | OpenAI | — | Previous flagship tool use + reasoning, now more accessible | 💰 $6.00/$30.00 per 1M |
 | Claude Fable 5.1 | Anthropic | — | Long-horizon agentic reasoning (previous generation) | 💰 $5.00/$25.00 per 1M |
-| Claude Opus 5.5 | Anthropic | — | Top Anthropic general quality (mid-tier frontier) | 💰 $3.00/$15.00 per 1M |
 | Grok 4.7 | xAI | 500K | Real-time grounding + image output (previous generation) | 💰 $1.50/$4.50 per 1M |
 | Gemini 4 Argon | Google | — | Google flagship multimodal (previous generation) | 💰 $1.80/$9.00 per 1M |
 | GPT-6.1 Sol | OpenAI | — | Highly capable near-flagship, now even better value | 💰 $1.50/$7.50 per 1M |
@@ -397,7 +389,6 @@ Let's get into it. 👇
 | Mistral Small 5 | Mistral | 200K | Highly optimized for speed, strong reasoning for its size, European | 💸 $0.18/$0.72 per 1M |
 | Llama 4.0 70B (Groq) | Meta/Groq | 256K | Unmatched inference speed, strong community support, good free tier | 🆓 Free |
 | GPT-6 Luna | OpenAI | — | Dirt-cheap high-volume workhorse (previous generation) | 💸 $0.08/$0.40 per 1M |
-| Claude Haiku 5.5 | Anthropic | 100K+ | Fastest Claude, great for pipelines (previous generation) | 💸 $0.09/$0.45 per 1M |
 | Gemini 3.8 Flash | Google | — | Fast, multimodal, free tier (legacy) | 🆓 Free (limited) |
 | Mistral Small 4 | Mistral | — | European, ultra-cheap, reliable (previous generation) | 💸 $0.12/$0.48 per 1M |
 | Llama 3.3 70B (Groq) | Meta/Groq | 128K | Free tier, insanely fast (previous generation) | 🆓 Free |
@@ -420,7 +411,6 @@ Let's get into it. 👇
 | Model | Provider | Context | Notes |
 |-------|----------|---------|-------|
 | Gemini 5 Pro | Google | — | Robust reasoning across modalities, strong performance on benchmark tasks |
-| DeepSeek V5-Pro | DeepSeek | — | Strong logical reasoning, excellent for code and math, competitive pricing |
 | Llama 4.0 Instruct | Meta | 256K | Open-source leader in complex instruction following and structured output |
 | GPT-5.6 Sol | OpenAI | — | Deprecated — succeeded by the GPT-6/7 family |
 | Claude Fable 5.1 | Anthropic | — | Long-horizon reasoning & agents (previous generation) |
@@ -978,7 +968,6 @@ Let's get into it. 👇
 ╠══════════════════╬══════════════╬══════════════╬═══════════╬════════════════╣
 ║  GPT-6 Astra     ║  $10.00      ║  $50.00      ║  —        ║  Flagship      ║
 ║  Claude Fable5.1 ║  $10.00      ║  $50.00      ║  —        ║  Agentic       ║
-║  Claude Opus 5.5 ║  $4.00       ║  $20.00      ║  —        ║  Writing/Code  ║
 ║  Grok 4.7        ║  $2.00       ║  $6.00       ║  500K     ║  Real-time     ║
 ║  Gemini 4 Argon  ║  $2.00       ║  $10.00      ║  —        ║  Docs/Video    ║
 ║  GPT-6.1 Sol     ║  $2.00       ║  $10.00      ║  —        ║  Value flagship║
@@ -1141,12 +1130,10 @@ Let's get into it. 👇
 1. **Start with**: Gemini 3.8 Flash (free tier) or GPT-6 Luna
 2. **Add memory**: Mem0, Zep, or just a vector DB + embeddings
 3. **Add guardrails**: OpenAI Moderation API (free)
-4. **Scale to**: Claude Sonnet 5.5 or GPT-6.1 Sol for complex tasks
 
 ### If you're building a RAG application:
 1. **Embeddings**: Start with OpenAI text-embedding-3-small
 2. **Vector DB**: Chroma (local) → Pinecone (managed)
-3. **LLM**: Claude Sonnet 5.5 (best at reading documents)
 4. **Evaluate**: RAGAS or TruLens for quality metrics
 
 ### If you're building a code assistant:
@@ -1478,7 +1465,6 @@ A: Free = genuinely free with permanent limits, no CC required. Freemium = free 
 A: Yes — as of v2.0 it can self-edit `README.md` and `data/stats.json`, but only through a strict safety gate: every AI-generated rewrite is validated (header preserved, row count preserved, no unstructured junk) and backed up to `data/backups/` before being written. Riskier suggestions (new APIs, deprecations) are still logged for human review.
 
 **Q: Which API should I use for [X]?**
-A: The short answers: writing = Claude Sonnet 5.5, speed = Groq, cheap = GPT-6 Luna ($0.10/$0.50) or DeepSeek off-peak, free = Gemini Flash, images = Flux Schnell (cheap) or Midjourney (aesthetic), voice = ElevenLabs (TTS) + Deepgram (STT), local = Ollama.
 
 **Q: My API isn't listed — can I add it?**
 A: Absolutely. Open a PR or use the issue template. If it's a real, functional API with documented pricing (or clearly documented free tier), it belongs here.
