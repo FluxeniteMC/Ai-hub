@@ -1,0 +1,617 @@
+{
+  "count": 11,
+  "diagnostics": {
+    "accepted": 11,
+    "duplicate_ids": [],
+    "pricing_note": "Groq /models publishes no pricing; all price fields are null by design.",
+    "raw_count": 11,
+    "rejected": [],
+    "with_pricing": 0
+  },
+  "generated_at": "2026-10-16T08:24:26.990Z",
+  "models": [
+    {
+    "aliases": [
+      "allam-2-7b"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-01-23T22:43:23.000Z",
+        "model_id": "allam-2-7b",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "SDAIA"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "allam-2-7b",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Allam 2 7b",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/allam-2-7b",
+      "source": "groq"
+    }
+    ],
+    "provider": "SDAIA",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "canopylabs/orpheus-arabic-saudi"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-12-16T23:07:19.000Z",
+        "model_id": "canopylabs/orpheus-arabic-saudi",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "Canopy Labs"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "canopylabs-orpheus-arabic-saudi",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Orpheus Arabic Saudi",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/canopylabs/orpheus-arabic-saudi",
+      "source": "groq"
+    }
+    ],
+    "provider": "Canopy Labs",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "canopylabs/orpheus-v1-english"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-12-19T23:18:36.000Z",
+        "model_id": "canopylabs/orpheus-v1-english",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "Canopy Labs"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "canopylabs-orpheus-v1-english",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Orpheus V1 English",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/canopylabs/orpheus-v1-english",
+      "source": "groq"
+    }
+    ],
+    "provider": "Canopy Labs",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "meta-llama/llama-prompt-guard-2-22m"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-05-30T19:08:21.000Z",
+        "model_id": "meta-llama/llama-prompt-guard-2-22m",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "Meta"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "meta-llama-llama-prompt-guard-2-22m",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Llama Prompt Guard 2 22m",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/meta-llama/llama-prompt-guard-2-22m",
+      "source": "groq"
+    }
+    ],
+    "provider": "Meta",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "meta-llama/llama-prompt-guard-2-86m"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-05-30T19:09:25.000Z",
+        "model_id": "meta-llama/llama-prompt-guard-2-86m",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "Meta"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "meta-llama-llama-prompt-guard-2-86m",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Llama Prompt Guard 2 86m",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/meta-llama/llama-prompt-guard-2-86m",
+      "source": "groq"
+    }
+    ],
+    "provider": "Meta",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "openai/gpt-oss-120b"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-08-05T15:37:04.000Z",
+        "model_id": "openai/gpt-oss-120b",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "OpenAI"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "openai-gpt-oss-120b",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Gpt Oss 120b",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/openai/gpt-oss-120b",
+      "source": "groq"
+    }
+    ],
+    "provider": "OpenAI",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "openai/gpt-oss-20b"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-08-05T15:32:37.000Z",
+        "model_id": "openai/gpt-oss-20b",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "OpenAI"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "openai-gpt-oss-20b",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Gpt Oss 20b",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/openai/gpt-oss-20b",
+      "source": "groq"
+    }
+    ],
+    "provider": "OpenAI",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "openai/gpt-oss-safeguard-20b"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2025-10-29T03:33:09.000Z",
+        "model_id": "openai/gpt-oss-safeguard-20b",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "OpenAI"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "openai-gpt-oss-safeguard-20b",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Gpt Oss Safeguard 20b",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/openai/gpt-oss-safeguard-20b",
+      "source": "groq"
+    }
+    ],
+    "provider": "OpenAI",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "qwen/qwen3.8-27b"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2026-08-17T16:40:46.000Z",
+        "model_id": "qwen/qwen3.8-27b",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "Alibaba Cloud"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "qwen-qwen3-8-27b",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Qwen3.8 27b",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/qwen/qwen3.8-27b",
+      "source": "groq"
+    }
+    ],
+    "provider": "Alibaba Cloud",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "whisper-large-v3"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2023-09-03T06:14:58.000Z",
+        "model_id": "whisper-large-v3",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "OpenAI"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "whisper-large-v3",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Whisper Large V3",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/whisper-large-v3",
+      "source": "groq"
+    }
+    ],
+    "provider": "OpenAI",
+    "provider_pricing": {}
+  },
+    {
+    "aliases": [
+      "whisper-large-v3-turbo"
+    ],
+    "availability": {
+      "groq": {
+        "available": true,
+        "created_at": "2024-10-08T18:44:48.000Z",
+        "model_id": "whisper-large-v3-turbo",
+        "observed_at": "2026-10-16T08:24:26.988Z",
+        "owned_by": "OpenAI"
+      },
+      "openrouter": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      },
+      "readme": {
+        "available": false,
+        "model_id": null,
+        "observed_at": null
+      }
+    },
+    "capabilities": [],
+    "context_window": null,
+    "description": null,
+    "id": "whisper-large-v3-turbo",
+    "kind": "model",
+    "merge": {
+      "confidence": "verified",
+      "reasons": [],
+      "review_required": false
+    },
+    "modalities": {
+      "input": [],
+      "output": []
+    },
+    "name": "Whisper Large V3 Turbo",
+    "pricing": {
+      "currency": "USD",
+      "input_per_1m_usd": null,
+      "output_per_1m_usd": null,
+      "raw": null
+    },
+    "provenance": [
+      {
+      "observed_at": "2026-10-16T08:24:26.988Z",
+      "ref": "https://api.groq.com/openai/v1/models/whisper-large-v3-turbo",
+      "source": "groq"
+    }
+    ],
+    "provider": "OpenAI",
+    "provider_pricing": {}
+  }
+  ],
+  "schema_version": "1.0.0",
+  "source": {
+    "commit": null,
+    "note": "This endpoint returns ids only; pricing and context length are not published here and remain null.",
+    "observed_at": "2026-10-16T08:24:26.988Z",
+    "ref": "https://api.groq.com/openai/v1/models",
+    "status": "ok",
+    "type": "groq"
+  }
+}
