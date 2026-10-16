@@ -11,6 +11,7 @@ import json
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -405,6 +406,10 @@ class CliTests(unittest.TestCase):
         self.assertEqual(result.returncode, 3)
 
     def test_unchanged_content_does_not_rewrite(self):
+        # A second run over identical markdown must not touch the file, even
+        # when a second has elapsed between the runs. Comparing mtime alone is
+        # not enough — assert the bytes are untouched by checking the recorded
+        # mtime *and* that the file was never rewritten.
         with tempfile.TemporaryDirectory() as tmp:
             readme = Path(tmp) / "README.md"
             output = Path(tmp) / "out.json"
@@ -419,13 +424,64 @@ class CliTests(unittest.TestCase):
                 )
 
             first = run()
+            self.assertEqual(first.returncode, 0, first.stderr)
+            original = output.read_text(encoding="utf-8")
             stamp = output.stat().st_mtime_ns
-            second = run()
 
-            self.assertEqual(first.returncode, 0)
-            self.assertEqual(second.returncode, 0)
-            self.assertEqual(output.stat().st_mtime_ns, stamp, "identical content must not rewrite")
+            time.sleep(1.1)  # guarantee a different wall-clock second
+
+            second = run()
+            self.assertEqual(second.returncode, 0, second.stderr)
+
+            self.assertEqual(
+                output.stat().st_mtime_ns,
+                stamp,
+                "identical input must not rewrite the file",
+            )
+            self.assertEqual(output.read_text(encoding="utf-8"), original)
             self.assertIn("unchanged", second.stdout)
+
+    def test_a_tiny_change_does_rewrite(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            readme = Path(tmp) / "README.md"
+            output = Path(tmp) / "out.json"
+            readme.write_text(VALID_TABLE, encoding="utf-8")
+
+            def run():
+                return subprocess.run(
+                    [sys.executable, str(REPO_ROOT / "convert.py"), "--readme", str(readme), "--output", str(output), "--quiet"],
+                    capture_output=True,
+                    text=True,
+                    encoding="utf-8",
+                )
+
+            run()
+            # Append the row inside the table block, not after it.
+            readme.write_text(
+                VALID_TABLE.replace(
+                    "| Paid One | Paid Co | Costs money | $5/month |",
+                    "| Paid One | Paid Co | Costs money | $5/month |\n"
+                    "| Another Model | Co | desc | $1/$2 per 1M |",
+                ),
+                encoding="utf-8",
+            )
+            result = run()
+            self.assertEqual(result.returncode, 0, result.stderr)
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertIn("another-model", [m["id"] for m in payload["models"]])
+
+    def test_run_timestamps_alone_do_not_count_as_a_change(self):
+        # The whole point of the change-detection rule: two runs seconds apart
+        # must compare equal, otherwise every scheduled run opens a pull request
+        # whose diff is only a clock reading.
+        envelope = {"schema_version": convert.SCHEMA_VERSION, "generated_at": "A", "count": 1,
+                    "source": {"observed_at": "A"}, "models": []}
+        later = {"schema_version": convert.SCHEMA_VERSION, "generated_at": "B", "count": 1,
+                 "source": {"observed_at": "B"}, "models": []}
+        self.assertEqual(
+            convert.sorted_json(convert._strip_volatile(envelope)),
+            convert.sorted_json(convert._strip_volatile(later)),
+        )
 
 
 if __name__ == "__main__":

@@ -868,6 +868,37 @@ def sorted_json(value: Any, indent: int = 2, depth: int = 0) -> str:
     raise TypeError(f"unserialisable type: {type(value)!r}")
 
 
+#: Fields that change on every run and carry no data signal. Excluded when
+#: deciding whether the output file needs rewriting.
+VOLATILE_FIELDS = frozenset({"generated_at", "observed_at", "last_updated"})
+
+
+def _strip_volatile(value: Any) -> Any:
+    """Recursively drop run timestamps so two runs over the same input compare equal."""
+    if isinstance(value, dict):
+        return {k: _strip_volatile(v) for k, v in sorted(value.items()) if k not in VOLATILE_FIELDS}
+    if isinstance(value, list):
+        return [_strip_volatile(item) for item in value]
+    return value
+
+
+def data_changed(path: Path, envelope: Any) -> bool:
+    """True when the envelope's *data* differs from what is already on disk.
+
+    Timestamps alone must not count as a change. If they did, every scheduled
+    run would rewrite the catalog and the daily workflow would open a pull
+    request whose diff is nothing but a clock reading.
+    """
+    if not path.exists():
+        return True
+    try:
+        previous = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        # Unreadable or corrupt output is treated as changed so it is repaired.
+        return True
+    return sorted_json(_strip_volatile(previous)) != sorted_json(_strip_volatile(envelope))
+
+
 def write_if_changed(path: Path, content: str) -> bool:
     """Writes only when bytes differ, so a no-op run produces no git diff."""
     if path.exists() and path.read_text(encoding="utf-8") == content:
@@ -879,6 +910,14 @@ def write_if_changed(path: Path, content: str) -> bool:
     os.replace(temporary, path)
     print(f"✅ wrote: {path.name} ({len(content)} bytes)")
     return True
+
+
+def write_envelope_if_changed(path: Path, envelope: Any) -> bool:
+    """Writes only when the envelope's data changed, not merely its timestamps."""
+    if not data_changed(path, envelope):
+        print(f"⏭️  unchanged: {path.name} (data identical; timestamps not refreshed)")
+        return False
+    return write_if_changed(path, sorted_json(envelope) + "\n")
 
 
 # ── Entry point ─────────────────────────────────────────────────────────────
@@ -953,7 +992,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"❌ serialiser produced invalid JSON: {error}", file=sys.stderr)
         return 1
 
-    changed = write_if_changed(args.output, content)
+    changed = write_envelope_if_changed(args.output, envelope)
 
     if not args.quiet:
         priced = sum(1 for m in models if m["pricing"]["input_per_1m_usd"] is not None)
