@@ -21,6 +21,9 @@ const here = dirname(fileURLToPath(import.meta.url));
 const siteRoot = resolve(here, '..');
 const repoRoot = resolve(siteRoot, '..');
 
+/** Deployed origin; kept in sync with scripts/generate-seo.mjs. */
+const SITE_ORIGIN = process.env.SITE_ORIGIN ?? 'https://fluxenitemc.github.io/Ai-hub';
+
 const OUTPUT_PATH = resolve(siteRoot, 'src/data/catalog.json');
 const README_PATH = resolve(repoRoot, 'README.md');
 const STATS_PATH = resolve(repoRoot, 'data/stats.json');
@@ -106,6 +109,7 @@ function buildSourceMeta(markdown) {
 
   return {
     repository: 'https://github.com/FluxeniteMC/Ai-hub',
+    pagesUrl: SITE_ORIGIN,
     readmePath: 'README.md',
     readmeCommit: process.env.SOURCE_COMMIT ?? null,
     readmeUpdated: lastUpdatedMatch ? lastUpdatedMatch[1] : null,

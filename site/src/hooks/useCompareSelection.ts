@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export const COMPARE_LIMIT = 4;
-const STORAGE_KEY = 'fluxenite-ai-hub:compare';
+
+/**
+ * Exported so the privacy policy can name the exact key it clears — a
+ * hard-coded duplicate would silently stop matching if this ever changed.
+ */
+export const COMPARE_STORAGE_KEY = 'fluxenite-ai-hub:compare';
 
 function readStoredSelection(): string[] {
   if (typeof window === 'undefined') return [];
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(COMPARE_STORAGE_KEY);
     if (!raw) return [];
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
@@ -26,7 +31,7 @@ export function useCompareSelection() {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedIds));
+      window.localStorage.setItem(COMPARE_STORAGE_KEY, JSON.stringify(selectedIds));
     } catch {
       // Ignore quota/permission errors; comparison still works in-session.
     }
@@ -35,7 +40,7 @@ export function useCompareSelection() {
   // Keep multiple tabs in sync.
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
-      if (event.key !== STORAGE_KEY) return;
+      if (event.key !== COMPARE_STORAGE_KEY) return;
       setSelectedIds(readStoredSelection());
     };
     window.addEventListener('storage', handleStorage);

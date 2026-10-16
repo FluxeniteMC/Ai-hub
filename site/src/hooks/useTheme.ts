@@ -2,7 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 
 export type Theme = 'light' | 'dark';
 
-const STORAGE_KEY = 'aihub:theme';
+/**
+ * Exported so the privacy policy can name the exact key it clears — a
+ * hard-coded duplicate would silently stop matching if this ever changed.
+ */
+export const THEME_STORAGE_KEY = 'aihub:theme';
 
 function readTheme(): Theme {
   if (typeof document === 'undefined') return 'light';
@@ -15,7 +19,7 @@ function applyTheme(theme: Theme) {
   // Keeps native UI (scrollbars, form controls) in step with the theme.
   document.documentElement.style.colorScheme = theme;
   try {
-    localStorage.setItem(STORAGE_KEY, theme);
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
   } catch {
     // Storage can be blocked; the theme still applies for this session.
   }
@@ -52,7 +56,7 @@ export function useTheme() {
     const onChange = (event: MediaQueryListEvent) => {
       let saved: string | null = null;
       try {
-        saved = localStorage.getItem(STORAGE_KEY);
+        saved = localStorage.getItem(THEME_STORAGE_KEY);
       } catch {
         saved = null;
       }

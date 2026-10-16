@@ -149,6 +149,12 @@ if (!existsSync(sitemapPath)) {
     locs.every((loc) => loc.startsWith(`${ORIGIN}/`)),
     'sitemap.xml contains URLs outside the deployed origin',
   );
+  for (const hash of ['/faq', '/terms', '/privacy']) {
+    check(
+      locs.some((loc) => loc === `${ORIGIN}/#${hash}`),
+      `sitemap.xml is missing the ${hash} route`,
+    );
+  }
   check(
     [...sitemap.matchAll(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/g)].every((m) => m[1] <= new Date().toISOString().slice(0, 10)),
     'sitemap.xml has a future lastmod',
@@ -182,10 +188,29 @@ if (html) {
       check(false, 'JSON-LD is not valid JSON');
     }
     if (parsed) {
-      const types = (parsed['@graph'] ?? []).map((n) => n['@type']);
+      const graph = parsed['@graph'] ?? [];
+      const types = graph.map((n) => n['@type']);
       check(types.includes('WebSite'), 'JSON-LD is missing a WebSite node');
       check(types.includes('Dataset'), 'JSON-LD is missing a Dataset node');
       check(types.includes('ItemList'), 'JSON-LD is missing an ItemList node');
+
+      // Support/legal routes get their own nodes so answers and policies can be
+      // surfaced directly rather than as undifferentiated page text.
+      const faq = graph.find((n) => n['@type'] === 'FAQPage');
+      check(Boolean(faq), 'JSON-LD is missing an FAQPage node');
+      if (faq) {
+        const questions = faq.mainEntity ?? [];
+        check(questions.length >= 20, `FAQPage exposes only ${questions.length} questions`);
+        check(
+          questions.every((q) => q['@type'] === 'Question' && q.name && q.acceptedAnswer?.text),
+          'an FAQPage question is missing a name or acceptedAnswer',
+        );
+      }
+      for (const [route, title] of [['terms', 'Terms of Service'], ['privacy', 'Privacy Policy']]) {
+        const page = graph.find((n) => n['@type'] === 'WebPage' && n.url?.endsWith(`#/${route}`));
+        check(Boolean(page), `JSON-LD is missing a WebPage node for /${route}`);
+        check(page?.name === title, `/${route} WebPage node has the wrong name`);
+      }
     }
   }
 }

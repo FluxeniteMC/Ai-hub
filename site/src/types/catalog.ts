@@ -56,6 +56,8 @@ export interface CatalogEntry {
 
 export interface CatalogSource {
   repository: string;
+  /** Deployed origin of this static site. */
+  pagesUrl: string;
   readmePath: string;
   readmeCommit: string | null;
   readmeUpdated: string | null;

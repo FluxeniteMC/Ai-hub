@@ -1,4 +1,4 @@
-import { ExternalLink, FileCode2, Github, Scale } from 'lucide-react';
+import { ExternalLink, FileCode2, Github, HelpCircle, Scale, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { BrandLogo } from '../ui/BrandLogo';
@@ -46,44 +46,13 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="site-footer__heading">Repository</p>
+            <p className="site-footer__heading">Support</p>
             <ul className="site-footer__list">
               <li>
-                <a
-                  className="site-footer__link"
-                  href={REPO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub <ExternalLink size={11} aria-hidden="true" />
-                </a>
+                <Link className="site-footer__link" to="/faq">
+                  <HelpCircle size={12} aria-hidden="true" /> Frequently asked questions
+                </Link>
               </li>
-              <li>
-                <a
-                  className="site-footer__link"
-                  href={`${REPO_URL}/blob/main/README.md`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  README.md
-                </a>
-              </li>
-              <li>
-                <a
-                  className="site-footer__link"
-                  href={`${REPO_URL}/tree/main/data`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  data/
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <p className="site-footer__heading">About</p>
-            <ul className="site-footer__list">
               <li>
                 <Link className="site-footer__link" to="/docs">
                   <FileCode2 size={12} aria-hidden="true" /> Documentation
@@ -106,6 +75,58 @@ export function SiteFooter() {
               </li>
             </ul>
           </div>
+
+          <div>
+            <p className="site-footer__heading">Legal</p>
+            <ul className="site-footer__list">
+              <li>
+                <Link className="site-footer__link" to="/terms">
+                  <Scale size={12} aria-hidden="true" /> Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link className="site-footer__link" to="/privacy">
+                  <ShieldCheck size={12} aria-hidden="true" /> Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <p className="site-footer__note">
+                  No accounts. No analytics. No cookies. No tracking.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="site-footer__links">
+          <p className="site-footer__heading">Repository</p>
+          <ul className="site-footer__list">
+            <li>
+              <a className="site-footer__link" href={REPO_URL} target="_blank" rel="noopener noreferrer">
+                GitHub <ExternalLink size={11} aria-hidden="true" />
+              </a>
+            </li>
+            <li>
+              <a
+                className="site-footer__link"
+                href={`${REPO_URL}/blob/main/README.md`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                README.md
+              </a>
+            </li>
+            <li>
+              <a
+                className="site-footer__link"
+                href={`${REPO_URL}/tree/main/data`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                data/
+              </a>
+            </li>
+          </ul>
         </div>
 
         <div className="site-footer__bottom">

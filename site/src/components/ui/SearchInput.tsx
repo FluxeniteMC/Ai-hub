@@ -36,14 +36,19 @@ export function SearchInput({
         spellCheck={false}
       />
       {value ? (
-        <button
-          type="button"
-          className="input__clear"
-          onClick={() => onChange('')}
-          aria-label="Clear search"
-        >
-          <X size={14} aria-hidden="true" />
-        </button>
+        <>
+          <button
+            type="button"
+            className="input__clear"
+            onClick={() => onChange('')}
+            aria-label="Clear search"
+          >
+            <X size={14} aria-hidden="true" />
+          </button>
+          <span className="sr-only" role="status" aria-live="polite">
+            Searching with “{value}”
+          </span>
+        </>
       ) : null}
     </div>
   );

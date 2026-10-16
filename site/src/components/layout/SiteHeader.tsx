@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { to: '/compare', label: 'Compare' },
   { to: '/docs', label: 'Docs' },
   { to: '/updates', label: 'Updates' },
+  { to: '/faq', label: 'FAQ' },
 ] as const;
 
 const REPO_URL = 'https://github.com/FluxeniteMC/Ai-hub';

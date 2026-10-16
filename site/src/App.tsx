@@ -19,6 +19,11 @@ const DocsPage = lazy(() => import('./pages/DocsPage').then((m) => ({ default: m
 const UpdatesPage = lazy(() =>
   import('./pages/UpdatesPage').then((m) => ({ default: m.UpdatesPage })),
 );
+const FaqPage = lazy(() => import('./pages/FaqPage').then((m) => ({ default: m.FaqPage })));
+const TermsPage = lazy(() => import('./pages/TermsPage').then((m) => ({ default: m.TermsPage })));
+const PrivacyPage = lazy(() =>
+  import('./pages/PrivacyPage').then((m) => ({ default: m.PrivacyPage })),
+);
 const NotFoundPage = lazy(() =>
   import('./pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })),
 );
@@ -60,6 +65,9 @@ export default function App({ onReady }: { onReady?: () => void } = {}) {
               <Route path="/compare" element={<ComparePage />} />
               <Route path="/docs" element={<DocsPage />} />
               <Route path="/updates" element={<UpdatesPage />} />
+              <Route path="/faq" element={<FaqPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>

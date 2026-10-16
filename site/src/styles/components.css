@@ -520,6 +520,14 @@
   line-height: var(--leading-relaxed);
 }
 
+/* Wrapping div inside a callout gets the same rhythm as every other stack. */
+.callout > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
 .callout__icon {
   flex-shrink: 0;
   margin-top: 2px;
@@ -538,7 +546,6 @@
 .callout__title {
   color: var(--text-primary);
   font-weight: 600;
-  margin-bottom: var(--space-1);
 }
 
 /* ── Empty / error states ────────────────────────────────────────────── */
