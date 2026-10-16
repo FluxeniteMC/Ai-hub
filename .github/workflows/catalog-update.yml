@@ -324,6 +324,16 @@ jobs:
 
           EXISTING="$(gh pr list --base "$BASE_BRANCH" --head "$CATALOG_BRANCH" --state open --json number --jq '.[0].number // empty')"
 
+          # Only apply labels that actually exist in this repository. A missing
+          # label makes `gh pr create` exit non-zero, which previously failed the
+          # whole step after the data had already been pushed.
+          LABELS=()
+          for label in automated catalog; do
+            if gh label list --limit 100 --json name --jq '.[].name' | grep -qx "$label"; then
+              LABELS+=(--label "$label")
+            fi
+          done
+
           if [ -n "$EXISTING" ]; then
             echo "Updating pull request #$EXISTING"
             gh pr edit "$EXISTING" --title "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))" --body-file "$BODY"
@@ -337,7 +347,7 @@ jobs:
               --head "$CATALOG_BRANCH" \
               --title "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))" \
               --body-file "$BODY" \
-              --label "automated"
+              "${LABELS[@]}"
             LINK="$(gh pr view "$CATALOG_BRANCH" --json url --jq .url 2>/dev/null || echo "")"
             {
               echo ""
