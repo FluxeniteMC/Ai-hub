@@ -88,6 +88,31 @@ Let's get into it. 👇
 
 ---
 
+## 🆕 Latest AI Models — Officially Verified (October 2026)
+
+This shortlist highlights recent model releases that can be checked against their providers' own announcements or documentation. **Model names and access can change; verify current availability, API IDs, limits, and pricing in the linked official source before integrating a model.** The capability notes below are brief summaries, not independent benchmark rankings.
+
+| Model | Provider | Best-known focus | Availability / notes | Official source |
+|---|---|---|---|---|
+| **GPT-6.1 Sol** | OpenAI | Advanced reasoning and software/API workflows | API model; supports an Ultrafast service tier where available | [API changelog](https://developers.openai.com/api/docs/changelog) · [Model docs](https://developers.openai.com/api/docs/models/gpt-6.1-sol) |
+| **GPT-6 Sol / GPT-6 Luna** | OpenAI | General-purpose intelligence; Luna is positioned for faster, everyday work | Announced as part of the GPT-6 family; check current API access and model IDs in the docs | [OpenAI news](https://openai.com/news/) |
+| **Gemini 4 Argon** | Google | Complex coding, multi-step agentic tasks, mathematics, and science | Generally available through Google's developer platform; check the current model guide for supported features | [Official launch](https://blog.google/intl/en-in/products/introducing-gemini-4-argon/) · [Gemini API release notes](https://ai.google.dev/gemini-api/docs/changelog) |
+| **Gemini 3.8 Flash** | Google | Fast, cost-conscious general-purpose tasks | Google says it replaces the deprecated Gemini 3.7 Flash API model; use the documented current model ID | [Gemini API release notes](https://ai.google.dev/gemini-api/docs/changelog) |
+| **Claude Opus 5.5** | Anthropic | High-end reasoning and complex knowledge work | Announced by Anthropic in September 2026; confirm access and API details in the official docs | [Anthropic Newsroom](https://www.anthropic.com/news) · [API docs](https://docs.anthropic.com/) |
+| **Claude Sonnet 5.5** | Anthropic | Balanced capability, speed, and cost for everyday professional work | Announced by Anthropic in September 2026; confirm access and API details in the official docs | [Anthropic Newsroom](https://www.anthropic.com/news) · [API docs](https://docs.anthropic.com/) |
+| **Muse Wonder** | Meta | Agentic workflows, coding, and sustained multi-step tasks | Available to developers through Meta's Model API, according to Meta's launch announcement | [Official announcement](https://about.fb.com/news/2026/10/introducing-muse-wonder-models/) |
+| **Muse Wonder Full** | Meta | Higher-capability agentic and professional tasks | Meta announced availability through Muse Code; do not assume a public API endpoint exists | [Official announcement](https://about.fb.com/news/2026/10/introducing-muse-wonder-models/) |
+| **Mistral Large 4** | Mistral AI | Open-weight multimodal work, coding, and agentic tasks | Public API preview; Mistral says model weights are planned for release later in October 2026 | [Official announcement](https://mistral.ai/news/mistral-large-4/) · [Model docs and current pricing](https://docs.mistral.ai/models/mistral-large-4-0) |
+
+### Verification policy
+
+- A model belongs in this section only when a provider announcement or official documentation supports its name and status.
+- Do not guess model IDs, prices, context windows, free-tier quotas, or benchmark scores. Link to the provider's live documentation instead.
+- Distinguish **announced**, **preview**, **generally available**, and **open-weight released**; these are not interchangeable.
+- Recheck this shortlist when the directory updates. A model appearing here does not mean every listed third-party host supports it.
+
+---
+
 ## 🆓 Free Tier APIs
 
 > These APIs are genuinely free — not "free trial for 7 days" free, but actually free to use with real limits. Most don't even ask for a credit card. Perfect for side projects, prototypes, and learning.
