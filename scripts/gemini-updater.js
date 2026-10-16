@@ -27,27 +27,36 @@ const ROOT = process.cwd();
 // The authoritative ruleset every automated README edit must obey.
 const INSTRUCTIONS_PATH = process.env.INSTRUCTIONS_PATH || path.join(ROOT, "instruction.md");
 
-if (!GEMINI_API_KEY) {
-  console.error(
-    "❌ GEMINI_API_KEY environment variable is required (get one free at https://aistudio.google.com/)"
-  );
-  process.exit(1);
-}
-
 // Whitelist of files the AI is allowed to modify. Anything outside is rejected.
 const EDITABLE_FILES = ["README.md", "data/stats.json"];
 
-let ai;
-try {
-  const { GoogleGenAI } = require("@google/genai");
-  ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-} catch (e) {
-  console.error("❌ @google/genai is not installed. Run: npm install @google/genai");
-  process.exit(1);
+/**
+ * Build the Gemini client on first use.
+ *
+ * v2.1: this used to run at module scope. Importing the file — from a test, or
+ * from anything that wants `countUniqueListings` — then validated the key and
+ * required the SDK as a side effect, and `process.exit(1)` on failure killed the
+ * importing process before it did any work. Keeping it lazy means the file is a
+ * library at import time and a CLI only when run directly.
+ */
+function getClient() {
+  if (!GEMINI_API_KEY) {
+    console.error(
+      "❌ GEMINI_API_KEY environment variable is required (get one free at https://aistudio.google.com/)"
+    );
+    process.exit(1);
+  }
+  try {
+    const { GoogleGenAI } = require("@google/genai");
+    return new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+  } catch (e) {
+    console.error("❌ @google/genai is not installed. Run: npm install @google/genai");
+    process.exit(1);
+  }
 }
 
 async function callGemini(prompt) {
-  const response = await ai.models.generateContent({ model: MODEL_NAME, contents: prompt });
+  const response = await getClient().models.generateContent({ model: MODEL_NAME, contents: prompt });
   return response.text;
 }
 
@@ -340,13 +349,56 @@ function filterRowsChanged(original, candidate) {
 
 // ─────────────────────── data-file self-edit (v2.0) ───────────────────
 
+/**
+ * Count the models the directory actually lists.
+ *
+ * v2.1 fix: the old expression was `readme.match(/^\| \[/gm).length`, which
+ * counts table ROWS that start with a link. Several APIs are listed in more
+ * than one table (a pricing table and an embeddings table, say), so the badge
+ * reported 519 while the catalog really held 528 listings — an undercount that
+ * went the wrong way every time a model was added twice.
+ *
+ * `convert.py` is the single source of truth for the catalog, so prefer its
+ * output. The regex is only a fallback for a run before the catalog exists, and
+ * it is deduplicated by slug for the same reason.
+ */
+function countUniqueListings(readme, { catalogPath } = {}) {
+  const generated = catalogPath ?? path.join(ROOT, "data", "readme-models.json");
+  if (fs.existsSync(generated)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(generated, "utf8"));
+      if (Number.isInteger(parsed.count) && parsed.count > 0) return parsed.count;
+    } catch {
+      // Fall through to the regex rather than trusting a truncated file.
+    }
+  }
+
+  const slug = (value) =>
+    String(value)
+      .toLowerCase()
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/[*_`]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+  const unique = new Set();
+  for (const line of readme.split(/\r?\n/)) {
+    if (!line.startsWith("|")) continue;
+    const first = line.split("|")[1];
+    if (!first || !first.trim()) continue;
+    const name = slug(first);
+    if (name) unique.add(name);
+  }
+  return unique.size;
+}
+
 async function updateStatsJson() {
-  // The AI can touch data/stats.json (whitelisted). Recount API rows so the
+  // The AI can touch data/stats.json (whitelisted). Recount listings so the
   // badge data stays truthful (old workflow counted ALL table rows = 1414).
   const readme = await loadReadme();
-  const apiRows = (readme.match(/^\| \[/gm) || []).length;
+  const listings = countUniqueListings(readme);
   const stats = {
-    total_api_listings: apiRows,
+    total_api_listings: listings,
     version: "2.0.0",
     updated_daily: true,
     last_updated: new Date().toISOString(),
@@ -356,7 +408,7 @@ async function updateStatsJson() {
     path.join(ROOT, "data", "stats.json"),
     JSON.stringify(stats, null, 2) + "\n"
   );
-  console.log(`📊 data/stats.json self-edited (${apiRows} API listings counted)`);
+  console.log(`📊 data/stats.json self-edited (${listings} unique listings counted)`);
 }
 
 // ────────────────────── datapoints / reports (kept from v1) ───────────
@@ -460,6 +512,9 @@ async function loadReadme() { // exported logic keeps v1 compat
 // ──────────────────────────────── main ────────────────────────────────
 
 async function main() {
+  // Fail before any work is done, rather than after the first API call.
+  getClient();
+
   console.log(`\n🚀 Gemini API Directory Updater — v2.0 (daily, self-editing)`);
   console.log(`📅 Date: ${new Date().toISOString()}`);
   console.log(`🔄 Update Type: ${UPDATE_TYPE}\n`);
@@ -518,4 +573,8 @@ async function main() {
   }
 }
 
-main();
+module.exports = { countUniqueListings };
+
+if (require.main === module) {
+  main();
+}

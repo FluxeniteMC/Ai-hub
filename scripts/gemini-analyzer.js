@@ -26,32 +26,38 @@ const path = require("path");
 
 const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 
-// ── Validate configuration before constructing the client ────────────────
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-if (!GEMINI_API_KEY) {
-  console.error("❌ GEMINI_API_KEY is required (get one at https://aistudio.google.com/)");
-  process.exit(1);
-}
-
-// ── Initialise the SDK ───────────────────────────────────────────────────
-let ai;
-try {
-  const { GoogleGenAI } = require("@google/genai");
-  ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-} catch (error) {
-  // Distinguish "the package is missing" from "the package failed to load".
-  let missing = false;
-  try {
-    require.resolve("@google/genai");
-  } catch {
-    missing = true;
+// ── Client construction ──────────────────────────────────────────────────
+/**
+ * v2.1: this block used to run at module scope. That made merely importing the
+ * file validate the key, require the SDK, and `process.exit(1)` on failure —
+ * so any importer (a test runner, another script) died before doing its own
+ * work. It now happens only when the analysis actually runs.
+ */
+function getClient() {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    console.error("❌ GEMINI_API_KEY is required (get one at https://aistudio.google.com/)");
+    process.exit(1);
   }
-  console.error(
-    missing
-      ? "❌ @google/genai is not installed. Run: npm install"
-      : `❌ @google/genai failed to load: ${error.message}`,
-  );
-  process.exit(1);
+
+  try {
+    const { GoogleGenAI } = require("@google/genai");
+    return new GoogleGenAI({ apiKey });
+  } catch (error) {
+    // Distinguish "the package is missing" from "the package failed to load".
+    let missing = false;
+    try {
+      require.resolve("@google/genai");
+    } catch {
+      missing = true;
+    }
+    console.error(
+      missing
+        ? "❌ @google/genai is not installed. Run: npm install"
+        : `❌ @google/genai failed to load: ${error.message}`,
+    );
+    process.exit(1);
+  }
 }
 
 async function analyzeReadme() {
@@ -76,7 +82,10 @@ Return a structured Markdown report. Be specific and actionable.`;
 
   console.log(`🧠 Analyzing README with ${MODEL_NAME}...`);
 
-  const result = await ai.models.generateContent({ model: MODEL_NAME, contents: prompt });
+  const result = await getClient().models.generateContent({
+    model: MODEL_NAME,
+    contents: prompt,
+  });
   const analysis = result?.text;
 
   if (typeof analysis !== "string" || analysis.trim() === "") {

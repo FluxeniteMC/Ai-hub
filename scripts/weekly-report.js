@@ -27,32 +27,38 @@ const path = require("path");
 
 const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 
-// ── Validate configuration before constructing the client ────────────────
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const REPORT_PERIOD = (process.env.REPORT_PERIOD || "daily").toLowerCase();
-if (!GEMINI_API_KEY) {
-  console.error("❌ GEMINI_API_KEY is required (get one at https://aistudio.google.com/)");
-  process.exit(1);
-}
 
-// ── Initialise the SDK ───────────────────────────────────────────────────
-let ai;
-try {
-  const { GoogleGenAI } = require("@google/genai");
-  ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-} catch (error) {
-  let missing = false;
-  try {
-    require.resolve("@google/genai");
-  } catch {
-    missing = true;
+// ── Client construction ──────────────────────────────────────────────────
+/**
+ * v2.1: previously at module scope, which meant importing this file validated
+ * the key and required the SDK as a side effect and could `process.exit(1)`.
+ * Deferred so the module is safe to import.
+ */
+function getClient() {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    console.error("❌ GEMINI_API_KEY is required (get one at https://aistudio.google.com/)");
+    process.exit(1);
   }
-  console.error(
-    missing
-      ? "❌ @google/genai is not installed. Run: npm install"
-      : `❌ @google/genai failed to load: ${error.message}`,
-  );
-  process.exit(1);
+
+  try {
+    const { GoogleGenAI } = require("@google/genai");
+    return new GoogleGenAI({ apiKey });
+  } catch (error) {
+    let missing = false;
+    try {
+      require.resolve("@google/genai");
+    } catch {
+      missing = true;
+    }
+    console.error(
+      missing
+        ? "❌ @google/genai is not installed. Run: npm install"
+        : `❌ @google/genai failed to load: ${error.message}`,
+    );
+    process.exit(1);
+  }
 }
 
 async function generateWeeklyReport() {
@@ -92,7 +98,10 @@ Keep it under 1000 words.
 Start with: # 📊 ${REPORT_PERIOD === "weekly" ? "Weekly" : "Daily"} AI API Report — ${weekStr}`;
 
   console.log(`📊 Generating ${REPORT_PERIOD} report with Gemini...`);
-  const result = await ai.models.generateContent({ model: MODEL_NAME, contents: prompt });
+  const result = await getClient().models.generateContent({
+    model: MODEL_NAME,
+    contents: prompt,
+  });
   const report = result.text;
 
   const reportsDir = path.join(process.cwd(), "reports");

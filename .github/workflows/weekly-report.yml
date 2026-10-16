@@ -75,15 +75,54 @@ jobs:
             }
 
             const period = context.payload.inputs?.period || 'daily';
-            const title = `📊 ${period === 'weekly' ? 'Weekly' : 'Daily'} AI API Report - ${new Date().toISOString().split('T')[0]}`;
 
-            await github.rest.issues.create({
+            // v2.1 fix: this runs DAILY and called issues.create unconditionally, so the
+            // repo filled up with one near-identical report issue per day. Keep a
+            // single rolling issue per period instead, and let it grow by comment
+            // rather than by opening a new issue.
+            const marker = `<!-- ai-report:${period} -->`;
+            const open = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: title,
-              body: reportContent.slice(0, 60000) || '(empty report)',
-              labels: ['report', 'automated']
+              state: 'open',
+              labels: 'report',
+              per_page: 100
             });
+            const rollup = open.find(i => i.body && i.body.includes(marker));
+
+            const summary = [
+              `## ${period === 'weekly' ? 'Weekly' : 'Daily'} AI API Report — ${new Date().toISOString().split('T')[0]}`,
+              '',
+              reportContent.slice(0, 60000) || '(empty report)',
+              '',
+              marker,
+              '*Rolled up by the AI Report workflow.*'
+            ].join('\n');
+
+            if (rollup) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: rollup.number,
+                body: summary
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: rollup.number,
+                body: `Run completed ${new Date().toISOString().replace('T', ' ').slice(0, 19)} UTC. The issue body now shows the latest report.`
+              });
+              core.info(`Updated ${period} report rollup #${rollup.number}.`);
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: `📊 ${period === 'weekly' ? 'Weekly' : 'Daily'} AI API Report`,
+                body: summary,
+                labels: ['report', 'automated']
+              });
+              core.info(`Created ${period} report rollup.`);
+            }
 
       - name: Summary
         run: |

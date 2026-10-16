@@ -61,8 +61,32 @@ jobs:
             }
 
             const deadLinks = report.dead_links || [];
+            const blockedNow = report.blocked_links || [];
+            const marker = '<!-- dead-links-tracker -->';
+
+            // v2.1: locate the tracker BEFORE the early return so a clean run can
+            // close it. Leaving resolved trackers open forever is the other half of
+            // the duplicate-issue problem.
+            const open = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'dead-links',
+              per_page: 100
+            });
+            const tracker = open.find(i => i.body && i.body.includes(marker));
+
             if (deadLinks.length === 0) {
-              core.info('No dead links found — no issue needed.');
+              core.info('No dead links found.');
+              if (tracker) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: tracker.number,
+                  state: 'closed'
+                });
+                core.info(`Closed resolved dead-link tracker #${tracker.number}.`);
+              }
               return;
             }
 
@@ -77,13 +101,44 @@ jobs:
             *This issue was automatically created by the Link Validation workflow.*
             `;
 
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `🔗 Dead Links Found - ${new Date().toISOString().split('T')[0]}`,
-              body: body,
-              labels: ['dead-links', 'automated', 'maintenance']
-            });
+            // v2.1 fix: this ran weekly and called issues.create unconditionally, so a
+            // repo that never fixed its links accumulated one identical open issue
+            // per run. Reuse a single open tracker instead (see the lookup above).
+            const blocked = blockedNow;
+            const footer = blocked.length
+              ? `\n\n---\n\n${blocked.length} further link(s) were **blocked**, not dead — rate limits,\nbot shields or server faults. They are recorded in\n\`reports/latest-validation.json\` and need a human to judge.\n`
+              : '';
+
+            const payload = `## 🔗 Dead Links Detected
+
+            The weekly link validation found **${deadLinks.length}** broken links.
+
+            | API Name | URL | Status Code | Error |
+            |---------|-----|-------------|-------|
+            ${deadLinks.map(l => `| ${l.name} | ${l.url} | ${l.status} | ${l.error || 'N/A'} |`).join('\n')}
+            ${footer}
+            ${marker}
+            *This issue is kept up to date by the Link Validation workflow.*
+            `;
+
+            if (tracker) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: tracker.number,
+                body: payload
+              });
+              core.info(`Updated dead-link tracker #${tracker.number}.`);
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🔗 Dead Links Found',
+                body: payload,
+                labels: ['dead-links', 'automated', 'maintenance']
+              });
+              core.info('Created dead-link tracker issue.');
+            }
 
       - name: Post PR Comment
         if: github.event_name == 'pull_request'
@@ -98,6 +153,7 @@ jobs:
               return;
             }
 
+            const blocked = report.blocked_links || [];
             const emoji = report.dead_links.length === 0 ? '✅' : '⚠️';
             const status = report.dead_links.length === 0
               ? 'All links are valid!'
@@ -107,7 +163,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `## ${emoji} Link Validation Results\n\n**${status}**\n\n- Total links checked: ${report.total}\n- Valid: ${report.valid}\n- Dead: ${report.dead_links.length}\n- Redirects: ${report.redirects}`
+              body: `## ${emoji} Link Validation Results\n\n**${status}**\n\n- Total links checked: ${report.total} (${report.unique ?? report.total} unique)\n- Valid: ${report.valid}\n- Dead: ${report.dead_links.length}\n- Blocked (rate limited / bot shield, not dead): ${blocked.length}\n- Redirects: ${report.redirects}`
             });
 
   validate-with-gemini:
@@ -125,7 +181,10 @@ jobs:
           node-version: "24"
 
       - name: Install Dependencies
-        run: npm install @google/generative-ai
+        # scripts/gemini-analyzer.js imports `@google/genai` (the current SDK).
+        # Installing `@google/generative-ai` here satisfied the job with a package
+        # the script never touches, so it failed at require() time.
+        run: npm install @google/genai
 
       - name: Analyze README with Gemini
         env:
