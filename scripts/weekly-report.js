@@ -24,6 +24,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { withRetry } = require("./lib/gemini-retry");
 
 const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 
@@ -98,10 +99,14 @@ Keep it under 1000 words.
 Start with: # 📊 ${REPORT_PERIOD === "weekly" ? "Weekly" : "Daily"} AI API Report — ${weekStr}`;
 
   console.log(`📊 Generating ${REPORT_PERIOD} report with Gemini...`);
-  const result = await getClient().models.generateContent({
-    model: MODEL_NAME,
-    contents: prompt,
-  });
+  const result = await withRetry(
+    () =>
+      getClient().models.generateContent({
+        model: MODEL_NAME,
+        contents: prompt,
+      }),
+    { label: `generate ${REPORT_PERIOD} report` }
+  );
   const report = result.text;
 
   const reportsDir = path.join(process.cwd(), "reports");

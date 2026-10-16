@@ -19,6 +19,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { withRetry } = require("./lib/gemini-retry");
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const UPDATE_TYPE = process.env.UPDATE_TYPE || "all";
@@ -56,7 +57,10 @@ function getClient() {
 }
 
 async function callGemini(prompt) {
-  const response = await getClient().models.generateContent({ model: MODEL_NAME, contents: prompt });
+  const response = await withRetry(
+    () => getClient().models.generateContent({ model: MODEL_NAME, contents: prompt }),
+    { label: "Gemini request" }
+  );
   return response.text;
 }
 

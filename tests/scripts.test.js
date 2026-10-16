@@ -20,21 +20,122 @@ const WORKFLOWS = path.join(ROOT, ".github", "workflows");
 /** A path that never exists, to force the regex fallback in countUniqueListings. */
 const NO_CATALOG = path.join(ROOT, "tests", "no-such-catalog.json");
 
-/** Every script in scripts/*.js, by filename. */
+/** Every script under scripts/, including scripts/lib/, as paths relative to it. */
 function scriptNames() {
-  return fs
-    .readdirSync(SCRIPTS)
-    .filter((f) => f.endsWith(".js"))
-    .sort();
+  const found = [];
+  const walk = (dir, prefix = "") => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const rel = prefix ? `${prefix}/${entry.name}` : entry.name;
+      if (entry.isDirectory()) walk(path.join(dir, entry.name), rel);
+      else if (entry.name.endsWith(".js")) found.push(rel);
+    }
+  };
+  walk(SCRIPTS);
+  return found.sort();
 }
 
 // ── syntax ───────────────────────────────────────────────────────────
 
 test("every script in scripts/ parses", () => {
-  for (const name of scriptNames()) {
+  const names = scriptNames();
+  assert.ok(names.length > 0, "expected to find scripts to check");
+  for (const name of names) {
     assert.doesNotThrow(
-      () => execFileSync(process.execPath, ["--check", path.join(SCRIPTS, name)], { stdio: "pipe" }),
+      () =>
+        execFileSync(process.execPath, ["--check", path.join(SCRIPTS, name)], { stdio: "pipe" }),
       `${name} should pass node --check`
+    );
+  }
+});
+
+// ── Gemini retry helper ──────────────────────────────────────────────
+
+test("gemini-retry retries a 503 and returns the eventual success", async () => {
+  const { withRetry } = require(path.join(SCRIPTS, "lib", "gemini-retry.js"));
+  let calls = 0;
+  const value = await withRetry(
+    async () => {
+      calls += 1;
+      if (calls < 3) {
+        // The shape the SDK actually produces for "high demand".
+        const err = new Error("unavailable");
+        err.error = { code: 503, status: "UNAVAILABLE" };
+        throw err;
+      }
+      return "report";
+    },
+    { delaysMs: [0, 0, 0] }
+  );
+  assert.equal(value, "report");
+  assert.equal(calls, 3);
+});
+
+test("gemini-retry does not retry a client error", async () => {
+  const { withRetry } = require(path.join(SCRIPTS, "lib", "gemini-retry.js"));
+  let calls = 0;
+  await assert.rejects(
+    withRetry(
+      async () => {
+        calls += 1;
+        const err = new Error("bad request");
+        err.status = 400;
+        throw err;
+      },
+      { delaysMs: [0, 0, 0] }
+    ),
+    /bad request/
+  );
+  assert.equal(calls, 1, "a 400 must fail immediately");
+});
+
+test("gemini-retry recognises transient codes and ignores the rest", () => {
+  const { isRetryable, statusOf } = require(path.join(SCRIPTS, "lib", "gemini-retry.js"));
+
+  for (const code of [429, 500, 502, 503, 504]) {
+    assert.equal(statusOf({ status: code }), code, `${code} should be read as retryable`);
+    assert.equal(isRetryable({ status: code }), true);
+  }
+
+  for (const code of [400, 401, 403, 404]) {
+    assert.equal(statusOf({ status: code }), null, `${code} is not transient`);
+    assert.equal(isRetryable({ status: code }), false);
+  }
+
+  // The SDK nests the code under `error` for API-envelope failures.
+  assert.equal(statusOf({ error: { code: 503 } }), 503);
+  assert.equal(isRetryable({ error: { code: 429 } }), true);
+  // Network failures carry no status at all.
+  assert.equal(isRetryable(new Error("fetch failed")), true);
+  assert.equal(isRetryable(new Error("something odd")), false);
+});
+
+test("gemini-retry rethrows the last error once the schedule is exhausted", async () => {
+  const { withRetry } = require(path.join(SCRIPTS, "lib", "gemini-retry.js"));
+  let calls = 0;
+  await assert.rejects(
+    withRetry(
+      async () => {
+        calls += 1;
+        const err = new Error("still unavailable");
+        err.error = { code: 503 };
+        throw err;
+      },
+      { delaysMs: [0, 0, 0] }
+    ),
+    /still unavailable/
+  );
+  assert.equal(calls, 3, "every scheduled attempt should be used");
+});
+
+test("every Gemini call site goes through the retry helper", () => {
+  // A bare generateContent call would still die on a transient 503.
+  for (const name of scriptNames()) {
+    const source = fs.readFileSync(path.join(SCRIPTS, name), "utf8");
+    if (!/generateContent/.test(source)) continue;
+    assert.match(
+      source,
+      /withRetry\(/,
+      `${name} calls generateContent directly; wrap it in withRetry()`
     );
   }
 });

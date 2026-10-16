@@ -23,6 +23,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { withRetry } = require("./lib/gemini-retry");
 
 const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 
@@ -82,10 +83,14 @@ Return a structured Markdown report. Be specific and actionable.`;
 
   console.log(`🧠 Analyzing README with ${MODEL_NAME}...`);
 
-  const result = await getClient().models.generateContent({
-    model: MODEL_NAME,
-    contents: prompt,
-  });
+  const result = await withRetry(
+    () =>
+      getClient().models.generateContent({
+        model: MODEL_NAME,
+        contents: prompt,
+      }),
+    { label: "analyze README" }
+  );
   const analysis = result?.text;
 
   if (typeof analysis !== "string" || analysis.trim() === "") {

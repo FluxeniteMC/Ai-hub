@@ -37,6 +37,7 @@
 const { execFileSync, spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const path = require("node:path");
+const { withRetry } = require("./lib/gemini-retry");
 
 const ROOT = path.resolve(__dirname, "..");
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
@@ -431,10 +432,14 @@ async function main(argv = process.argv.slice(2)) {
   const { GoogleGenAI } = require("@google/genai");
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
-  const response = await ai.models.generateContent({
-    model: MODEL_NAME,
-    contents: buildPrompt({ userPrompt, inspection }),
-  });
+  const response = await withRetry(
+    () =>
+      ai.models.generateContent({
+        model: MODEL_NAME,
+        contents: buildPrompt({ userPrompt, inspection }),
+      }),
+    { label: "coding agent request" }
+  );
 
   let plan;
   try {
