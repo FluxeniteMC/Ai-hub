@@ -245,10 +245,21 @@ jobs:
           fi
 
           git add data/
-          git commit -m "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))"
-          # Never force-push. A non-fast-forward means someone edited the branch;
-          # stop and let a human resolve it.
-          git push origin "$CATALOG_BRANCH"
+
+          # The branch may already hold this exact content — for example when a
+          # previous run already published today's data. `git commit` exits 1
+          # with nothing staged, which would fail the run even though there is
+          # nothing wrong. Compare before committing.
+          if git diff --cached --quiet; then
+            echo "::notice title=Catalog branch up to date::The generated data matches what the branch already holds."
+            echo "Catalog branch is already current." >> "$GITHUB_STEP_SUMMARY"
+          else
+            git commit -m "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))"
+            # Never force-push. A non-fast-forward means someone edited the
+            # branch; stop and let a human resolve it.
+            git push origin "$CATALOG_BRANCH"
+            echo "Pushed catalog branch." >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       # ── 8. Pull request ─────────────────────────────────────────────────
       - name: Create or update the catalog pull request
