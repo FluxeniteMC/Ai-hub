@@ -11,13 +11,12 @@ import {
   formatPrice,
   hasStatedPrice,
   modelDataset,
-  modelFacets,
-  models,
   priceFor,
   providersFor,
+  scopeSource,
 } from '../lib/models';
 import type { ModelFilters } from '../lib/models';
-import { PROVIDER_LABELS, buildRequestExample } from '../lib/providerClients';
+import { PROVIDER_LABELS, PROVIDER_ORDER, buildRequestExample } from '../lib/providerClients';
 import type { ProviderId } from '../lib/providerClients';
 import { CAPABILITY_LABELS } from '../lib/models';
 
@@ -31,8 +30,8 @@ const PAGE_SIZE = 24;
 
 export function ModelsPage() {
   useDocumentMeta(
-    'Verified Model Catalog',
-    'Search 900+ AI models by name, alias, provider or exact model ID. Filter by provider and capability, compare verified pricing, and get the exact request for each provider API.',
+    'AI Model Catalog',
+    'Search the AI model catalog by name, alias, vendor or exact model ID. Verified pricing and the exact request for each provider API, generated from data/models.json.',
   );
 
   const [filters, setFilters] = useState<ModelFilters>(DEFAULT_MODEL_FILTERS);
@@ -40,11 +39,38 @@ export function ModelsPage() {
   /** Which provider's exact id + price to show on a card. */
   const [selectedProvider, setSelectedProvider] = useState<ProviderId | null>(null);
 
-  const matched = useMemo(() => applyModelFilters(models, filters), [filters]);
+  const source = useMemo(() => scopeSource(filters), [filters]);
+  const matched = useMemo(() => applyModelFilters(source, filters), [source, filters]);
   const shown = matched.slice(0, visible);
-  const facetCount = countWithoutQuery(models, filters);
+  const facetCount = countWithoutQuery(source, filters);
   const activeCount = activeModelFilterCount(filters);
   const [copied, setCopied] = useState<string | null>(null);
+
+  // Facet counts follow the active scope, otherwise switching scope leaves the
+  // dropdowns advertising totals that no longer match what is listed.
+  const scoped = useMemo(
+    () => ({
+      providers: PROVIDER_ORDER.map((provider) => ({
+        id: provider,
+        label: PROVIDER_LABELS[provider],
+        count: source.filter((model) => model.providers.includes(provider)).length,
+      })),
+      capabilities: (() => {
+        const counts = new Map<string, number>();
+        for (const model of source) {
+          for (const capability of model.capabilities) {
+            counts.set(capability, (counts.get(capability) ?? 0) + 1);
+          }
+        }
+        return [...counts.entries()]
+          .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+          .map(([value, count]) => ({ value, count }));
+      })(),
+      verified: source.filter((model) => model.availability === 'verified').length,
+      unverified: source.filter((model) => model.availability === 'readme-only').length,
+    }),
+    [source],
+  );
 
   const patch = (next: Partial<ModelFilters>) => {
     setFilters((current) => ({ ...current, ...next }));
@@ -99,28 +125,29 @@ export function ModelsPage() {
             <ShieldCheck size={13} aria-hidden="true" />
             Verified catalog
           </p>
-          <h1 className="page-header__title">Machine-verified models</h1>
+          <h1 className="page-header__title">AI model catalog</h1>
           <p className="page-header__subtitle">
-            {modelDataset.stats.total.toLocaleString()} models built from live provider APIs — exact
-            model ids, stated pricing, and nothing filled in. A price that is not stated shows as
-            “Not stated”; it is never shown as zero.
+            {modelDataset.stats.directoryCount.toLocaleString()} curated models, read from{' '}
+            <code>data/models.json</code> — generated at build time from the directory and the
+            OpenRouter and Groq APIs. Exact model ids and stated pricing, nothing filled in: a
+            price that is not stated shows as “Not stated”, never as zero.
           </p>
         </div>
       </header>
 
       <dl className="stat-grid" style={{ marginBottom: 'var(--space-6)' }}>
         <div className="stat">
-          <dt className="stat__label">Models</dt>
-          <dd className="stat__value">{modelDataset.stats.total.toLocaleString()}</dd>
+          <dt className="stat__label">Directory models</dt>
+          <dd className="stat__value">{modelDataset.stats.directoryCount.toLocaleString()}</dd>
         </div>
         <div className="stat">
           <dt className="stat__label">With stated price</dt>
           <dd className="stat__value">{modelDataset.stats.withPricing.toLocaleString()}</dd>
         </div>
         <div className="stat">
-          <dt className="stat__label">Provider-backed</dt>
+          <dt className="stat__label">Provider-confirmed</dt>
           <dd className="stat__value">
-            {(modelDataset.stats.total - modelDataset.stats.readmeOnly).toLocaleString()}
+            {(modelDataset.stats.directoryCount - modelDataset.stats.readmeOnly).toLocaleString()}
           </dd>
         </div>
         <div className="stat">
@@ -142,8 +169,8 @@ export function ModelsPage() {
           onChange={(value) => patch({ provider: value === 'all' ? null : (value as ProviderId) })}
           label="Provider"
           options={[
-            { value: 'all', label: 'All providers', hint: models.length },
-            ...modelFacets.providers.map((p) => ({
+            { value: 'all', label: 'All providers', hint: source.length },
+            ...scoped.providers.map((p) => ({
               value: p.id,
               label: p.label,
               hint: p.count,
@@ -156,8 +183,8 @@ export function ModelsPage() {
           onChange={(value) => patch({ capability: value === 'all' ? null : value })}
           label="Capability"
           options={[
-            { value: 'all', label: 'Any capability', hint: models.length },
-            ...modelFacets.capabilities.map((c) => ({
+            { value: 'all', label: 'Any capability', hint: source.length },
+            ...scoped.capabilities.map((c) => ({
               value: c.value,
               label: CAPABILITY_LABELS[c.value] ?? c.value,
               hint: c.count,
@@ -172,13 +199,36 @@ export function ModelsPage() {
           }
           label="Availability"
           options={[
-            { value: 'all', label: 'Any', hint: models.length },
+            { value: 'all', label: 'Any', hint: source.length },
             {
               value: 'verified',
               label: 'Provider-confirmed',
-              hint: modelDataset.stats.total - modelDataset.stats.readmeOnly,
+              hint: scoped.verified,
             },
-            { value: 'readme-only', label: 'README only', hint: modelDataset.stats.readmeOnly },
+            {
+              value: 'readme-only',
+              label: 'Not provider-confirmed',
+              hint: scoped.unverified,
+            },
+          ]}
+        />
+
+        <Select
+          value={filters.scope}
+          onChange={(value) => patch({ scope: value as ModelFilters['scope'] })}
+          label="Show"
+          options={[
+            {
+              value: 'directory',
+              label: 'Directory models',
+              hint: modelDataset.stats.directoryCount,
+            },
+            {
+              value: 'provider-only',
+              label: 'Raw provider listings',
+              hint: modelDataset.stats.providerOnlyCount,
+            },
+            { value: 'all', label: 'Everything', hint: modelDataset.stats.total },
           ]}
         />
 
@@ -296,7 +346,15 @@ export function ModelsPage() {
                     </div>
                   </dl>
 
-                  {price.raw ? <p className="model-card__raw mono">{price.raw}</p> : null}
+                  {price.raw ? (
+                    <p
+                      className="model-card__raw"
+                      title="Reproduced exactly as the source stated it; not a parsed price."
+                    >
+                      <span className="model-card__raw-label">Listed as</span>{' '}
+                      <span className="mono">{price.raw}</span>
+                    </p>
+                  ) : null}
 
                   {model.capabilities.length > 0 ? (
                     <ul className="model-card__tags">
@@ -400,10 +458,14 @@ export function ModelsPage() {
         <div>
           <p className="callout__title">Where this data comes from</p>
           <p>
-            Built at build time from the OpenRouter and Groq model APIs plus the repository README.
-            Pricing and availability change constantly — always confirm on the provider&rsquo;s own
-            documentation before you commit money. No credentials are shipped to this page: Groq
-            requires a key and you supply your own.
+            This page reads <code>data/models.json</code> — generated at build time and bundled into
+            the site, so the browser never calls a provider and no credential is ever shipped here.
+            It merges the directory with the OpenRouter and Groq model APIs.{' '}
+            {modelDataset.stats.providerOnlyCount.toLocaleString()} raw provider listings (routed
+            aliases, forks and date-pinned snapshots) are held back under{' '}
+            <strong>Show&nbsp;→&nbsp;Raw provider listings</strong> so they don&rsquo;t bury the
+            directory. Pricing and availability change constantly — confirm on the provider&rsquo;s
+            own documentation before committing money.
           </p>
         </div>
       </Callout>

@@ -39,6 +39,23 @@ export const modelFacets = {
   vendors: countBy(models, (model) => model.provider),
 };
 
+/**
+ * The curated directory: everything catalogued in the README, whether or not a
+ * provider has confirmed it.
+ *
+ * Provider APIs list hundreds of routed aliases, community uploads, forks and
+ * date-pinned snapshots. Those are genuine, but interleaving them with the
+ * directory turns the catalog into a raw API dump and buries the models people
+ * actually came for. They stay one control away, not deleted.
+ */
+export const DIRECTORY_MODELS: readonly ModelRecord[] = models.filter(
+  (model) => model.listing === 'directory',
+);
+
+export const PROVIDER_ONLY_MODELS: readonly ModelRecord[] = models.filter(
+  (model) => model.listing === 'provider-only',
+);
+
 export const CAPABILITY_LABELS: Record<string, string> = {
   tools: 'Tool calling',
   reasoning: 'Reasoning',
@@ -96,6 +113,12 @@ export interface ModelFilters {
   capability: string | null;
   /** 'all' | 'verified' | 'readme-only' */
   availability: 'all' | 'verified' | 'readme-only';
+  /**
+   * 'directory'     — curated entries only (default).
+   * 'all'           — everything the providers publish, including raw listings.
+   * 'provider-only' — only the raw provider listings.
+   */
+  scope: 'directory' | 'all' | 'provider-only';
   needsReviewOnly: boolean;
   sort: 'name-asc' | 'name-desc' | 'price-asc' | 'context-desc';
 }
@@ -105,6 +128,7 @@ export const DEFAULT_MODEL_FILTERS: ModelFilters = {
   provider: null,
   capability: null,
   availability: 'all',
+  scope: 'directory',
   needsReviewOnly: false,
   sort: 'name-asc',
 };
@@ -118,6 +142,24 @@ export const MODEL_SORT_OPTIONS = [
 
 export function tokenize(query: string): string[] {
   return query.toLowerCase().split(/\s+/).filter(Boolean);
+}
+
+/**
+ * The dataset a set of filters operates on, honouring the listing scope.
+ *
+ * `all` searches the complete catalog, which is what makes a search for a
+ * provider-only model work even though those are hidden by default. Scoping
+ * first and then filtering keeps the two concerns separate.
+ */
+export function scopeSource(filters: ModelFilters): readonly ModelRecord[] {
+  switch (filters.scope) {
+    case 'provider-only':
+      return PROVIDER_ONLY_MODELS;
+    case 'all':
+      return models;
+    default:
+      return DIRECTORY_MODELS;
+  }
 }
 
 /**
@@ -194,6 +236,7 @@ export function isDefaultModelFilters(filters: ModelFilters): boolean {
     filters.provider === null &&
     filters.capability === null &&
     filters.availability === 'all' &&
+    filters.scope === 'directory' &&
     filters.needsReviewOnly === false
   );
 }
@@ -204,6 +247,7 @@ export function activeModelFilterCount(filters: ModelFilters): number {
   if (filters.provider !== null) count += 1;
   if (filters.capability !== null) count += 1;
   if (filters.availability !== 'all') count += 1;
+  if (filters.scope !== 'directory') count += 1;
   if (filters.needsReviewOnly) count += 1;
   return count;
 }

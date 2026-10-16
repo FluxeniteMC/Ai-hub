@@ -39,6 +39,8 @@ function emptyDataset() {
       readmeOnly: 0,
       needsReview: 0,
       withPricing: 0,
+      directoryCount: 0,
+      providerOnlyCount: 0,
     },
     models: [],
     reviewQueue: [],
@@ -117,6 +119,18 @@ export function buildModelDataset(siteRoot) {
       providers: available,
       /** A model with no provider is README-only and not confirmed available. */
       availability: available.length > 0 ? 'verified' : 'readme-only',
+      /**
+       * `directory`    — part of the curated AI directory (catalogued in the
+       *                  README, optionally confirmed by a provider).
+       * `provider-only` — appeared in a provider's own API but is not a
+       *                  directory entry. A provider lists hundreds of these:
+       *                  routed aliases, forks, community uploads and
+       *                  date-pinned snapshots. They are useful for reference
+       *                  but listing them alongside the directory makes the
+       *                  catalog look like a raw API dump, so they are hidden
+       *                  unless explicitly requested.
+       */
+      listing: raw.availability?.readme?.available ? 'directory' : 'provider-only',
       modelIds,
       observedAt: raw.provenance?.[0]?.observed_at ?? null,
       confidence: raw.merge?.confidence ?? 'verified',
@@ -160,6 +174,8 @@ export function buildModelDataset(siteRoot) {
       readmeOnly: models.filter((m) => m.availability === 'readme-only').length,
       needsReview: reviewQueue.length,
       withPricing: models.filter((m) => m.pricing.inputPerMTokens !== null).length,
+      directoryCount: models.filter((m) => m.listing === 'directory').length,
+      providerOnlyCount: models.filter((m) => m.listing === 'provider-only').length,
     },
     models,
     reviewQueue,

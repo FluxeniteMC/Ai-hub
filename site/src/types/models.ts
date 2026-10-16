@@ -17,6 +17,17 @@ export interface ModelPricing {
   raw: string | null;
 }
 
+/**
+ * How a model got into the catalog.
+ *
+ * `directory`    — a curated AI directory entry, optionally confirmed by a
+ *                  provider API. This is what the site shows by default.
+ * `provider-only` — present in a provider's own API but not a directory entry.
+ *                  Routed aliases, forks, community uploads and date-pinned
+ *                  snapshots. Reference data, hidden unless asked for.
+ */
+export type ModelListing = 'directory' | 'provider-only';
+
 export interface ModelCandidate {
   id: string;
   name: string;
@@ -39,6 +50,8 @@ export interface ModelRecord {
   contextWindow: number | null;
   /** Providers that actually serve this model, in canonical order. */
   providers: ProviderId[];
+  /** Whether this is a curated directory entry or a raw provider listing. */
+  listing: ModelListing;
   /**
    * `verified`   — at least one provider confirmed it at the observed time.
    * `readme-only`— catalogued from the README with no provider confirmation.
@@ -74,6 +87,10 @@ export interface ModelDataset {
     readmeOnly: number;
     needsReview: number;
     withPricing: number;
+    /** Curated directory entries, shown by default. */
+    directoryCount: number;
+    /** Raw provider listings, hidden unless explicitly requested. */
+    providerOnlyCount: number;
   };
   models: ModelRecord[];
   reviewQueue: ModelReviewItem[];

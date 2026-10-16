@@ -2,19 +2,25 @@
 
 .models-toolbar {
   display: grid;
-  grid-template-columns: minmax(240px, 2fr) repeat(4, minmax(130px, 1fr));
+  grid-template-columns: minmax(200px, 2fr) repeat(5, minmax(112px, 1fr));
   gap: var(--space-3);
   align-items: end;
   margin-bottom: var(--space-5);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1240px) {
   .models-toolbar {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .models-toolbar > :first-child {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 800px) {
+  .models-toolbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -136,10 +142,25 @@
   overflow-wrap: anywhere;
 }
 
+/* The verbatim pricing string a source published, e.g. "Custom" or
+   "$0.02/1M tokens". Labeled so it cannot be mistaken for a parsed price. */
 .model-card__raw {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
   font-size: var(--text-xs);
   color: var(--text-muted);
   overflow-wrap: anywhere;
+}
+
+.model-card__raw-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.8;
 }
 
 .model-card__tags {
