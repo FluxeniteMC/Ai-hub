@@ -1,5 +1,6 @@
 # Generated at build time from ../../README.md — never committed.
 src/data/catalog.json
+src/data/models.json
 
 node_modules/
 dist/

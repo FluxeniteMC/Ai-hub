@@ -33,6 +33,11 @@ export function SiteFooter() {
                 </Link>
               </li>
               <li>
+                <Link className="site-footer__link" to="/models">
+                  <ShieldCheck size={12} aria-hidden="true" /> Verified model catalog
+                </Link>
+              </li>
+              <li>
                 <Link className="site-footer__link" to="/compare">
                   Compare listings
                 </Link>

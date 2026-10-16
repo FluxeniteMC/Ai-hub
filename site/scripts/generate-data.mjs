@@ -16,6 +16,7 @@ import { parseReadme } from './lib/readme-parser.mjs';
 import { validateCatalog } from './lib/validate-catalog.mjs';
 import { parseMarkdown, inlineToText } from './lib/markdown.mjs';
 import { fetchRepoStatus } from './lib/repo-status.mjs';
+import { buildModelDataset, validateModelDataset } from './lib/model-catalog.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const siteRoot = resolve(here, '..');
@@ -167,6 +168,22 @@ async function main() {
 
   mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
   writeFileSync(OUTPUT_PATH, `${JSON.stringify(catalog, null, 2)}\n`, 'utf8');
+
+  // Machine-verified provider catalog: data/models.json -> src/data/models.json.
+  // A separate dataset on purpose. A missing or malformed provider catalog must
+  // never be able to take the README catalog down with it.
+  const modelDataset = buildModelDataset(siteRoot);
+  const modelProblems = validateModelDataset(modelDataset);
+
+  if (modelProblems.length > 0) {
+    console.error("Model catalog validation failed:");
+    for (const problem of modelProblems) console.error(`  - ${problem}`);
+    process.exit(1);
+  }
+
+  const MODELS_OUTPUT_PATH = resolve(siteRoot, "src", "data", "models.json");
+  mkdirSync(dirname(MODELS_OUTPUT_PATH), { recursive: true });
+  writeFileSync(MODELS_OUTPUT_PATH, JSON.stringify(modelDataset, null, 2) + "\n", "utf8");
 
   const warningCounts = result.warnings.reduce((acc, warning) => {
     acc[warning.type] = (acc[warning.type] ?? 0) + 1;

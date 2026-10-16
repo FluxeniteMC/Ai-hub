@@ -1,7 +1,7 @@
 {
   "name": "ai-apis-directory",
-  "version": "2.0.0",
-  "description": "The most comprehensive, community-maintained list of AI APIs worldwide — daily AI-maintained, self-editing since v2.0",
+  "version": "2.1.0",
+  "description": "The most comprehensive, community-maintained list of AI APIs worldwide - daily AI-maintained, self-editing since v2.0",
   "scripts": {
     "update": "node scripts/gemini-updater.js",
     "update:daily": "UPDATE_TYPE=all node scripts/gemini-updater.js",
@@ -12,13 +12,23 @@
     "report": "REPORT_PERIOD=weekly node scripts/weekly-report.js",
     "report:daily": "REPORT_PERIOD=daily node scripts/weekly-report.js",
     "analyze": "node scripts/gemini-analyzer.js",
-    "check-format": "python3 scripts/check-format.py"
+    "check-format": "python3 scripts/check-format.py",
+    "convert": "python convert.py",
+    "fetch:openrouter": "node js/openrouter.js",
+    "fetch:groq": "node js/groq.js",
+    "catalog:build": "node js/build-models.js",
+    "catalog:refresh": "npm run convert && npm run fetch:openrouter && npm run fetch:groq && npm run catalog:build",
+    "test:catalog": "node --test tests/*.test.js",
+    "test:python": "python -m unittest discover -s tests -p \"test_*.py\"",
+    "test": "npm run test:catalog && npm run test:python",
+    "agent": "node scripts/gemini-coding-agent.js",
+    "agent:inspect": "node scripts/gemini-coding-agent.js --inspect"
   },
   "dependencies": {
     "@google/genai": "^1.30.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19"
   },
   "license": "MIT",
   "repository": {

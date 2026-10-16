@@ -9,6 +9,7 @@ import { cx } from '../../lib/format';
 const NAV_ITEMS = [
   { to: '/', label: 'Home', end: true },
   { to: '/explore', label: 'Explore' },
+  { to: '/models', label: 'Models' },
   { to: '/compare', label: 'Compare' },
   { to: '/docs', label: 'Docs' },
   { to: '/updates', label: 'Updates' },

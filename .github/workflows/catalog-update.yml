@@ -1,0 +1,375 @@
+# 🤖 Daily Catalog Update (OpenRouter + Groq + README)
+#
+# Refreshes the machine-readable model catalogs once a day and submits every
+# real change through a dedicated pull request.
+#
+# ── Schedule ───────────────────────────────────────────────────────────────
+# `41 17 * * *` is 23:41 UTC on the previous day = 05:41 (+06:00) Bangladesh
+# time. GitHub Actions cron is always UTC, so the local-time target has to be
+# converted. Off-the-hour on purpose: scheduled runs are delayed by minutes to
+# hours on busy repositories, and the repository's own busiest hour is the worst
+# time to compete for capacity. The refresh is a daily background job, not a
+# user-facing one, so a short delay costs nothing.
+#
+# ── Hard rules ─────────────────────────────────────────────────────────────
+#   * Catalog data NEVER goes straight to `main`. It is pushed to
+#     `automation/catalog-update` and raised as a pull request.
+#   * The pull request is NEVER auto-merged.
+#   * If generation produces no change, no branch push and no pull request.
+#   * If validation fails, the last valid catalog is preserved and nothing
+#     invalid is published.
+#
+# ── Required secrets ───────────────────────────────────────────────────────
+#   GITHUB_TOKEN   automatic; sufficient for this workflow.
+#   GROQ_API_KEY   optional. Without it the Groq fetch is skipped and the last
+#                  known good `data/groq.json` is reused. Add it at
+#                  Settings → Secrets → Actions → New repository secret.
+#
+# ── Permissions ────────────────────────────────────────────────────────────
+#   contents: write, pull-requests: write — both required to push the catalog
+#   branch and open/update the pull request. Scoped to this workflow only.
+
+name: 🤖 Daily Catalog Update
+
+on:
+  schedule:
+    # 17:41 UTC = 23:41 UTC-prev-day == 05:41 (+06:00). See note above.
+    - cron: "41 17 * * *"
+  workflow_dispatch:
+    inputs:
+      open_pr:
+        description: "Open or update the catalog pull request"
+        type: boolean
+        default: true
+      force_branch:
+        description: "Recreate the catalog branch from the base branch first"
+        type: boolean
+        default: false
+
+# No pull_request trigger: this workflow holds write credentials, and running it
+# against untrusted fork code would expose them.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: catalog-update
+  cancel-in-progress: false
+
+env:
+  CATALOG_BRANCH: automation/catalog-update
+  BASE_BRANCH: main
+
+jobs:
+  update-catalog:
+    name: Refresh catalogs and open a pull request
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      # ── 1. Checkout the configured base branch ──────────────────────────
+      - name: Checkout base branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "22"
+
+      # The converter and provider modules use only the standard library and
+      # Node's built-in fetch, so there is nothing to install. Installing
+      # dependencies here would add supply-chain surface for no benefit.
+      - name: Show toolchain versions
+        run: |
+          echo "python: $(python --version 2>&1)"
+          echo "node:   $(node --version)"
+
+      - name: Create summary header
+        id: summary
+        run: |
+          {
+            echo "### 🤖 Daily Catalog Update"
+            echo ""
+            echo "- **Base branch**: \`${{ env.BASE_BRANCH }}\`"
+            echo "- **Catalog branch**: \`${{ env.CATALOG_BRANCH }}\`"
+            echo "- **Run type**: ${{ github.event_name }}"
+            echo "- **Started**: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ── 2. README -> data/readme-models.json ────────────────────────────
+      - name: Convert README catalog
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT="$(git rev-parse HEAD)" python convert.py
+
+      # ── 3. Provider catalogs ────────────────────────────────────────────
+      - name: Fetch OpenRouter catalog
+        run: node js/openrouter.js
+
+      # Groq needs a key. Without one the module reports "skipped" and the last
+      # known good data/groq.json is reused; it never writes an empty catalog.
+      - name: Fetch Groq catalog
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          if [ -z "${GROQ_API_KEY:-}" ]; then
+            echo "::notice title=Groq skipped::GROQ_API_KEY is not configured; reusing the last known good catalog."
+            node js/groq.js
+          else
+            node js/groq.js
+          fi
+
+      # ── 4. Unified catalog ───────────────────────────────────────────────
+      - name: Build unified catalog
+        run: node js/build-models.js
+
+      - name: Validate generated JSON
+        run: |
+          set -euo pipefail
+          for file in data/readme-models.json data/openrouter.json data/models.json; do
+            [ -f "$file" ] || { echo "::error::expected $file to exist"; exit 1; }
+            python -c "import json,sys; json.load(open(sys.argv[1], encoding='utf-8'))" "$file"
+            echo "valid: $file"
+          done
+          # groq.json is optional: it only exists once a key has been used.
+          if [ -f data/groq.json ]; then
+            python -c "import json,sys; json.load(open(sys.argv[1], encoding='utf-8'))" data/groq.json
+            echo "valid: data/groq.json"
+          else
+            echo "::notice::data/groq.json absent (no key configured yet)"
+          fi
+
+      - name: Catalog health report
+        run: |
+          set -euo pipefail
+          python - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import json
+          data = json.load(open("data/models.json", encoding="utf-8"))
+          diag = data.get("diagnostics", {})
+          queue = data.get("review_queue", [])
+          print("")
+          print("#### Catalog")
+          print(f"- Total models: **{data['count']}**")
+          print(f"- From README: {diag.get('readme', 0)}")
+          print(f"- From OpenRouter: {diag.get('openrouter', 0)}")
+          print(f"- From Groq: {diag.get('groq', 0)}")
+          print(f"- Merged across sources: {diag.get('merged', 0)}")
+          print(f"- README-only: {diag.get('readme_only', 0)}")
+          print(f"- Awaiting review: {diag.get('review_required', 0)}")
+          for name, info in (diag.get("sources") or {}).items():
+              mark = "⚠️" if info.get("status") not in ("ok",) else "✅"
+              print(f"  - {mark} {name}: {info.get('status')} ({info.get('count', 0)} models)")
+          if queue:
+              print("")
+              print(f"<details><summary>Review queue ({len(queue)})</summary>")
+              print("")
+              print("| README entry | Possible provider match |")
+              print("|---|---|")
+              for item in queue[:25]:
+                  names = ", ".join(c["name"] for c in item.get("candidates", []))
+                  print(f"| {item['name']} | {names} |")
+              print("")
+              print("</details>")
+          PY
+
+      # ── 5. Tests ────────────────────────────────────────────────────────
+      - name: Python tests
+        run: python -m unittest discover -s tests -p "test_*.py"
+
+      - name: JavaScript tests
+        run: node --test tests/*.test.js
+
+      # The frontend build verifies the site still compiles against the new
+      # data. It needs its own dependencies, installed here rather than at the
+      # repository root to keep the two toolchains independent.
+      - name: Frontend build check
+        working-directory: site
+        run: |
+          set -euo pipefail
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund;
+          else npm install --no-audit --no-fund; fi
+          npm run build
+
+      # ── 6. Review the diff ──────────────────────────────────────────────
+      - name: Inspect generated changes
+        id: diff
+        run: |
+          set -euo pipefail
+          echo "### Changed files" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if git diff --quiet -- data/; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No catalog data changed." >> "$GITHUB_STEP_SUMMARY"
+            echo "::notice::Catalog data is unchanged; skipping the commit and pull request."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- data/ | tee -a "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Verify nothing outside data/ was modified
+        run: |
+          set -euo pipefail
+          # convert.py and the providers must only ever write into data/.
+          # Anything else means a script has strayed outside its sandbox.
+          if git diff --name-only | grep -v '^data/' | grep -q .; then
+            echo "::error::changes appeared outside data/:"
+            git diff --name-only | grep -v '^data/'
+            exit 1
+          fi
+          echo "All changes are confined to data/."
+
+      # ── 7. Publish to the catalog branch ────────────────────────────────
+      - name: Push catalog branch
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin "$CATALOG_BRANCH" >/dev/null 2>&1; then
+            git fetch origin "$CATALOG_BRANCH"
+            git checkout -B "$CATALOG_BRANCH" "origin/$CATALOG_BRANCH"
+          elif [ "${{ inputs.force_branch }}" = "true" ]; then
+            git checkout -B "$CATALOG_BRANCH"
+          else
+            git checkout -B "$CATALOG_BRANCH"
+          fi
+
+          git add data/
+          git commit -m "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))"
+          # Never force-push. A non-fast-forward means someone edited the branch;
+          # stop and let a human resolve it.
+          git push origin "$CATALOG_BRANCH"
+
+      # ── 8. Pull request ─────────────────────────────────────────────────
+      - name: Create or update the catalog pull request
+        if: steps.diff.outputs.changed == 'true' && inputs.open_pr != false
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          BODY="$(mktemp)"
+
+          {
+            echo "## 🤖 Automated catalog refresh"
+            echo ""
+            echo "Generated by \`catalog-update.yml\`. **Do not merge automatically** — a human must review the diff."
+            echo ""
+            echo "### What changed"
+            echo ""
+            echo '```'
+            git diff --stat "$BASE_BRANCH..."HEAD -- data/ || true
+            echo '```'
+            echo ""
+            echo "### Provider refresh results"
+            echo ""
+            echo "| Source | Status | Models | Observed at |"
+            echo "|---|---|---|---|"
+          } > "$BODY"
+
+          python - "$BASE_BRANCH" >> "$BODY" <<'PY'
+          import json, subprocess, sys
+          base = sys.argv[1]
+          head = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True).stdout.strip()
+          for path, label in (
+              ("data/readme-models.json", "README"),
+              ("data/openrouter.json", "OpenRouter"),
+              ("data/groq.json", "Groq"),
+              ("data/models.json", "Unified"),
+          ):
+              try:
+                  blob = subprocess.run(
+                      ["git", "show", f"{head}:{path}"], capture_output=True, text=True, check=True
+                  ).stdout
+                  payload = json.loads(blob)
+              except Exception:
+                  continue
+              src = payload.get("source", {})
+              print(f"| {label} | {src.get('status')} | {payload.get('count')} | {src.get('observed_at')} |")
+          PY
+
+          {
+            echo ""
+            echo "### Validation"
+            echo ""
+            echo "- ✅ \`convert.py\` completed (exit 0)"
+            echo "- ✅ All generated files parse as JSON"
+            echo "- ✅ Python tests (unittest) passed"
+            echo "- ✅ JavaScript tests (node --test) passed"
+            echo "- ✅ Frontend production build succeeded"
+            echo ""
+            echo "### Limitations"
+            echo ""
+            echo "- Pricing is only recorded where a source states both an input and an output rate. A single figure is kept as text."
+            echo "- A missing price is \`null\`, never \`0\`. Groq publishes no pricing on \`/models\`, so its entries are always \`null\`."
+            echo "- README entries that cannot be matched to a provider model by identity stay separate and are listed in \`review_queue\`."
+            echo "- Distinct versions, quantisations, fine-tunes and variants are never merged."
+            echo ""
+            echo "### How to review"
+            echo ""
+            echo "\`\`\`bash"
+            echo "git fetch origin $CATALOG_BRANCH"
+            echo "git diff $BASE_BRANCH...origin/$CATALOG_BRANCH -- data/"
+            echo "\`\`\`"
+          } >> "$BODY"
+
+          EXISTING="$(gh pr list --base "$BASE_BRANCH" --head "$CATALOG_BRANCH" --state open --json number --jq '.[0].number // empty')"
+
+          if [ -n "$EXISTING" ]; then
+            echo "Updating pull request #$EXISTING"
+            gh pr edit "$EXISTING" --title "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))" --body-file "$BODY"
+            {
+              echo ""
+              echo "- **Pull request**: updated #$EXISTING"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            gh pr create \
+              --base "$BASE_BRANCH" \
+              --head "$CATALOG_BRANCH" \
+              --title "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))" \
+              --body-file "$BODY" \
+              --label "automated"
+            LINK="$(gh pr view "$CATALOG_BRANCH" --json url --jq .url 2>/dev/null || echo "")"
+            {
+              echo ""
+              echo "- **Pull request**: ${LINK:-created}"
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          rm -f "$BODY"
+
+      # ── 9. Summary ─────────────────────────────────────────────────────
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo ""
+            echo "### Result"
+            echo ""
+            if [ "${{ steps.diff.outputs.changed }}" = "true" ]; then
+              echo "Catalog data changed; see the pull request above."
+            else
+              echo "No catalog data changed — nothing was committed and no pull request was created."
+            fi
+            echo ""
+            echo "<sub>Never merged automatically. Review required.</sub>"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload catalogs on failure
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: catalog-diagnostics
+          path: |
+            data/*.json
+          retention-days: 14
+          if-no-files-found: ignore
