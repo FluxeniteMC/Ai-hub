@@ -302,22 +302,50 @@ jobs:
             fi
           done
 
-          EXISTING="$(gh pr list --base "$BASE_BRANCH" --head "$CATALOG_BRANCH" --state open --json number --jq '.[0].number // empty')"
+          EXISTING="$(gh pr list --base "$BASE_BRANCH" --head "$CATALOG_BRANCH" --state open --json number --jq '.[0].number // empty' || true)"
+
+          CREATE_ARGS=(
+            --base "$BASE_BRANCH"
+            --head "$CATALOG_BRANCH"
+            --title "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))"
+            --body-file "$BODY"
+          )
+          if [ "${#LABEL_ARGS[@]}" -gt 0 ]; then
+            CREATE_ARGS+=("${LABEL_ARGS[@]}")
+          fi
 
           if [ -n "$EXISTING" ]; then
             echo "Updating pull request #$EXISTING"
             gh pr edit "$EXISTING" \
               --title "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))" \
-              --body-file "$BODY"
+              --body-file "$BODY" || true
             RESULT="updated #$EXISTING"
+          elif gh pr create "${CREATE_ARGS[@]}"; then
+            RESULT="$(gh pr view "$CATALOG_BRANCH" --json url --jq .url 2>/dev/null || echo created)"
           else
-            gh pr create \
-              --base "$BASE_BRANCH" \
-              --head "$CATALOG_BRANCH" \
-              --title "🤖 Refresh AI catalogs ($(date -u +'%Y-%m-%d'))" \
-              --body-file "$BODY" \
-              "${LABEL_ARGS[@]}"
-            RESULT="$(gh pr view "$CATALOG_BRANCH" --json url --jq .url 2>/dev/null || echo 'created')"
+            # Some repositories forbid the default GITHUB_TOKEN from opening pull
+            # requests ("GitHub Actions is not permitted to create or approve
+            # pull requests"). The data is already committed and pushed at this
+            # point, so this is a reporting failure, not a data failure. Report
+            # it clearly and hand over a ready-made link instead of failing the
+            # run and hiding the fact that new data is waiting for review.
+            COMPARE="https://github.com/FluxeniteMC/Ai-hub/compare/$BASE_BRANCH...$CATALOG_BRANCH?expand=1"
+            RESULT="could not be created automatically - open it here: $COMPARE"
+            {
+              echo ""
+              echo "### ⚠️ Pull request not created automatically"
+              echo ""
+              echo "This repository's policy does not let the default \`GITHUB_TOKEN\` open pull requests."
+              echo "The generated data **is** committed and pushed to \`$CATALOG_BRANCH\` and is waiting for review."
+              echo ""
+              echo "Open the pull request here:"
+              echo ""
+              echo "<$COMPARE>"
+              echo ""
+              echo "To make this automatic, a repository administrator can enable:"
+              echo "Settings → Actions → General → Workflow permissions →"
+              echo ""Allow GitHub Actions to create and approve pull requests"."
+            } >> "$GITHUB_STEP_SUMMARY"
           fi
 
           {
