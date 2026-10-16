@@ -127,6 +127,69 @@ test("gemini-retry rethrows the last error once the schedule is exhausted", asyn
   assert.equal(calls, 3, "every scheduled attempt should be used");
 });
 
+test("gemini-retry falls back to another model when one is unavailable", async () => {
+  const { generateWithFallback } = require(path.join(SCRIPTS, "lib", "gemini-retry.js"));
+  const tried = [];
+  const { text, model } = await generateWithFallback(
+    async (m) => {
+      tried.push(m);
+      if (m === "gemini-broken") {
+        const err = new Error("high demand");
+        err.error = { code: 503, status: "UNAVAILABLE" };
+        throw err;
+      }
+      return { text: "ok" };
+    },
+    { model: "gemini-broken", fallbacks: ["gemini-works"], delaysMs: [0, 0, 0] }
+  );
+  assert.equal(text, "ok");
+  assert.equal(model, "gemini-works");
+  assert.equal(tried[0], "gemini-broken", "the configured model is tried first");
+  assert.equal(tried[tried.length - 1], "gemini-works", "the request lands on the fallback");
+  assert.ok(
+    new Set(tried).size === 2 && tried.indexOf("gemini-works") === 3,
+    `expected 3 attempts on the broken model before switching, saw ${JSON.stringify(tried)}`
+  );
+});
+
+test("gemini-retry does not change models for a non-transient error", async () => {
+  const { generateWithFallback } = require(path.join(SCRIPTS, "lib", "gemini-retry.js"));
+  const tried = [];
+  await assert.rejects(
+    generateWithFallback(
+      async (m) => {
+        tried.push(m);
+        const err = new Error("bad key");
+        err.status = 401;
+        throw err;
+      },
+      { model: "gemini-a", fallbacks: ["gemini-b"], delaysMs: [0, 0, 0] }
+    ),
+    /bad key/
+  );
+  assert.deepEqual(tried, ["gemini-a"], "a 401 must not be retried against other models");
+});
+
+test("gemini-retry fallback list is configurable and has a sane default", () => {
+  const { fallbackModels } = require(path.join(SCRIPTS, "lib", "gemini-retry.js"));
+
+  const saved = process.env.GEMINI_MODEL_FALLBACKS;
+  try {
+    delete process.env.GEMINI_MODEL_FALLBACKS;
+    const fallback = fallbackModels();
+    assert.ok(fallback.length >= 1, "a default fallback must exist");
+    for (const name of fallback) {
+      assert.match(name, /^gemini-/, `unexpected fallback model "${name}"`);
+    }
+
+    process.env.GEMINI_MODEL_FALLBACKS = " a-model , b-model ";
+    assert.deepEqual(fallbackModels(), ["a-model", "b-model"]);
+  } finally {
+    if (saved === undefined) delete process.env.GEMINI_MODEL_FALLBACKS;
+    else process.env.GEMINI_MODEL_FALLBACKS = saved;
+  }
+});
+
 test("every Gemini call site goes through the retry helper", () => {
   // A bare generateContent call would still die on a transient 503.
   for (const name of scriptNames()) {
@@ -134,8 +197,8 @@ test("every Gemini call site goes through the retry helper", () => {
     if (!/generateContent/.test(source)) continue;
     assert.match(
       source,
-      /withRetry\(/,
-      `${name} calls generateContent directly; wrap it in withRetry()`
+      /withRetry\(|generateWithFallback\(/,
+      `${name} calls generateContent directly; wrap it in the retry helper`
     );
   }
 });

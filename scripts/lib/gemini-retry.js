@@ -88,4 +88,73 @@ async function withRetry(fn, { label = "Gemini call", delaysMs = DELAYS_MS } = {
   throw lastError;
 }
 
-module.exports = { withRetry, isRetryable, statusOf, RETRYABLE_CODES, DELAYS_MS };
+/**
+ * Call Gemini, falling back through alternative models when one is unavailable.
+ *
+ * A model returning a sustained 503 is a capacity or rollout problem for that
+ * model specifically. Retrying the same name four times does not help — the
+ * daily report died this way on `gemini-3-flash-preview`. Moving to the next
+ * candidate answers the request instead of losing the run.
+ *
+ * A non-transient error (a 400 from a malformed prompt, a 401 from a bad key)
+ * is rethrown immediately: trying another model would not fix it, and would
+ * burn quota doing so.
+ *
+ * @param {(model: string) => Promise<any>} call receives a model name
+ * @param {{ model: string, fallbacks?: string[], label?: string }} options
+ * @returns {Promise<{ text: string, model: string }>}
+ */
+async function generateWithFallback(
+  call,
+  { model, fallbacks = [], label = "Gemini call", delaysMs }
+) {
+  const candidates = [model, ...fallbacks].filter(Boolean);
+  let lastError;
+
+  for (let index = 0; index < candidates.length; index++) {
+    const candidate = candidates[index];
+    try {
+      const response = await withRetry(() => call(candidate), {
+        label: `${label} [${candidate}]`,
+        ...(delaysMs ? { delaysMs } : {}),
+      });
+      if (index > 0) {
+        console.log(`✅ ${candidate} accepted the request after ${candidates[index - 1]} failed.`);
+      }
+      return { text: response?.text, model: candidate };
+    } catch (error) {
+      lastError = error;
+      const isLast = index === candidates.length - 1;
+      if (isLast || !isRetryable(error)) throw error;
+      console.warn(
+        `⚠️  ${label}: model "${candidate}" is unavailable ` +
+          `(${statusOf(error) ?? error?.message ?? "network error"}) — trying "${candidates[index + 1]}".`
+      );
+    }
+  }
+
+  throw lastError;
+}
+
+/**
+ * Default fallback models, overridable with GEMINI_MODEL_FALLBACKS
+ * (comma-separated). Ordered most-preferred first.
+ */
+function fallbackModels() {
+  const configured = process.env.GEMINI_MODEL_FALLBACKS;
+  const list = (configured ?? "gemini-2.5-flash,gemini-2.0-flash")
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean);
+  return list;
+}
+
+module.exports = {
+  withRetry,
+  isRetryable,
+  statusOf,
+  generateWithFallback,
+  fallbackModels,
+  RETRYABLE_CODES,
+  DELAYS_MS,
+};

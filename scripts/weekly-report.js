@@ -24,7 +24,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { withRetry } = require("./lib/gemini-retry");
+const { generateWithFallback, fallbackModels } = require("./lib/gemini-retry");
 
 const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 
@@ -99,15 +99,18 @@ Keep it under 1000 words.
 Start with: # 📊 ${REPORT_PERIOD === "weekly" ? "Weekly" : "Daily"} AI API Report — ${weekStr}`;
 
   console.log(`📊 Generating ${REPORT_PERIOD} report with Gemini...`);
-  const result = await withRetry(
-    () =>
+  const { text: report } = await generateWithFallback(
+    (model) =>
       getClient().models.generateContent({
-        model: MODEL_NAME,
+        model,
         contents: prompt,
       }),
-    { label: `generate ${REPORT_PERIOD} report` }
+    {
+      model: MODEL_NAME,
+      fallbacks: fallbackModels(),
+      label: `generate ${REPORT_PERIOD} report`,
+    }
   );
-  const report = result.text;
 
   const reportsDir = path.join(process.cwd(), "reports");
   if (!fs.existsSync(reportsDir)) fs.mkdirSync(reportsDir, { recursive: true });
