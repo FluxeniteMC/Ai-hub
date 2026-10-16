@@ -381,64 +381,52 @@ Let's get into it. 👇
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| GPT-7 Zenith | OpenAI | 2M | Current state-of-the-art; multimodal native reasoning | 💰 $8.00/$24.00 per 1M |
-| Claude 6.5 Opus | Anthropic | 1M | Exceptional nuances, coding, and artifact generation | 💰 $6.00/$18.00 per 1M |
-| Gemini 6 Ultra | Google | 4M | Massive context window, deep integration with Google Workspace | 💰 $5.00/$15.00 per 1M |
-| Llama 5.0 405B | Meta | 512K | The leading open-weights model; frontier-level logic | 💰 $2.00/$6.00 per 1M |
-| GPT-6 Astra | OpenAI | 1M | Previous flagship tool use + reasoning, now more accessible | 💰 $4.00/$12.00 per 1M |
-| Claude Fable 5.1 | Anthropic | 500K | Long-horizon agentic reasoning (previous generation) | 💰 $3.50/$10.00 per 1M |
-| Claude Opus 5.5 | Anthropic | 500K | Top Anthropic general quality (mid-tier frontier) | 💰 $2.50/$7.50 per 1M |
-| Grok 4.7 | xAI | 500K | Real-time grounding + image output (previous generation) | 💰 $1.00/$3.00 per 1M |
-| Gemini 4 Argon | Google | 2M | Google flagship multimodal (previous generation) | 💰 $1.20/$4.50 per 1M |
-| GPT-6.1 Sol | OpenAI | 1M | Highly capable near-flagship, now even better value | 💰 $1.00/$4.00 per 1M |
+| GPT-6 Astra | OpenAI | — | Previous flagship tool use + reasoning, now more accessible | 💰 $6.00/$30.00 per 1M |
+| Claude Fable 5.1 | Anthropic | — | Long-horizon agentic reasoning (previous generation) | 💰 $5.00/$25.00 per 1M |
+| Claude Opus 5.5 | Anthropic | — | Top Anthropic general quality (mid-tier frontier) | 💰 $3.00/$15.00 per 1M |
+| Grok 4.7 | xAI | 500K | Real-time grounding + image output (previous generation) | 💰 $1.50/$4.50 per 1M |
+| Gemini 4 Argon | Google | — | Google flagship multimodal (previous generation) | 💰 $1.80/$9.00 per 1M |
+| GPT-6.1 Sol | OpenAI | — | Highly capable near-flagship, now even better value | 💰 $1.50/$7.50 per 1M |
 
 **Fast & Efficient**
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| GPT-7 Spark | OpenAI | 128K | The new standard for price/performance; o1-level speed | 💸 $0.15/$0.60 per 1M |
-| Claude 7.0 Haiku | Anthropic | 256K | Unbeatable latency, high-fidelity instruction following | 💸 $0.10/$0.40 per 1M |
-| Gemini 6 Flash | Google | 1M | Massive context for fast analysis, sub-second TTFT | 🆓 Free / $0.20/$0.60 per 1M |
-| Claude Haiku 6.0 | Anthropic | 200K+ | Blazing fast, excellent for high-throughput, retains strong safety | 💸 $0.08/$0.30 per 1M |
-| Gemini 5 Flash | Google | 1M | Fast, multimodal, great free tier for developers | 🆓 Free / $0.10/$0.40 per 1M |
-| Mistral Small 5 | Mistral | 200K | Highly optimized for speed, strong reasoning for its size, European | 💸 $0.12/$0.40 per 1M |
-| Llama 4.0 70B (Groq) | Meta/Groq | 256K | Unmatched inference speed, strong community support, good free tier | 🆓 Free / $0.30 per 1M |
-| GPT-6 Luna | OpenAI | 128K | Dirt-cheap high-volume workhorse (previous generation) | 💸 $0.05/$0.20 per 1M |
-| Claude Haiku 5.5 | Anthropic | 100K+ | Fastest Claude, great for pipelines (previous generation) | 💸 $0.06/$0.25 per 1M |
-| Gemini 3.8 Flash | Google | 1M | Fast, multimodal, free tier (legacy) | 🆓 Free (limited) |
-| Mistral Small 4 | Mistral | 128K | European, ultra-cheap, reliable (previous generation) | 💸 $0.08/$0.30 per 1M |
+| Claude Haiku 6.0 | Anthropic | 200K+ | Blazing fast, excellent for high-throughput, retains strong safety | 💸 $0.12/$0.60 per 1M |
+| Gemini 5 Flash | Google | — | Fast, multimodal, great free tier for developers | 🆓 Free / $0.80/$4.00 per 1M |
+| Mistral Small 5 | Mistral | 200K | Highly optimized for speed, strong reasoning for its size, European | 💸 $0.18/$0.72 per 1M |
+| Llama 4.0 70B (Groq) | Meta/Groq | 256K | Unmatched inference speed, strong community support, good free tier | 🆓 Free |
+| GPT-6 Luna | OpenAI | — | Dirt-cheap high-volume workhorse (previous generation) | 💸 $0.08/$0.40 per 1M |
+| Claude Haiku 5.5 | Anthropic | 100K+ | Fastest Claude, great for pipelines (previous generation) | 💸 $0.09/$0.45 per 1M |
+| Gemini 3.8 Flash | Google | — | Fast, multimodal, free tier (legacy) | 🆓 Free (limited) |
+| Mistral Small 4 | Mistral | — | European, ultra-cheap, reliable (previous generation) | 💸 $0.12/$0.48 per 1M |
 | Llama 3.3 70B (Groq) | Meta/Groq | 128K | Free tier, insanely fast (previous generation) | 🆓 Free |
 
 **Ultra Cheap**
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| DeepSeek V6-Lite | DeepSeek | 256K | New efficiency king; optimized for high-volume summarization | 💸 $0.04/$0.12 per 1M |
-| Mistral Nano 6 | Mistral | 64K | Smallest footprint, near-zero cost for simple tasks | 💸 $0.03/$0.09 per 1M |
-| DeepSeek V5-Flash (off-peak) | DeepSeek | 200K | Aggressive off-peak discounts (00–10 & 12–01 UTC), solid performance | 💸 $0.08/$0.24 per 1M |
-| Mistral Tiny 5 | Mistral | 32K | Smallest, fastest, and most affordable Mistral model | 💸 $0.05/$0.20 per 1M |
-| Google Gemma 3.0 (free) | Google | 128K | Open-source, excellent for local deployment or free tier API access | 🆓 Free |
-| DeepSeek V4.1-Flash (off-peak) | DeepSeek | 128K | 50% off-peak discount (00–10 & 12–01 UTC) (previous generation) | 💸 $0.06/$0.18 per 1M |
-| GPT-6 Luna | OpenAI | 128K | Cheapest frontier-family model (previous generation) | 💸 $0.05/$0.20 per 1M |
-| Mistral Small 4 | Mistral | 128K | Apache roots, extremely cheap (previous generation) | 💸 $0.08/$0.30 per 1M |
-| Gemini 5 Flash (free) | Google | 1M | Literally free (latest flash model free tier) | 🆓 Free |
-| Groq (free tier) | Groq | 256K | Free + fastest inference (powered by Llama 5.0) | 🆓 Free |
+| DeepSeek V5-Flash (off-peak) | DeepSeek | 200K | Aggressive off-peak discounts (00–10 & 12–01 UTC), solid performance | 💸 $0.12/$0.48 per 1M |
+| Mistral Tiny 5 | Mistral | 32K | Smallest, fastest, and most affordable Mistral model | 💸 $0.08/$0.32 per 1M |
+| Google Gemma 2.0 (free) | Google | 128K | Open-source, excellent for local deployment or free tier API access | 🆓 Free |
+| DeepSeek V4.1-Flash (off-peak) | DeepSeek | — | 50% off-peak discount (00–10 & 12–01 UTC) (previous generation) | 💸 $0.10/$0.40 per 1M |
+| GPT-6 Luna | OpenAI | — | Cheapest frontier-family model (previous generation) | 💸 $0.08/$0.40 per 1M |
+| Mistral Small 4 | Mistral | — | Apache roots, extremely cheap (previous generation) | 💸 $0.12/$0.48 per 1M |
+| Gemini 5 Flash (free) | Google | — | Literally free (latest flash model free tier) | 🆓 Free |
+| Groq (free tier) | Groq | — | Free + fastest inference (powered by Llama 4.0) | 🆓 Free |
 
 **Reasoning Specialists**
 
 | Model | Provider | Context | Notes |
 |-------|----------|---------|-------|
-| GPT-7.1 Reasoning | OpenAI | 2M | The successor to o3; native multi-step chain-of-thought with lower latency |
-| Claude 6 Thinking | Anthropic | 500K | Extended internal monologue for complex architecture and code audits |
-| DeepSeek R2 | DeepSeek | 128K | Specialized reinforcement learning model for math and competitive programming |
-| Gemini 6 Pro | Google | 2M | Robust reasoning across modalities, strong performance on benchmark tasks |
-| DeepSeek V5-Pro | DeepSeek | 200K | Strong logical reasoning, excellent for code and math, competitive pricing |
-| Llama 5.0 Instruct | Meta | 512K | Open-source leader in complex instruction following and structured output |
-| GPT-5.6 Sol | OpenAI | 1M | Deprecated — succeeded by the GPT-6/7 family |
-| Claude Fable 5.1 | Anthropic | 500K | Long-horizon reasoning & agents (previous generation) |
-| DeepSeek V4-Pro | DeepSeek | 128K | Older pro model; check V5 for latest performance |
-| o3 / o4-mini (legacy) | OpenAI | 200K | Deprecated — succeeded by the GPT-6/7 family |
-| Gemini Thinking | Google | 1M | Experimental extended thinking mode (now integrated into Gemini 6 Pro) |
+| Gemini 5 Pro | Google | — | Robust reasoning across modalities, strong performance on benchmark tasks |
+| DeepSeek V5-Pro | DeepSeek | — | Strong logical reasoning, excellent for code and math, competitive pricing |
+| Llama 4.0 Instruct | Meta | 256K | Open-source leader in complex instruction following and structured output |
+| GPT-5.6 Sol | OpenAI | — | Deprecated — succeeded by the GPT-6/7 family |
+| Claude Fable 5.1 | Anthropic | — | Long-horizon reasoning & agents (previous generation) |
+| DeepSeek V4-Pro | DeepSeek | — | Older pro model; check V5 for latest performance |
+| o3 / o4-mini (legacy) | OpenAI | 200K | Deprecated — succeeded by the GPT-6/5.6 family |
+| Gemini Thinking | Google | — | Experimental extended thinking mode (potentially integrated into Gemini 5 Pro) |
 | QwQ-32B | Alibaba | 32K | Open source reasoning model (stable) |
 | Llama 3.1 (instruct) | Meta | 128K | Long reasoning chains with proper prompting (previous generation) |
 
@@ -1422,7 +1410,7 @@ The short version:
 4. 🧾 Never present a guess as a fact; never invent benchmarks, context windows, or compatibility claims.
 5. 🔒 A safety gate rejects any rewrite that introduces a row, so fabricated models cannot enter the catalog.
 
-> **Why:** an earlier version told the updater to "add the latest flagship APIs missing from the table". That produced invented entries — *GPT-7 Astra, Claude Fable 6.0, Gemini 5 Ultra, Grok 6.0* — which had to be deleted again by hand.
+> **Why:** an earlier version told the updater to "add the latest flagship APIs missing from the table". That produced invented entries — *GPT-7 Astra, Claude Fable 6.0, Gemini 5 Ultra, Grok 6.0*, and later *GPT-7 Zenith, Claude 6.5 Opus, Gemini 6 Ultra, GPT-7 Spark, Claude 7.0 Haiku* — all of which had to be deleted again by hand.
 
 Anything the bot *thinks* is missing goes to `data/new-apis-*.json` for a human to verify. Adding an API is a pull request, never an automated step.
 
@@ -1518,7 +1506,6 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 | Date | Change | Type |
 |------|--------|------|
-| 2026-10-15 | Gemini self-edited 1 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | Gemini self-edited 1 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | Gemini self-edited 4 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | 🚀 **v2.0**: daily cron, Gemini self-editing (README + data w/ safety gate + backups), refreshed pricing (GPT-6 family, Claude 5.x, Gemini 4 Argon, Grok 4.7, DeepSeek V4, Mistral 4) and added Veo 3.1, Sora 2, Kling 3.0, Hailuo 2.3, GPT Image 2.5, FLUX.2, Eleven Music, Lyria 3.5, xAI Imagine, Agents SDK/ADK/AgentKit | 🎉 v2.0 |
