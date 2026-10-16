@@ -44,12 +44,19 @@ jobs:
         run: npm install
 
       - name: Sanity-check scripts compile
-        run: node --check scripts/gemini-updater.js
+        run: |
+          node --check scripts/gemini-updater.js
+          # The updater reads instruction.md on every run; fail loudly if the
+          # ruleset is missing so it can never silently fall back to guessing.
+          test -f instruction.md
 
-      - name: Run Gemini Update Script (may self-edit README.md + data/)
+      # instruction.md is the authoritative accuracy contract: the bot may only
+      # EDIT rows a human already added, never create new ones.
+      - name: Run Gemini Update Script (edits existing rows only)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           UPDATE_TYPE: ${{ github.event.inputs.update_type || 'all' }}
+          INSTRUCTIONS_PATH: ${{ github.workspace }}/instruction.md
         run: node scripts/gemini-updater.js
 
       - name: Check for Changes

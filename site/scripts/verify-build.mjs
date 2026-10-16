@@ -169,6 +169,7 @@ if (html) {
   check(/name="twitter:card"/.test(html), 'index.html has no Twitter card tag');
   check(/<noscript>/.test(html), 'index.html has no <noscript> fallback');
   check(/id="boot"/.test(html), 'index.html has no pre-hydration shell');
+  check(/aihub:boot-retry/.test(html), 'index.html has no boot self-heal retry guard');
 
   const ld = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
   if (!ld) {

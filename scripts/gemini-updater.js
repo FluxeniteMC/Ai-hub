@@ -24,6 +24,8 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const UPDATE_TYPE = process.env.UPDATE_TYPE || "all";
 const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
 const ROOT = process.cwd();
+// The authoritative ruleset every automated README edit must obey.
+const INSTRUCTIONS_PATH = process.env.INSTRUCTIONS_PATH || path.join(ROOT, "instruction.md");
 
 if (!GEMINI_API_KEY) {
   console.error(
@@ -173,8 +175,26 @@ const TABLE_TARGETS = [
   { key: "audio_speech", heading: /^### 🎙 Audio & Speech/m },
 ];
 
+async function loadInstructions() {
+  // instruction.md is the authoritative contract for automated edits. It is read
+  // on every run so changing that file alone changes the bot's behaviour.
+  try {
+    const text = await fs.readFile(INSTRUCTIONS_PATH, "utf8");
+    return (
+      "===== BEGIN instruction.md (authoritative) =====\n" +
+      text.trim() +
+      "\n===== END instruction.md =====\n"
+    );
+  } catch {
+    return (
+      "CRITICAL RULE: Never add a new row, model, API or vendor to any table. " +
+      "Only edit rows that already exist.\n"
+    );
+  }
+}
+
 async function selfEditTables() {
-  console.log("🧬 v2.0 self-edit: Gemini is now allowed to modify README.md tables...");
+  console.log("🛡️  Self-edit: Gemini may only EDIT existing rows in README.md tables...");
 
   let readme = await loadReadme();
   const applied = [];
@@ -191,15 +211,20 @@ async function selfEditTables() {
       continue;
     }
 
-    const prompt = `You are an AI API directory maintainer with knowledge of the latest pricing (as of ${new Date().toISOString().split("T")[0]}).
+    const prompt = `${await loadInstructions()}
 
-Below is one markdown section from README.md listing AI APIs. Rewrite ONLY this section with these rules:
-1. Update obviously outdated prices to the latest known ones (format: $X.XX/1M or per unit).
-2. Add the latest flagship/hot APIs/models missing from the table (append rows at the top of the table body).
-3. Keep the EXACT same table header row and column meanings.
-4. Do NOT remove existing rows unless the API is officially dead; if unsure keep them.
-5. Keep style identical: same emoji style, same "Notes" tone, no code fences.
-6. Return the complete rewritten markdown section only — no explanations, no \`\`\` fences.
+You are an AI API directory maintainer with knowledge of the latest pricing (as of ${new Date().toISOString().split("T")[0]}).
+
+Below is one markdown section from README.md listing AI APIs. Rewrite ONLY this section, obeying the
+instructions above, which are absolute:
+
+1. Edit ONLY rows that already exist in the section below.
+2. You must NOT add any new row, model, API or vendor — not even ones you believe are missing.
+3. You must NOT delete a row unless its shutdown is officially confirmed.
+4. Keep the EXACT same table header row and column meanings.
+5. If you are unsure about a value, leave that row exactly as it is.
+6. Keep style identical: same emoji style, same "Notes" tone, no code fences.
+7. Return the complete rewritten markdown section only — no explanations, no code fences.
 
 ---BEGIN SECTION---
 ${section.text}
@@ -207,7 +232,12 @@ ${section.text}
 
     const result = await generateJsonLikeText(prompt);
     if (!isValidRewrittenSection(section.text, result)) {
-      console.log(`  ❌ Rejected AI rewrite for ${target.key} (failed safety check) — original kept.`);
+      const added = findNewRows(section.text, result);
+      const reason =
+        added.length > 0
+          ? `tried to add ${added.length} new listing(s): ${added.slice(0, 3).join(", ")}`
+          : "failed safety check";
+      console.log(`  ❌ Rejected AI rewrite for ${target.key} (${reason}) — original kept.`);
       continue;
     }
     readme = replaceSection(readme, section, result.trim());
@@ -251,7 +281,39 @@ function isValidRewrittenSection(original, candidate) {
   if (candRows < origRows * 0.8) return false;
   // 3. No leaked code fences or analysis chatter.
   if (candidate.includes("```") || /^ certainly |^ here is |^i've /i.test(candidate)) return false;
+  // 4. Hard rule from instruction.md: the bot may never introduce a new listing.
+  //    Every data row in the rewrite must already exist in the original, matched
+  //    on the first cell (the name/link). This is what stops fabricated models
+  //    and APIs from entering the catalog.
+  if (introducesNewRows(original, candidate)) return false;
   return true;
+}
+
+/** Returns the names of rows present in `candidate` but absent from `original`. */
+function findNewRows(original, candidate) {
+  const keyOf = (line) => {
+    const cells = line.trim().replace(/^\|/, "").split("|");
+    return (cells[0] || "")
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/[*`]/g, "")
+      .trim()
+      .toLowerCase();
+  };
+  const isDataRow = (line) =>
+    line.trim().startsWith("|") && !line.trim().startsWith("|---") && !line.includes("---");
+
+  const existing = new Set(
+    original.split("\n").filter(isDataRow).map(keyOf).filter(Boolean),
+  );
+  return candidate
+    .split("\n")
+    .filter(isDataRow)
+    .map(keyOf)
+    .filter((key) => key && !existing.has(key));
+}
+
+function introducesNewRows(original, candidate) {
+  return findNewRows(original, candidate).length > 0;
 }
 
 function filterRowsChanged(original, candidate) {
@@ -300,11 +362,18 @@ async function updateStatsJson() {
 // ────────────────────── datapoints / reports (kept from v1) ───────────
 
 async function findNewAPIs() {
-  console.log("🔍 Searching for new AI APIs with Gemini (up to present day)...");
+  console.log("🔍 Suggesting new AI APIs with Gemini (logged for human review only)...");
 
   const readme = await loadReadme();
-  const prompt = `You are an AI researcher tracking new AI APIs with knowledge up to ${new Date().toISOString().split("T")[0]}.
+  const prompt = `${await loadInstructions()}
+
+You are an AI researcher tracking new AI APIs with knowledge up to ${new Date().toISOString().split("T")[0]}.
 Identify any significant AI APIs absent from this directory (LLMs, Image, Audio, Video, Embedding, Code, Multimodal, Agents, Specialized).
+
+IMPORTANT: this output is a SUGGESTION LOG for human reviewers only. It is never written into
+README.md and nothing here is treated as verified. Only suggest products you are confident actually
+exist; do not speculate about unreleased or rumoured models. If you are not confident an API exists,
+leave it out entirely.
 
 Current README (excerpt):
 ${readme.substring(0, 5000)}

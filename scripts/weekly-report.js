@@ -37,7 +37,19 @@ async function generateWeeklyReport() {
   const weekStr = new Date().toISOString().split("T")[0];
 
   const cadence = REPORT_PERIOD === "weekly" ? "weekly AI API newsletter" : "daily AI API digest";
-  const prompt = `You are the editor of a ${cadence}. Generate a comprehensive ${REPORT_PERIOD} report in Markdown format.
+  // instruction.md is the repository's accuracy ruleset. Loading it here keeps
+  // the report from inventing products or presenting guesses as fact.
+  let instructions = "";
+  try {
+    instructions =
+      "===== BEGIN instruction.md (authoritative) =====\n" +
+      fs.readFileSync(path.join(process.cwd(), "instruction.md"), "utf8").trim() +
+      "\n===== END instruction.md =====\n\n";
+  } catch {
+    instructions = "";
+  }
+
+  const prompt = `${instructions}You are the editor of a ${cadence}. Generate a comprehensive ${REPORT_PERIOD} report in Markdown format.
 
 Today's date: ${weekStr}
 

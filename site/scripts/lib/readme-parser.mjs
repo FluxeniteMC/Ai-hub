@@ -14,6 +14,7 @@
 const EXCLUDED_SECTIONS = new Set([
   'table of contents',
   'ai hub website',
+  'accuracy rules (instruction.md)',
   'how automation works',
   'how to contribute',
   'changelog',
@@ -359,12 +360,28 @@ export function parseReadme(markdown) {
       let input = null;
       let output = null;
       if (inputIndex >= 0 && outputIndex >= 0) {
-        const parseIn = Number(toPlainText(normalized[inputIndex] ?? '').replace(/[^0-9.]/g, ''));
-        const parseOut = Number(toPlainText(normalized[outputIndex] ?? '').replace(/[^0-9.]/g, ''));
-        if (Number.isFinite(parseIn) && parseIn > 0) input = parseIn;
-        if (Number.isFinite(parseOut) && parseOut > 0) output = parseOut;
-        // The paid-API table splits input/output, so summarize them for display.
-        costSource = [normalized[inputIndex], normalized[outputIndex]].filter(Boolean).join(' / ');
+        // The Paid-APIs table splits input/output across two columns, but those
+        // cells are NOT always per-token rates — e.g. Apify's input cost is
+        // "$5/month". Only a genuine input/output PAIR is read as token pricing;
+        // anything else stays plain text so nothing is misrepresented.
+        const rawIn = toPlainText(normalized[inputIndex] ?? '');
+        const rawOut = toPlainText(normalized[outputIndex] ?? '');
+        const parseIn = Number(rawIn.replace(/[^0-9.]/g, ''));
+        const parseOut = Number(rawOut.replace(/[^0-9.]/g, ''));
+
+        const bothPresent =
+          !isPlaceholder(rawIn) && !isPlaceholder(rawOut) &&
+          Number.isFinite(parseIn) && parseIn > 0 &&
+          Number.isFinite(parseOut) && parseOut > 0;
+
+        if (bothPresent) {
+          input = parseIn;
+          output = parseOut;
+          costSource = `${rawIn} / ${rawOut}`;
+        } else {
+          // Not a token-price pair: show whichever cell(s) are stated, verbatim.
+          costSource = [rawIn, rawOut].filter((cell) => !isPlaceholder(cell)).join(' / ');
+        }
       }
 
       const cost = parseCost(costSource);

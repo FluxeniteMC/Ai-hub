@@ -320,6 +320,32 @@ test('the real weekly report parses into usable blocks', async () => {
   }
 });
 
+test('the website never invents data it cannot attribute', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { resolve } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+
+  const here = fileURLToPath(new URL('.', import.meta.url));
+  const parsed = parseReadme(readFileSync(resolve(here, '../../README.md'), 'utf8'));
+
+  for (const entry of parsed.entries) {
+    // A price is only ever present when a real pair was stated.
+    if (entry.inputPerMTokens !== null || entry.outputPerMTokens !== null) {
+      assert.ok(
+        entry.inputPerMTokens !== null && entry.outputPerMTokens !== null,
+        `${entry.name} has a half-parsed price pair`,
+      );
+    }
+    // Links must be absolute https URLs.
+    if (entry.url) assert.match(entry.url, /^https:\/\//);
+    // An entry is never claimed to come from a documentation section.
+    assert.ok(
+      !/accuracy rules|instruction\.md|ai hub website/i.test(entry.section),
+      `${entry.name} came from a documentation section`,
+    );
+  }
+});
+
 test('the real repository README produces a valid catalog', async () => {
   const { readFileSync } = await import('node:fs');
   const { resolve } = await import('node:path');
@@ -350,13 +376,20 @@ test('the real repository README produces a valid catalog', async () => {
   assert.equal(websiteLeak.length, 0, 'the AI Hub Website section must be excluded');
 });
 
-test('the AI Hub Website README section is excluded from the catalog', () => {
+test('documentation sections are excluded from the catalog', () => {
   const markdown = [
+    '## Accuracy Rules (`instruction.md`)',
+    '',
+    '| Field | Value |',
+    '|---|---|',
+    '| Model | GPT-99 Ultra |',
+    '| Provider | Nobody |',
+    '',
     '## AI Hub Website',
     '',
     '| | |',
     '|---|---|',
-    '| **Stack** | React + TypeScript + Vite |',
+    '| **Stack** | React |',
     '',
     '## By Category',
     '',
@@ -366,6 +399,6 @@ test('the AI Hub Website README section is excluded from the catalog', () => {
   ].join('\n');
 
   const result = parseReadme(markdown);
-  assert.equal(result.entries.length, 1);
+  assert.equal(result.entries.length, 1, 'only the catalog table should be parsed');
   assert.equal(result.entries[0].name, 'Real Row');
 });

@@ -80,6 +80,35 @@
         </p>
       </noscript>
     </div>
+    <script>
+      // Self-healing boot guard.
+      // After a deploy, the CDN can briefly serve a stale cached index.html
+      // that points at asset filenames the new deploy has already removed. The
+      // app then never mounts and the visitor would be left staring at the
+      // placeholder. If the app has not mounted shortly after load, retry once
+      // with a cache-busting query so a fresh index.html is fetched.
+      (function () {
+        var RETRY_KEY = 'aihub:boot-retry';
+        var MOUNT_TIMEOUT = 4000;
+        function mounted() {
+          var root = document.getElementById('root');
+          return root && root.childElementCount > 0;
+        }
+        window.setTimeout(function () {
+          if (mounted()) return;
+          var alreadyRetried;
+          try {
+            alreadyRetried = sessionStorage.getItem(RETRY_KEY) === '1';
+            sessionStorage.setItem(RETRY_KEY, '1');
+          } catch (e) {
+            alreadyRetried = false; // storage blocked: try once anyway
+          }
+          if (alreadyRetried) return;
+          var url = window.location.pathname + window.location.search + '?reload=1';
+          window.location.replace(url);
+        }, MOUNT_TIMEOUT);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

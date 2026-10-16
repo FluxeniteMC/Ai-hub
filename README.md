@@ -1410,6 +1410,24 @@ The generator writes `site/src/data/catalog.json`, which is git-ignored — it i
 
 ---
 
+## 🛡️ Accuracy Rules (`instruction.md`)
+
+**[`instruction.md`](instruction.md) is the authoritative contract for every automated update.** The bot reads it before touching this README.
+
+The short version:
+
+1. 🚫 **Never add a new listing.** The bot may only *edit rows that already exist*.
+2. ✅ It may correct an outdated price, a wrong provider, or mark an *officially* dead API.
+3. 🛑 **When unsure, change nothing.** A stale verified figure beats a confident invention.
+4. 🧾 Never present a guess as a fact; never invent benchmarks, context windows, or compatibility claims.
+5. 🔒 A safety gate rejects any rewrite that introduces a row, so fabricated models cannot enter the catalog.
+
+> **Why:** an earlier version told the updater to "add the latest flagship APIs missing from the table". That produced invented entries — *GPT-7 Astra, Claude Fable 6.0, Gemini 5 Ultra, Grok 6.0* — which had to be deleted again by hand.
+
+Anything the bot *thinks* is missing goes to `data/new-apis-*.json` for a human to verify. Adding an API is a pull request, never an automated step.
+
+---
+
 ## 🤝 How to Contribute
 
 This directory is only as good as the people who maintain it. If you know of an API that's missing, pricing that's wrong, or a link that's dead — please fix it!
