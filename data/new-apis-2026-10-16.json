@@ -1,0 +1,55 @@
+{
+  "new_apis": [
+    {
+      "name": "Luma Dream Machine API",
+      "provider": "Luma AI",
+      "url": "https://lumalabs.ai/dream-machine/api",
+      "category": "Video",
+      "tier": "paid",
+      "description": "Professional-grade video generation with high temporal consistency and motion accuracy.",
+      "pricing": "Credit-based (approx. $0.20/gen)",
+      "table_row": "| [Luma Dream Machine](https://lumalabs.ai/dream-machine/api) | Luma AI | Video | Cinematic 120fps video generation | High physical consistency & motion |"
+    },
+    {
+      "name": "Flux.1 [pro]",
+      "provider": "Black Forest Labs",
+      "url": "https://fal.ai/models/fal-ai/flux-pro",
+      "category": "Image",
+      "tier": "paid",
+      "description": "State-of-the-art image generation model with superior prompt adherence and text rendering.",
+      "pricing": "$0.05 - $0.08 per image",
+      "table_row": "| [Flux.1 [pro]](https://fal.ai/models/fal-ai/flux-pro) | Black Forest Labs | Image | SOTA image generation | Best-in-class text rendering and anatomy |"
+    },
+    {
+      "name": "DeepSeek-V3",
+      "provider": "DeepSeek",
+      "url": "https://api-docs.deepseek.com/",
+      "category": "LLM",
+      "tier": "paid",
+      "description": "Highly efficient Mixture-of-Experts LLM with industry-leading price-to-performance ratio.",
+      "pricing": "$0.14 per 1M tokens",
+      "table_row": "| [DeepSeek-V3](https://api-docs.deepseek.com/) | DeepSeek | LLM | High-performance MoE model | Extremely low cost for GPT-4o class performance |"
+    },
+    {
+      "name": "Kling AI API",
+      "provider": "Kuaishou",
+      "url": "https://klingai.com/",
+      "category": "Video",
+      "tier": "paid",
+      "description": "Advanced video generation supporting up to 2-minute durations and complex prompt following.",
+      "pricing": "Subscription / Credit based",
+      "table_row": "| [Kling AI](https://klingai.com/) | Kuaishou | Video | Long-form realistic video | Supports 5s to 2min durations |"
+    },
+    {
+      "name": "Cerebras Inference",
+      "provider": "Cerebras",
+      "url": "https://cerebras.ai/inference",
+      "category": "Specialized",
+      "tier": "paid",
+      "description": "Ultra-fast LLM inference powered by the Wafer-Scale Engine (WSE-3).",
+      "pricing": "$0.10 - $0.60 per 1M tokens",
+      "table_row": "| [Cerebras Inference](https://cerebras.ai/inference) | Cerebras Systems | Specialized | Ultra-low latency inference | 1800+ tokens per second on Llama 3.1 |"
+    }
+  ],
+  "count": 5
+}

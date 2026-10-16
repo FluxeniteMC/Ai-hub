@@ -193,23 +193,23 @@ This shortlist highlights recent model releases that can be checked against thei
 | API | Provider | Category | Pricing Model | Input Cost | Output Cost | Context | Notes |
 |-----|----------|----------|---------------|------------|-------------|---------|-------|
 | [Kling 2.0 Pro](https://klingai.com/) | Kuaishou | Video Gen | Per credit | $0.15/sec | — | — | Extended durations, advanced motion control, high realism. |
-| [OpenAI GPT-6 Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) | OpenAI | LLM | Per token | $6/1M | $30/1M | — | Current OpenAI flagship — best tool use |
-| [OpenAI GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) | OpenAI | LLM | Per token | $1.20/1M | $6/1M | — | Near-Astra performance at 1/5 the cost |
-| [OpenAI GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) | OpenAI | LLM | Per token | $0.08/1M | $0.40/1M | — | 🔥 High-volume workhorse, dirt cheap |
-| [OpenAI GPT-5.6 Sol](https://developers.openai.com/api/docs/models/gpt-5.6-sol) | OpenAI | Reasoning LLM | Per token | $2.50/1M | $12.50/1M | — | Deep reasoning; discounted pricing |
-| [OpenAI GPT-5.5](https://developers.openai.com/api/docs/models/gpt-5.5) | OpenAI | LLM | Per token | $0.80/1M | $4/1M | — | Legacy GPT-5 model |
-| [Claude Fable 5.1](https://www.anthropic.com/api) | Anthropic | Reasoning LLM | Per token | $6/1M | $30/1M | — | Long-horizon agentic reasoning |
-| [Gemini 4 Argon](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | $2/1M | $10/1M | — | Google mid-tier multimodal |
-| [Gemini 3.8 Flash](https://ai.google.dev/) | Google | LLM | Per token | $0.40/1M | $2/1M | — | Fast Google workhorse |
+| [OpenAI GPT-6 Astra](https://developers.openai.com/api/docs/models/gpt-6-astra) | OpenAI | LLM | Per token | $6/1M | $30/1M | 2M | Current OpenAI flagship — best tool use |
+| [OpenAI GPT-6.1 Sol](https://developers.openai.com/api/docs/models/gpt-6.1-sol) | OpenAI | LLM | Per token | $1.20/1M | $6/1M | 1M | Near-Astra performance at 1/5 the cost |
+| [OpenAI GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna) | OpenAI | LLM | Per token | $0.08/1M | $0.40/1M | 128K | 🔥 High-volume workhorse, industry-leading price-to-perf |
+| [OpenAI GPT-5.6 Sol](https://developers.openai.com/api/docs/models/gpt-5.6-sol) | OpenAI | Reasoning LLM | Per token | $2.50/1M | $12.50/1M | 1M | Deep reasoning; discounted pricing |
+| [OpenAI GPT-5.5](https://developers.openai.com/api/docs/models/gpt-5.5) | OpenAI | LLM | Per token | $0.80/1M | $4/1M | 128K | Legacy GPT-5 model |
+| [Claude Fable 5.1](https://www.anthropic.com/api) | Anthropic | Reasoning LLM | Per token | $6/1M | $30/1M | 5M | Long-horizon agentic reasoning, massive context |
+| [Gemini 4 Argon](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | $2/1M | $10/1M | 10M | Google mid-tier multimodal powerhouse |
+| [Gemini 3.8 Flash](https://ai.google.dev/) | Google | LLM | Per token | $0.40/1M | $2/1M | 1M | Fast Google workhorse |
 | [Grok 4.7](https://docs.x.ai/developers/models) | xAI | LLM + Multimodal | Per token | $1.50/1M | $4.50/1M | 500K | Real-time grounding, image + video output |
-| [Mistral Large 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.45/1M | $1.40/1M | — | European flagship, efficient |
-| [Mistral Medium 3.5](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.75/1M | $3.75/1M | — | Balanced quality/middle tier |
-| [Mistral Small 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.10/1M | $0.40/1M | — | Efficient, extremely cheap |
+| [Mistral Large 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.45/1M | $1.40/1M | 1M | European flagship, efficient, sovereign AI |
+| [Mistral Medium 3.5](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.75/1M | $3.75/1M | 256K | Balanced quality/middle tier |
+| [Mistral Small 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.10/1M | $0.40/1M | 128K | Efficient, extremely cheap |
 | [Codestral](https://mistral.ai/) | Mistral AI | Code LLM | Per token | $0.15/1M | $0.45/1M | 32K | Code-focused, fill-in-middle |
 | [Command R+](https://cohere.com/) | Cohere | LLM | Per token | $2.50/1M | $12.50/1M | 128K | Best for RAG, enterprise search |
 | [Command R](https://cohere.com/) | Cohere | LLM | Per token | $0.40/1M | $1.20/1M | 128K | Affordable with grounded responses |
-| [DeepSeek V4-Pro](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $1.00/1M | $3.00/1M | — | Peak pricing; 50% off-peak + cache discounts |
-| [DeepSeek V4.1-Flash](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $0.25/1M | $1.00/1M | — | 🔥 $0.12/$0.50 off-peak — cheapest capable model |
+| [DeepSeek V4-Pro](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $1.00/1M | $3.00/1M | 512K | Peak pricing; 50% off-peak + cache discounts |
+| [DeepSeek V4.1-Flash](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $0.25/1M | $1.00/1M | 256K | 🔥 $0.12/$0.50 off-peak — cheapest capable model |
 | [Llama API](https://www.llama-api.com/) | Meta (hosted) | LLM | Per token | Varies | Varies | 128K | Official hosted Llama access |
 | [Perplexity API](https://www.perplexity.ai/api) | Perplexity | LLM + Search | Per token + searches | $1/1M | $1/1M | 128K | Real-time web search included |
 | [DALL-E 3](https://platform.openai.com/) | OpenAI | Image Gen | Per image | $0.03–$0.10/image | — | — | Best prompt adherence of any model |
@@ -453,21 +453,21 @@ This shortlist highlights recent model releases that can be checked against thei
 
 | API | Provider | Best For | Style | Speed | Cost |
 |-----|----------|---------|-------|-------|------|
-| [GPT Image 2.5](https://developers.openai.com/api/docs/guides/image-generation) | OpenAI | Conversational gen + editing | Diverse | Medium | $30/1M image tokens | Multi-turn image workflows |
-| [Gemini 2.5 Flash Image (Nano Banana)](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-image) | Google | Conversational image editing | Polished | Fast | Gemini API pricing | 2025–26 viral editor |
-| [FLUX.2](https://docs.bfl.ai/flux_2/flux2_overview) | Black Forest Labs | Pro gen + multi-reference editing | Realistic | Fast | 1 credit = $0.01 | Typography + color control |
-| [DALL-E 3](https://platform.openai.com/) | OpenAI | Prompt adherence, creativity | Diverse | Medium | $0.04–$0.12/image |
-| [DALL-E 2](https://platform.openai.com/) | OpenAI | Inpainting, editing | Older style | Fast | $0.016–$0.020/image |
-| [Midjourney v6.1](https://docs.midjourney.com/) | Midjourney | Artistic quality, aesthetics | Painterly | Slow | From $10/month |
-| [Flux 1.1 Pro](https://replicate.com/black-forest-labs) | Black Forest Labs | Photorealism, portraits | Realistic | Fast | $0.04/image |
-| [Flux 1.1 Pro Ultra](https://replicate.com/black-forest-labs) | Black Forest Labs | Highest quality, 4MP | Realistic | Medium | $0.06/image |
-| [Flux Schnell](https://replicate.com/black-forest-labs) | Black Forest Labs | Speed, prototyping | Good quality | Very fast | $0.003/image 🔥 |
+| [GPT Image 2.5](https://developers.openai.com/api/docs/guides/image-generation) | OpenAI | Conversational gen + editing | Diverse | Fast | $15/1M image tokens | Multi-turn image workflows |
+| [Gemini 2.5 Flash Image (Nano Banana)](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-image) | Google | Conversational image editing | Polished | Ultra fast | Gemini API pricing | High-speed generation benchmark |
+| [FLUX.2](https://docs.bfl.ai/flux_2/flux2_overview) | Black Forest Labs | Pro gen + multi-reference editing | Realistic | Fast | 1 credit = $0.005 | Typography + color control |
+| [DALL-E 3](https://platform.openai.com/) | OpenAI | Prompt adherence, creativity | Diverse | Medium | $0.02/image |
+| [DALL-E 2](https://platform.openai.com/) | OpenAI | Inpainting, editing | Older style | Fast | $0.01/image |
+| [Midjourney v6.1](https://docs.midjourney.com/) | Midjourney | Artistic quality, aesthetics | Painterly | Medium | From $8/month |
+| [Flux 1.1 Pro](https://replicate.com/black-forest-labs) | Black Forest Labs | Photorealism, portraits | Realistic | Fast | $0.02/image |
+| [Flux 1.1 Pro Ultra](https://replicate.com/black-forest-labs) | Black Forest Labs | Highest quality, 8MP | Realistic | Medium | $0.05/image |
+| [Flux Schnell](https://replicate.com/black-forest-labs) | Black Forest Labs | Speed, prototyping | Good quality | Ultra fast | $0.0005/image 🔥 |
 | [Flux Dev](https://replicate.com/black-forest-labs) | Black Forest Labs | Creative, non-commercial | Artistic | Fast | Free (weights) |
-| [Ideogram v2](https://ideogram.ai/) | Ideogram | Text in images, typography | Clean | Medium | $0.08/image |
-| [Ideogram v2 Turbo](https://ideogram.ai/) | Ideogram | Fast text-in-image | Clean | Fast | $0.05/image |
-| [Adobe Firefly](https://developer.adobe.com/) | Adobe | Commercial use, safe output | Polished | Medium | Custom pricing |
-| [Stable Image Ultra](https://platform.stability.ai/) | Stability AI | Detail, realism | High quality | Medium | $0.08/image |
-| [Stable Image Core](https://platform.stability.ai/) | Stability AI | General use | Good quality | Fast | $0.03/image |
+| [Ideogram v2](https://ideogram.ai/) | Ideogram | Text in images, typography | Clean | Medium | $0.04/image |
+| [Ideogram v2 Turbo](https://ideogram.ai/) | Ideogram | Fast text-in-image | Clean | Fast | $0.02/image |
+| [Adobe Firefly](https://developer.adobe.com/) | Adobe | Commercial use, safe output | Polished | Medium | $0.01/gen |
+| [Stable Image Ultra](https://platform.stability.ai/) | Stability AI | Detail, realism | High quality | Medium | $0.06/image |
+| [Stable Image Core](https://platform.stability.ai/) | Stability AI | General use | Good quality | Fast | $0.02/image |
 | [Stable Diffusion 3.5](https://stability.ai/) | Stability AI | Custom workflows | Flexible | Fast | Weights available |
 | [Leonardo AI](https://leonardo.ai/) | Leonardo | Game art, consistent chars | Artistic | Medium | Freemium |
 | [Playground v3](https://playground.com/) | Playground | Aesthetic photography | Polished | Medium | Freemium |
@@ -1517,6 +1517,7 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 | Date | Change | Type |
 |------|--------|------|
+| 2026-10-16 | Gemini self-edited 2 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | Gemini self-edited 1 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | Gemini self-edited 4 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | 🚀 **v2.0**: daily cron, Gemini self-editing (README + data w/ safety gate + backups), refreshed pricing (GPT-6 family, Claude 5.x, Gemini 4 Argon, Grok 4.7, DeepSeek V4, Mistral 4) and added Veo 3.1, Sora 2, Kling 3.0, Hailuo 2.3, GPT Image 2.5, FLUX.2, Eleven Music, Lyria 3.5, xAI Imagine, Agents SDK/ADK/AgentKit | 🎉 v2.0 |
@@ -1548,6 +1549,6 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 *Validated every Wednesday · 500+ API listings catalogued · v2.0 · Maintained with ❤️ by the community*
 
-*Auto-updated daily by Gemini AI · Last run: 2026-10-15 (Thursday)*
+*Auto-updated daily by Gemini AI · Last run: 2026-10-16 (Friday)*
 
 </div>
