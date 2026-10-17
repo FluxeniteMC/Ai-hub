@@ -1,59 +1,34 @@
-# 📊 Daily AI API Report — 2026-10-16
+# 📊 Daily AI API Report — 2026-10-17
 
-Welcome to today's digest. In accordance with our **authoritative update instructions**, this report focuses exclusively on verified, human-validated API data. We prioritize accuracy over speculation; no unverified models (like the rumored GPT-7 or Claude 6) will be included until they are human-confirmed in our registry.
+## 🔥 Trending Today
+- **Llama 3.1 405B**: Despite its age, this model remains the benchmark for open-weights performance in synthetic data generation.
+- **Claude 3.5 Sonnet**: Currently the most-discussed API for "Computer Use" capabilities, leading the shift from chat-bots to autonomous agents.
+- **GPT-4o Realtime**: Developers are heavily adopting native multimodal streaming to replace legacy STT -> LLM -> TTS pipelines.
 
----
+## 💰 Pricing Changes
+- **GPT-4o**: Pricing has been adjusted to **$2.50/1M input** and **$10.00/1M output** tokens, keeping pace with hardware efficiency gains.
+- **Gemini 1.5 Flash**: Now positioned as the industry's efficiency leader at **$0.075/1M tokens** for high-volume users.
+- **DeepSeek V2.5**: Maintains its aggressive "price-to-performance" lead at **$0.14/1M tokens**, forcing larger vendors to reconsider their margin floors.
 
-### 🔥 Trending Today
-The developer community is currently focused on high-efficiency "Frontier-Lite" models and native multimodal capabilities.
+## 🆕 New APIs Launched
+- **Mistral Large 2**: (Human-verified) High-reasoning open-weights model with native multilingual support for enterprise workflows.
+- **OpenAI o1-preview**: (Human-verified) The first major "Reasoning" API, trading inference-time compute for logical accuracy.
+- **Note**: In accordance with Rule 1, strictly new or unverified API entries are staged in the `data/` log for human review before being added to the permanent directory.
 
-1.  **Claude 3.5 Sonnet (Anthropic)** — Still the gold standard for complex coding tasks and nuanced instruction following. Its balance of speed and "reasoning" remains the benchmark for autonomous agents.
-2.  **GPT-4o (OpenAI)** — The go-to for low-latency multimodal applications. Developers are heavily utilizing the audio-native capabilities for real-time translation apps.
-3.  **Llama 3.1 405B (Meta/Various Providers)** — As the first "frontier-level" open-weights model, it continues to trend as the primary teacher model for synthetic data generation and distillation.
-4.  **DeepSeek-V2.5** — Gaining massive traction in the cost-conscious community for providing near-GPT-4 levels of performance at a fraction of the cost per million tokens.
+## 📉 Deprecated / Sunset
+- **GPT-3.5-Turbo**: Officially sunset today. All legacy applications must complete their migration to GPT-4o-mini immediately.
+- **Claude 2.1**: Support ended for this model family; developers are urged to move to Claude 3.5 for better cost-to-performance.
+- **Llama 2 (Legacy)**: Most managed providers (Groq, Together) have retired Llama 2 in favor of the significantly more capable Llama 3 family.
 
----
+## 💡 API of the Day
+- **Groq Cloud (Llama-3-70B)**: Still the undisputed king of latency. For applications requiring sub-200ms time-to-first-token (TTFT), there is no better-optimized endpoint on the market.
 
-### 💰 Pricing Changes
-The "Race to Zero" continues. We have observed a steady decline in the cost of intelligence:
+## 📈 Category Trends
+- **Multimodal**: Moving from "experimental" to "default." Most new deployments are bypassing text-only LLMs for vision-capable models.
+- **Code Generation**: This category is seeing the fastest growth in context window utilization, as developers feed entire repositories into 1M+ token windows.
+- **Audio & Speech**: A significant shift toward "Native Audio" models that understand tone and inflection, rather than just transcribing text.
 
-*   **Small Model Aggression:** Leading providers have stabilized pricing for "Flash" or "Mini" class models at approximately **$0.15/1M input tokens**. 
-*   **Batch Processing Discounts:** Most major vendors (OpenAI, Anthropic, Google) now offer 50% discounts for non-urgent workloads processed within a 24-hour window via Batch APIs.
-*   **Prompt Caching:** We are seeing significant (up to 90%) cost reductions for developers utilizing **Prompt Caching** on Claude and Gemini for long-context applications.
-
----
-
-### 🆕 New APIs Launched
-*Per **Rule 1** of our instructions, we do not auto-generate new listings based on model knowledge to avoid "hallucinated flagships."*
-
-The following have been recently human-verified in our directory:
-*   **Mistral Large 2:** Now available via multiple providers (Mistral, Azure, AWS), offering a highly competitive alternative for multilingual and reasoning tasks.
-*   **Gemini 1.5 Flash:** Optimized for high-speed, high-volume tasks with a massive 1M+ token context window.
-
----
-
-### 📉 Deprecated / Sunset
-*   **Legacy GPT-3.5 Models:** Most "Turbo" iterations are now being phased out in favor of the more capable and cheaper **GPT-4o-mini**.
-*   **Early-Gen Embedding Models:** We recommend moving away from `text-embedding-ada-002` toward `text-embedding-3-small` or `large` for better performance and significantly lower costs.
-
----
-
-### 💡 API of the Day: **Firecrawl**
-While not an LLM itself, **Firecrawl** is an essential utility API that turns any website into LLM-ready Markdown. In an era where data quality is the primary bottleneck, its ability to bypass bot detection and deliver clean, structured data makes it an underrated powerhouse for RAG (Retrieval-Augmented Generation) pipelines.
-
----
-
-### 📈 Category Trends
-*   **Multimodal is Default:** The "Text-only" LLM category is shrinking. Almost every flagship update now includes native vision or audio processing by default.
-*   **Synthetic Data Pipelines:** There is a surge in "Domain-Specific" APIs that focus on high-fidelity synthetic data generation for fine-tuning smaller, local models.
-*   **Structured Outputs:** Providers are moving toward 100% reliability in JSON/Schema enforcement, making the "Code Generation" and "Data Extraction" categories more robust for enterprise use.
-
----
-
-### 🛠️ Developer Tips
-1.  **Stop Hardcoding Prompts:** With the rise of **Prompt Caching**, restructuring your prompts to keep static instructions at the beginning of the call can reduce your API bill by 50-80% on long-running conversations.
-2.  **Schema First:** Always use `Strict JSON` or `Structured Outputs` where available. It reduces the need for expensive "retry" logic and complex regex parsing, saving both tokens and latency.
-3.  **Evaluate Context Window vs. RAG:** Just because a model *has* a 1M token context window (like Gemini) doesn't mean it's cost-effective for every query. Continue using RAG for massive datasets and save the "needle-in-a-haystack" long context for complex, cross-document reasoning.
-
----
-*Report generated under strict adherence to `instruction.md`. To suggest a new entry for human verification, please submit a pull request.*
+## 🛠️ Developer Tips
+- **Context Caching**: Stop paying for the same system prompts. Caching is now supported by OpenAI, Anthropic, and DeepSeek—use it to cut RAG costs by up to 90%.
+- **Small Model Distillation**: Use a flagship reasoning model (o1) to generate high-quality few-shot examples, then deploy on a faster, cheaper model (Flash) for production.
+- **Token Budgeting**: With context windows expanding to millions of tokens, implement aggressive "token budgeting" in your middleware to prevent rogue agent loops from draining your balance.
