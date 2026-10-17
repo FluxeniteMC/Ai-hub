@@ -1,0 +1,46 @@
+{
+  "deprecated": [
+    {
+      "name": "gpt-3.5-turbo-0301",
+      "provider": "OpenAI",
+      "shutdown_date": "2024-06",
+      "reason": "Legacy snapshot reached end of support life",
+      "replacement": "gpt-3.5-turbo-0125"
+    },
+    {
+      "name": "text-davinci-003",
+      "provider": "OpenAI",
+      "shutdown_date": "2024-01",
+      "reason": "Decommissioning of legacy completions-style models in favor of chat-optimized models",
+      "replacement": "gpt-3.5-turbo-instruct"
+    },
+    {
+      "name": "chat-bison-001 (PaLM 2)",
+      "provider": "Google",
+      "shutdown_date": "2024-04",
+      "reason": "Consolidation of Vertex AI services under the Gemini model family",
+      "replacement": "gemini-1.0-pro"
+    },
+    {
+      "name": "Claude 2.0",
+      "provider": "Anthropic",
+      "shutdown_date": "2024-03",
+      "reason": "Introduction of the Claude 3 model family with improved multimodal capabilities",
+      "replacement": "claude-3-sonnet"
+    },
+    {
+      "name": "gpt-4-0314",
+      "provider": "OpenAI",
+      "shutdown_date": "2024-06",
+      "reason": "Deprecation of initial GPT-4 release snapshot",
+      "replacement": "gpt-4-turbo"
+    },
+    {
+      "name": "Mistral-Medium",
+      "provider": "Mistral AI",
+      "shutdown_date": "2024-02",
+      "reason": "Optimization of API endpoints and transition to Mistral Large and Mistral Small",
+      "replacement": "mistral-large-latest"
+    }
+  ]
+}

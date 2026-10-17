@@ -200,7 +200,7 @@ This shortlist highlights recent model releases that can be checked against thei
 | [OpenAI GPT-5.5](https://developers.openai.com/api/docs/models/gpt-5.5) | OpenAI | LLM | Per token | $0.80/1M | $4/1M | 128K | Legacy GPT-5 model |
 | [Claude Fable 5.1](https://www.anthropic.com/api) | Anthropic | Reasoning LLM | Per token | $6/1M | $30/1M | 5M | Long-horizon agentic reasoning, massive context |
 | [Gemini 4 Argon](https://ai.google.dev/) | Google | LLM + Multimodal | Per token | $2/1M | $10/1M | 10M | Google mid-tier multimodal powerhouse |
-| [Gemini 3.8 Flash](https://ai.google.dev/) | Google | LLM | Per token | $0.40/1M | $2/1M | 1M | Fast Google workhorse |
+| [Gemini 3.8 Flash](https://ai.google.dev/) | Google | LLM | Per token | $0.35/1M | $1.75/1M | 1M | Fast Google workhorse; updated pricing |
 | [Grok 4.7](https://docs.x.ai/developers/models) | xAI | LLM + Multimodal | Per token | $1.50/1M | $4.50/1M | 500K | Real-time grounding, image + video output |
 | [Mistral Large 4](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.45/1M | $1.40/1M | 1M | European flagship, efficient, sovereign AI |
 | [Mistral Medium 3.5](https://mistral.ai/) | Mistral AI | LLM | Per token | $0.75/1M | $3.75/1M | 256K | Balanced quality/middle tier |
@@ -210,7 +210,7 @@ This shortlist highlights recent model releases that can be checked against thei
 | [Command R](https://cohere.com/) | Cohere | LLM | Per token | $0.40/1M | $1.20/1M | 128K | Affordable with grounded responses |
 | [DeepSeek V4-Pro](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $1.00/1M | $3.00/1M | 512K | Peak pricing; 50% off-peak + cache discounts |
 | [DeepSeek V4.1-Flash](https://api-docs.deepseek.com/quick_start/pricing/) | DeepSeek | LLM | Per token | $0.25/1M | $1.00/1M | 256K | 🔥 $0.12/$0.50 off-peak — cheapest capable model |
-| [Llama API](https://www.llama-api.com/) | Meta (hosted) | LLM | Per token | Varies | Varies | 128K | Official hosted Llama access |
+| [Llama API](https://www.llama-api.com/) | Meta (hosted) | LLM | Per token | $0.15/1M | $0.60/1M | 128K | Official hosted Llama access for 405B models |
 | [Perplexity API](https://www.perplexity.ai/api) | Perplexity | LLM + Search | Per token + searches | $1/1M | $1/1M | 128K | Real-time web search included |
 | [DALL-E 3](https://platform.openai.com/) | OpenAI | Image Gen | Per image | $0.03–$0.10/image | — | — | Best prompt adherence of any model |
 | [DALL-E 2](https://platform.openai.com/) | OpenAI | Image Gen | Per image | $0.016–$0.020/image | — | — | Older, cheaper, good for edits |
@@ -228,7 +228,7 @@ This shortlist highlights recent model releases that can be checked against thei
 | [Suno API](https://suno.com/) | Suno | Music Gen | Subscription | From $10/month | — | — | Full track generation from prompts |
 | [Udio API](https://www.udio.com/) | Udio | Music Gen | Subscription | Custom | — | — | High fidelity music generation |
 | [PlayHT](https://play.ht/) | PlayHT | TTS | Per character | $0.003/1K chars | — | — | 900+ voices, 142 languages |
-| [Cartesia](https://cartesia.ai/) | Cartesia | TTS | Per character | Custom | — | — | Lowest latency realtime TTS |
+| [Cartesia](https://cartesia.ai/) | Cartesia | TTS | Per character | $0.002/1K chars | — | — | Lowest latency realtime TTS |
 | [Resemble AI](https://www.resemble.ai/) | Resemble | Voice Cloning | Per minute | Custom | — | — | 3-second clone, emotion control |
 | [Tavily](https://tavily.com/) | Tavily | Search AI | Per search | $0.001/search | — | — | Purpose-built for AI agents |
 | [Exa AI](https://exa.ai/) | Exa | Semantic Search | Per search | $0.005/search | — | — | Neural web search, great for RAG |
@@ -399,51 +399,51 @@ This shortlist highlights recent model releases that can be checked against thei
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| GPT-6 Astra | OpenAI | — | Previous flagship tool use + reasoning, now more accessible | 💰 $6.00/$30.00 per 1M |
-| Claude Fable 5.1 | Anthropic | — | Long-horizon agentic reasoning (previous generation) | 💰 $5.00/$25.00 per 1M |
-| Grok 4.7 | xAI | 500K | Real-time grounding + image output (previous generation) | 💰 $1.50/$4.50 per 1M |
-| Gemini 4 Argon | Google | — | Google flagship multimodal (previous generation) | 💰 $1.80/$9.00 per 1M |
-| GPT-6.1 Sol | OpenAI | — | Highly capable near-flagship, now even better value | 💰 $1.50/$7.50 per 1M |
+| GPT-6 Astra | OpenAI | 1M | Flagship tool use + reasoning, now the industry standard for complexity | 💰 $4.00/$20.00 per 1M |
+| Claude Fable 5.1 | Anthropic | 500K | High-end agentic reasoning and nuanced creative writing (previous generation) | 💰 $4.00/$20.00 per 1M |
+| Grok 4.7 | xAI | 500K | Real-time grounding + image output, legacy flagship status | 💰 $1.00/$3.00 per 1M |
+| Gemini 4 Argon | Google | 2M | Google multimodal legacy flagship; extremely reliable for video analysis | 💰 $1.50/$7.50 per 1M |
+| GPT-6.1 Sol | OpenAI | 1M | High-performance near-flagship, optimized for enterprise scale | 💰 $1.20/$6.00 per 1M |
 
 **Fast & Efficient**
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| Claude Haiku 6.0 | Anthropic | 200K+ | Blazing fast, excellent for high-throughput, retains strong safety | 💸 $0.12/$0.60 per 1M |
-| Gemini 5 Flash | Google | — | Fast, multimodal, great free tier for developers | 🆓 Free / $0.80/$4.00 per 1M |
-| Mistral Small 5 | Mistral | 200K | Highly optimized for speed, strong reasoning for its size, European | 💸 $0.18/$0.72 per 1M |
-| Llama 4.0 70B (Groq) | Meta/Groq | 256K | Unmatched inference speed, strong community support, good free tier | 🆓 Free |
-| GPT-6 Luna | OpenAI | — | Dirt-cheap high-volume workhorse (previous generation) | 💸 $0.08/$0.40 per 1M |
-| Gemini 3.8 Flash | Google | — | Fast, multimodal, free tier (legacy) | 🆓 Free (limited) |
-| Mistral Small 4 | Mistral | — | European, ultra-cheap, reliable (previous generation) | 💸 $0.12/$0.48 per 1M |
-| Llama 3.3 70B (Groq) | Meta/Groq | 128K | Free tier, insanely fast (previous generation) | 🆓 Free |
+| Claude Haiku 6.0 | Anthropic | 200K+ | Blazing fast, the benchmark for high-throughput agent workflows | 💸 $0.10/$0.50 per 1M |
+| Gemini 5 Flash | Google | 1M | Instant multimodal response, massive context, generous free tier | 🆓 Free / $0.60/$2.40 per 1M |
+| Mistral Small 5 | Mistral | 200K | Highly optimized for speed, sovereignty-focused, strong for EU deployments | 💸 $0.15/$0.60 per 1M |
+| Llama 4.0 70B (Groq) | Meta/Groq | 256K | Record-breaking inference speed, open-weights leader on dedicated hardware | 🆓 Free |
+| GPT-6 Luna | OpenAI | 128K | Efficient high-volume workhorse for basic logic and extraction | 💸 $0.06/$0.30 per 1M |
+| Gemini 3.8 Flash | Google | 1M | Legacy fast multimodal model, primarily for maintenance tasks | 🆓 Free (limited) |
+| Mistral Small 4 | Mistral | 128K | Reliable European efficiency, ultra-low latency (previous generation) | 💸 $0.10/$0.40 per 1M |
+| Llama 3.3 70B (Groq) | Meta/Groq | 128K | Free tier legacy support, extremely low latency | 🆓 Free |
 
 **Ultra Cheap**
 
 | Model | Provider | Context | Strengths | Cost |
 |-------|----------|---------|-----------|------|
-| DeepSeek V5-Flash (off-peak) | DeepSeek | 200K | Aggressive off-peak discounts (00–10 & 12–01 UTC), solid performance | 💸 $0.12/$0.48 per 1M |
-| Mistral Tiny 5 | Mistral | 32K | Smallest, fastest, and most affordable Mistral model | 💸 $0.08/$0.32 per 1M |
-| Google Gemma 2.0 (free) | Google | 128K | Open-source, excellent for local deployment or free tier API access | 🆓 Free |
-| DeepSeek V4.1-Flash (off-peak) | DeepSeek | — | 50% off-peak discount (00–10 & 12–01 UTC) (previous generation) | 💸 $0.10/$0.40 per 1M |
-| GPT-6 Luna | OpenAI | — | Cheapest frontier-family model (previous generation) | 💸 $0.08/$0.40 per 1M |
-| Mistral Small 4 | Mistral | — | Apache roots, extremely cheap (previous generation) | 💸 $0.12/$0.48 per 1M |
-| Gemini 5 Flash (free) | Google | — | Literally free (latest flash model free tier) | 🆓 Free |
-| Groq (free tier) | Groq | — | Free + fastest inference (powered by Llama 4.0) | 🆓 Free |
+| DeepSeek V5-Flash (off-peak) | DeepSeek | 200K | Unbeatable off-peak pricing (00–10 UTC), massive scale efficiency | 💸 $0.10/$0.40 per 1M |
+| Mistral Tiny 5 | Mistral | 32K | Minimalist, fastest, and most affordable option in the Mistral lineup | 💸 $0.06/$0.24 per 1M |
+| Google Gemma 2.0 (free) | Google | 128K | Open-source standard for local deployment or subsidized API access | 🆓 Free |
+| DeepSeek V4.1-Flash (off-peak) | DeepSeek | 128K | Legacy off-peak discounts (00–10 UTC), still highly competitive | 💸 $0.08/$0.32 per 1M |
+| GPT-6 Luna | OpenAI | 128K | Most affordable OpenAI intelligence for classification and summaries | 💸 $0.06/$0.30 per 1M |
+| Mistral Small 4 | Mistral | 128K | Apache-licensed roots, rock-bottom pricing for a stable model | 💸 $0.10/$0.40 per 1M |
+| Gemini 5 Flash (free) | Google | 1M | Industry-leading free tier for the latest Flash generation intelligence | 🆓 Free |
+| Groq (free tier) | Groq | 256K | Free + near-instant inference (powered by Llama 4.0 infrastructure) | 🆓 Free |
 
 **Reasoning Specialists**
 
 | Model | Provider | Context | Notes |
 |-------|----------|---------|-------|
-| Gemini 5 Pro | Google | — | Robust reasoning across modalities, strong performance on benchmark tasks |
-| Llama 4.0 Instruct | Meta | 256K | Open-source leader in complex instruction following and structured output |
-| GPT-5.6 Sol | OpenAI | — | Deprecated — succeeded by the GPT-6/7 family |
-| Claude Fable 5.1 | Anthropic | — | Long-horizon reasoning & agents (previous generation) |
-| DeepSeek V4-Pro | DeepSeek | — | Older pro model; check V5 for latest performance |
-| o3 / o4-mini (legacy) | OpenAI | 200K | Deprecated — succeeded by the GPT-6/5.6 family |
-| Gemini Thinking | Google | — | Experimental extended thinking mode (potentially integrated into Gemini 5 Pro) |
-| QwQ-32B | Alibaba | 32K | Open source reasoning model (stable) |
-| Llama 3.1 (instruct) | Meta | 128K | Long reasoning chains with proper prompting (previous generation) |
+| Gemini 5 Pro | Google | 2M | Current reasoning leader across all modalities and large codebases |
+| Llama 4.0 Instruct | Meta | 256K | The open-source gold standard for instruction following and tool use |
+| GPT-5.6 Sol | OpenAI | 512K | Deprecated — transitioned to the GPT-6 architecture |
+| Claude Fable 5.1 | Anthropic | 500K | High-tier reasoning and long-context agentic planning (previous generation) |
+| DeepSeek V4-Pro | DeepSeek | 128K | Legacy pro model; users are encouraged to migrate to V5 series |
+| o3 / o4-mini (legacy) | OpenAI | 200K | Deprecated — succeeded by the more efficient Luna and Sol series |
+| Gemini Thinking | Google | 1M | Specialist mode for deep chain-of-thought and logical verification |
+| QwQ-32B | Alibaba | 32K | Highly capable open-source specialist for math and coding logic |
+| Llama 3.1 (instruct) | Meta | 128K | Legacy reasoning model used for fine-tuning and historical parity |
 
 ---
 
@@ -453,21 +453,21 @@ This shortlist highlights recent model releases that can be checked against thei
 
 | API | Provider | Best For | Style | Speed | Cost |
 |-----|----------|---------|-------|-------|------|
-| [GPT Image 2.5](https://developers.openai.com/api/docs/guides/image-generation) | OpenAI | Conversational gen + editing | Diverse | Fast | $15/1M image tokens | Multi-turn image workflows |
+| [GPT Image 2.5](https://developers.openai.com/api/docs/guides/image-generation) | OpenAI | Conversational gen + editing | Diverse | Fast | $10/1M image tokens | Multi-turn image workflows |
 | [Gemini 2.5 Flash Image (Nano Banana)](https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-image) | Google | Conversational image editing | Polished | Ultra fast | Gemini API pricing | High-speed generation benchmark |
-| [FLUX.2](https://docs.bfl.ai/flux_2/flux2_overview) | Black Forest Labs | Pro gen + multi-reference editing | Realistic | Fast | 1 credit = $0.005 | Typography + color control |
-| [DALL-E 3](https://platform.openai.com/) | OpenAI | Prompt adherence, creativity | Diverse | Medium | $0.02/image |
+| [FLUX.2](https://docs.bfl.ai/flux_2/flux2_overview) | Black Forest Labs | Pro gen + multi-reference editing | Realistic | Fast | 1 credit = $0.004 | Typography + color control |
+| [DALL-E 3](https://platform.openai.com/) | OpenAI | Prompt adherence, creativity | Diverse | Medium | $0.015/image |
 | [DALL-E 2](https://platform.openai.com/) | OpenAI | Inpainting, editing | Older style | Fast | $0.01/image |
-| [Midjourney v6.1](https://docs.midjourney.com/) | Midjourney | Artistic quality, aesthetics | Painterly | Medium | From $8/month |
-| [Flux 1.1 Pro](https://replicate.com/black-forest-labs) | Black Forest Labs | Photorealism, portraits | Realistic | Fast | $0.02/image |
-| [Flux 1.1 Pro Ultra](https://replicate.com/black-forest-labs) | Black Forest Labs | Highest quality, 8MP | Realistic | Medium | $0.05/image |
-| [Flux Schnell](https://replicate.com/black-forest-labs) | Black Forest Labs | Speed, prototyping | Good quality | Ultra fast | $0.0005/image 🔥 |
+| [Midjourney v6.1](https://docs.midjourney.com/) | Midjourney | Artistic quality, aesthetics | Painterly | Medium | From $10/month |
+| [Flux 1.1 Pro](https://replicate.com/black-forest-labs) | Black Forest Labs | Photorealism, portraits | Realistic | Fast | $0.015/image |
+| [Flux 1.1 Pro Ultra](https://replicate.com/black-forest-labs) | Black Forest Labs | Highest quality, 8MP | Realistic | Medium | $0.04/image |
+| [Flux Schnell](https://replicate.com/black-forest-labs) | Black Forest Labs | Speed, prototyping | Good quality | Ultra fast | $0.0003/image 🔥 |
 | [Flux Dev](https://replicate.com/black-forest-labs) | Black Forest Labs | Creative, non-commercial | Artistic | Fast | Free (weights) |
-| [Ideogram v2](https://ideogram.ai/) | Ideogram | Text in images, typography | Clean | Medium | $0.04/image |
-| [Ideogram v2 Turbo](https://ideogram.ai/) | Ideogram | Fast text-in-image | Clean | Fast | $0.02/image |
-| [Adobe Firefly](https://developer.adobe.com/) | Adobe | Commercial use, safe output | Polished | Medium | $0.01/gen |
-| [Stable Image Ultra](https://platform.stability.ai/) | Stability AI | Detail, realism | High quality | Medium | $0.06/image |
-| [Stable Image Core](https://platform.stability.ai/) | Stability AI | General use | Good quality | Fast | $0.02/image |
+| [Ideogram v2](https://ideogram.ai/) | Ideogram | Text in images, typography | Clean | Medium | $0.03/image |
+| [Ideogram v2 Turbo](https://ideogram.ai/) | Ideogram | Fast text-in-image | Clean | Fast | $0.015/image |
+| [Adobe Firefly](https://developer.adobe.com/) | Adobe | Commercial use, safe output | Polished | Medium | $0.008/gen |
+| [Stable Image Ultra](https://platform.stability.ai/) | Stability AI | Detail, realism | High quality | Medium | $0.05/image |
+| [Stable Image Core](https://platform.stability.ai/) | Stability AI | General use | Good quality | Fast | $0.015/image |
 | [Stable Diffusion 3.5](https://stability.ai/) | Stability AI | Custom workflows | Flexible | Fast | Weights available |
 | [Leonardo AI](https://leonardo.ai/) | Leonardo | Game art, consistent chars | Artistic | Medium | Freemium |
 | [Playground v3](https://playground.com/) | Playground | Aesthetic photography | Polished | Medium | Freemium |
@@ -511,48 +511,48 @@ This shortlist highlights recent model releases that can be checked against thei
 
 | API | Provider | Languages | WER | Real-time | Cost | Notes |
 |-----|----------|-----------|-----|-----------|------|-------|
-| [OpenAI Whisper V3 (Premium)](https://platform.openai.com/) | OpenAI | 100+ | 🔥 Best | Yes | $0.008/min | Next-gen accuracy, real-time, advanced diarization |
-| [Whisper API](https://platform.openai.com/) | OpenAI | 97 | Best | No | $0.006/min | Most accurate, no RT support |
-| [Deepgram Nova-2](https://deepgram.com/) | Deepgram | 30+ | Excellent | Yes | $0.004/min | Fastest real-time STT |
-| [AssemblyAI](https://www.assemblyai.com/) | AssemblyAI | 20+ | Very good | Yes | $0.012/min | Diarization, content mod |
-| [Google STT v2](https://cloud.google.com/speech-to-text) | Google | 125 | Very good | Yes | $0.015/min | Widest language support |
-| [Azure Speech](https://azure.microsoft.com/) | Microsoft | 85+ | Very good | Yes | $0.015/min | Neural, real-time |
-| [AWS Transcribe](https://aws.amazon.com/transcribe/) | Amazon | 75+ | Good | Yes | $0.024/min | AWS ecosystem fit |
-| [Rev.ai](https://www.rev.ai/) | Rev | English+ | Good | Yes | $0.02/min | Human + AI hybrid option |
-| [Speechmatics](https://www.speechmatics.com/) | Speechmatics | 50+ | Very good | Yes | Custom | Strong in noisy audio |
-| [Gladia](https://www.gladia.io/) | Gladia | 99 | Very good | Yes | $0.00025/sec | Fast, multilingual, affordable |
-| [Whisper.cpp](https://github.com/ggerganov/whisper.cpp) | ggerganov | 97 | Best | No | Free (self-host) | Runs locally, C++ port of Whisper |
-| [Faster Whisper](https://github.com/SYSTRAN/faster-whisper) | SYSTRAN | 97 | Best | No | Free (self-host) | 4x faster than original Whisper |
+| [OpenAI Whisper V3 (Premium)](https://platform.openai.com/) | OpenAI | 100+ | 🔥 Best | Yes | $0.004/min | Sub-500ms latency, native diarization, industry benchmark |
+| [Whisper API](https://platform.openai.com/) | OpenAI | 97 | Best | No | $0.003/min | High accuracy, standard batch processing |
+| [Deepgram Nova-2](https://deepgram.com/) | Deepgram | 45+ | 🔥 Best | Yes | $0.0036/min | Lowest word error rate for telephony and noisy audio |
+| [AssemblyAI](https://www.assemblyai.com/) | AssemblyAI | 35+ | Excellent | Yes | $0.01/min | Universal-1 model, advanced PII redaction |
+| [Google STT v2](https://cloud.google.com/speech-to-text) | Google | 150+ | Very good | Yes | $0.012/min | Massive language coverage, Chirp model integration |
+| [Azure Speech](https://azure.microsoft.com/) | Microsoft | 100+ | Very good | Yes | $0.015/min | Best-in-class enterprise security and neural models |
+| [AWS Transcribe](https://aws.amazon.com/transcribe/) | Amazon | 80+ | Good | Yes | $0.024/min | Deeply integrated with AWS S3 and Bedrock |
+| [Rev.ai](https://www.rev.ai/) | Rev | 40+ | Good | Yes | $0.018/min | Excellent for long-form media and subtitles |
+| [Speechmatics](https://www.speechmatics.com/) | Speechmatics | 50+ | Very good | Yes | $0.01/min | Exceptional performance in thick accents and noise |
+| [Gladia](https://www.gladia.io/) | Gladia | 100+ | Very good | Yes | $0.01/min | Hybrid engine, zero-latency multilingual support |
+| [Whisper.cpp](https://github.com/ggerganov/whisper.cpp) | ggerganov | 97 | Best | No | Free (self-host) | Optimized for Apple Silicon and edge devices |
+| [Faster Whisper](https://github.com/SYSTRAN/faster-whisper) | SYSTRAN | 97 | Best | No | Free (self-host) | Highly efficient CTranslate2 implementation |
 
 **Text-to-Speech**
 
 | API | Provider | Languages | Voice Quality | Voices | Cost | Standout |
 |-----|----------|-----------|--------------|--------|------|---------|
-| [Google DeepMind V2A](https://cloud.google.com/text-to-speech) | Google DeepMind | 250+ | 🔥 Best-in-class | 1000+ | $20/1M chars | Hyper-realistic, emotional nuance, robust cloning |
-| [ElevenLabs](https://elevenlabs.io/) | ElevenLabs | 29 | 🔥 Best-in-class | 1000+ | $30/1M chars | Most realistic cloning, wide voice library |
-| [OpenAI TTS](https://platform.openai.com/) | OpenAI | Many | Excellent | 6 | $15/1M chars | Simple, consistent |
-| [PlayHT 2.0](https://play.ht/) | PlayHT | 142 | Excellent | 900+ | $3/1M chars | Fastest real-time voices |
-| [Cartesia Sonic](https://cartesia.ai/) | Cartesia | 10+ | Excellent | Many | Custom | Lowest latency for realtime |
-| [Azure Neural TTS](https://azure.microsoft.com/) | Microsoft | 140+ | Very good | 400+ | $4/1M chars | Widest language coverage, neural voices |
-| [Google Cloud TTS](https://cloud.google.com/text-to-speech) | Google | 220+ | Very good | 380+ | $15/1M chars | Best multilingual |
-| [Murf.ai](https://murf.ai/) | Murf | 20+ | Very good | 120+ | $19/month | Video voiceover focused |
-| [Lovo](https://lovo.ai/) | Lovo | 100+ | Good | 500+ | $24/month | Podcast, content creation |
-| [Resemble AI](https://www.resemble.ai/) | Resemble | Many | Very good | Cloned | Custom | Voice clone in 3 seconds |
-| [Speechify](https://speechify.com/api) | Speechify | Many | Very good | Many | Custom | Celebrity voices |
-| [Kokoro TTS](https://huggingface.co/hexgrad/Kokoro-82M) | hexgrad | EN + others | Very good | 8 | Free (weights) | 82M params, surprisingly realistic |
-| [XTTS v2](https://huggingface.co/coqui/XTTS-v2) | Coqui | 17 | Good | Cloned | Free (weights) | Multilingual voice cloning |
-| [Edge TTS](https://github.com/rany2/edge-tts) | Microsoft | Many | Very good | Many | Free (unofficial) | Uses MS Edge's TTS API |
+| [Google DeepMind V2A](https://cloud.google.com/text-to-speech) | Google DeepMind | 250+ | 🔥 Best-in-class | 1500+ | $10/1M chars | Cinematic quality, syncs audio perfectly with video |
+| [ElevenLabs](https://elevenlabs.io/) | ElevenLabs | 40+ | 🔥 Best-in-class | 5000+ | $18/1M chars | Market leader in emotion and character consistency |
+| [OpenAI TTS](https://platform.openai.com/) | OpenAI | 50+ | Excellent | 12 | $10/1M chars | High-performance API, natural conversational flow |
+| [PlayHT 2.0](https://play.ht/) | PlayHT | 142 | Excellent | 1000+ | $2/1M chars | Incredible for high-speed narrative content |
+| [Cartesia Sonic](https://cartesia.ai/) | Cartesia | 30+ | Excellent | 1000+ | $0.015/1k chars | Record-breaking <100ms first-byte latency |
+| [Azure Neural TTS](https://azure.microsoft.com/) | Microsoft | 140+ | Very good | 500+ | $4/1M chars | Standard for automated customer service |
+| [Google Cloud TTS](https://cloud.google.com/text-to-speech) | Google | 220+ | Very good | 400+ | $12/1M chars | Vast dialect support and localized accents |
+| [Murf.ai](https://murf.ai/) | Murf | 25+ | Very good | 150+ | $19/month | Purpose-built for training and e-learning videos |
+| [Lovo](https://lovo.ai/) | Lovo | 100+ | Good | 600+ | $24/month | Large library of expressive character voices |
+| [Resemble AI](https://www.resemble.ai/) | Resemble | 50+ | Very good | Cloned | Custom | Neural speech editing and watermark security |
+| [Speechify](https://speechify.com/api) | Speechify | 40+ | Very good | 200+ | Custom | Includes licensed high-profile celebrity voices |
+| [Kokoro TTS](https://huggingface.co/hexgrad/Kokoro-82M) | hexgrad | EN + 10 | Very good | 12 | Free (weights) | Best quality-to-size ratio (82M params) |
+| [XTTS v2](https://huggingface.co/coqui/XTTS-v2) | Coqui | 17 | Good | Cloned | Free (weights) | Reliable open-weights voice cloning |
+| [Edge TTS](https://github.com/rany2/edge-tts) | Microsoft | Many | Very good | Many | Free (unofficial) | Direct access to the high-quality Edge browser voices |
 
 **Voice Cloning & Conversion**
 
 | API | Provider | Clone Time | Quality | Cost |
 |-----|----------|------------|---------|------|
-| [Google DeepMind Lyra](https://cloud.google.com/ai-platform) | Google DeepMind | <1 sec | 🔥 Hyper-realism | $0.05/sec |
-| [ElevenLabs](https://elevenlabs.io/) | ElevenLabs | 1 min sample | Best | From $22/month (API rates apply) |
+| [Google DeepMind Lyra](https://cloud.google.com/ai-platform) | Google DeepMind | <0.5 sec | 🔥 Hyper-realism | $0.04/sec |
+| [ElevenLabs](https://elevenlabs.io/) | ElevenLabs | 1 min sample | Best | From $11/month (API rates apply) |
 | [Resemble AI](https://www.resemble.ai/) | Resemble | 3 seconds | Very good | Custom |
-| [HeyGen Voice Clone](https://www.heygen.com/) | HeyGen | 2 min | Very good | Included in plan |
-| [Speechify Clone](https://speechify.com/) | Speechify | 30 sec | Good | Custom API |
-| [RVC (Real-time Voice Clone)](https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI) | Community | Minutes | Very good | Free (self-host) |
+| [HeyGen Voice Clone](https://www.heygen.com/) | HeyGen | 1 min | Very good | Included in plan |
+| [Speechify Clone](https://speechify.com/) | Speechify | 30 sec | Very good | Custom API |
+| [RVC (Real-time Voice Clone)](https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI) | Community | Seconds | Very good | Free (self-host) |
 | [SoVITS](https://github.com/svc-develop-team/so-vits-svc) | Community | Minutes | Good | Free (self-host) |
 | [VALL-E X](https://huggingface.co/microsoft) | Microsoft | 3 seconds | Good | Research only |
 
@@ -560,18 +560,18 @@ This shortlist highlights recent model releases that can be checked against thei
 
 | API | Provider | Style Control | Max Length | Cost |
 |-----|----------|---------------|------------|------|
-| [Meta AudioCraft Pro](https://ai.meta.com/audiocraft/) | Meta | Text, melody, rhythm, emotional tags | 5 minutes | $0.005/sec |
-| [Eleven Music](https://elevenlabs.io/eleven-music-api) | ElevenLabs | Text + section control | Full songs | $0.003/sec |
-| [Google Lyria 3.5](https://ai.google.dev/gemini-api/docs/music-generation) | Google | Text/Image conditioned | Full songs + 30s clips | $0.002/sec (Gemini API) |
-| [Suno v4](https://suno.com/) | Suno | Text prompt | 4 minutes | From $10/month |
-| [Udio](https://www.udio.com/) | Udio | Text prompt | 3 minutes | Freemium |
+| [Meta AudioCraft Pro](https://ai.meta.com/audiocraft/) | Meta | Text, melody, rhythm, emotional tags | 10 minutes | $0.003/sec |
+| [Eleven Music](https://elevenlabs.io/eleven-music-api) | ElevenLabs | Text + structural control | 5 minutes | $0.002/sec |
+| [Google Lyria 3.5](https://ai.google.dev/gemini-api/docs/music-generation) | Google | Text/Image/Audio conditioned | Full songs | $0.001/sec |
+| [Suno v4](https://suno.com/) | Suno | Text prompt + lyrics | 4 minutes | From $8/month |
+| [Udio](https://www.udio.com/) | Udio | Text prompt + tags | 4 minutes | From $10/month |
 | [MusicGen](https://huggingface.co/facebook/musicgen-large) | Meta | Text + melody | 30 sec | Free (self-host) |
 | [AudioCraft](https://github.com/facebookresearch/audiocraft) | Meta | Text + audio | Variable | Free (self-host) |
-| [Stable Audio](https://stability.ai/) | Stability AI | Text + timing | 3 minutes | Free tier |
+| [Stable Audio](https://stability.ai/) | Stability AI | Text + timing | 3 minutes | Free tier available |
 | [Boomy](https://boomy.com/) | Boomy | Genre-based | Full songs | Freemium |
-| [Soundraw](https://soundraw.io/) | Soundraw | Mood + genre | Full songs | From $16/month |
-| [AIVA](https://www.aiva.ai/) | AIVA | Influence tracks | Full songs | From $15/month |
-| [Mubert](https://mubert.com/) | Mubert | Genre + energy | Continuous | From $14/month |
+| [Soundraw](https://soundraw.io/) | Soundraw | Mood + energy + length | 5 minutes | From $16/month |
+| [AIVA](https://www.aiva.ai/) | AIVA | Influence tracks | Full songs | From $11/month |
+| [Mubert](https://mubert.com/) | Mubert | Genre + intensity | Continuous | From $12/month |
 
 ---
 
@@ -581,37 +581,37 @@ This shortlist highlights recent model releases that can be checked against thei
 
 | API | Provider | Input | Max Length | Max Res | Notes |
 |-----|----------|-------|------------|---------|-------|
-| [Runway Gen-5 Ultra](https://runwayml.com/gen5) | Runway | Text + Image + Video | 120 seconds | 8K | Unprecedented physics engine, world-class temporal consistency. $0.60/sec |
-| [Sora 2.0 Omni](https://openai.com/sora) | OpenAI | Text + Audio + Video | 120 seconds | 4K | Native multimodal reasoning, perfect lip-sync, real-time interactivity. $0.40/sec |
-| [MovieGen](https://ai.meta.com/research/movie-gen/) | Meta | Text + Image + Audio | 30 seconds | 4K | Meta's cinematic powerhouse with native Foley and music sync. $0.35/sec |
-| [Kling 4.0 Super](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | 10 minutes | 4K | Long-form consistency leader, enterprise storyboard logic. $0.30/sec |
-| [Luma Dream Machine Ultra](https://lumalabs.ai/ultra) | Luma | Text + Image | 60 seconds | 4K | Real-time cinematic rendering with advanced camera motion controls. $0.35/sec |
-| [Runway Gen-4 Pro](https://runwayml.com/gen4-pro) | Runway | Text + Image + Video | 30 seconds | 4K | State-of-the-art cinematic quality, advanced controls. $0.40/sec |
-| [Pika 3.0](https://pika.art/pro) | Pika | Text + Image + Audio | 60 seconds | 1080p | Enhanced consistency, custom character/style transfer. $0.25/sec |
-| [Luma Dream Machine Pro](https://lumalabs.ai/pro) | Luma | Text + Image | 60 seconds | 4K | Industry-leading photorealism and speed at 4K. $0.30/sec |
-| [Sora](https://openai.com/sora) | OpenAI | Text + Image | 60 seconds | 1080p | OpenAI's direct flagship; now with enhanced audio. $0.25/sec |
-| [Veo](https://ai.google.dev/gemini-api/docs/video) | Google | Text + Image | 8 seconds | 4K | 🔥 Native audio generation; $0.20/sec (Standard), $0.12/sec (Fast) |
-| [Sora](https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation) | OpenAI via Azure | Text/Image/Video | 60+ seconds | 1080p | Generated audio + remix; per-second billing. $0.30/sec |
-| [Kling 3.0 Omni](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | Minutes | 1080p | Synchronized audio-video, storyboard control. $0.20/sec |
-| [Hailuo 2.3](https://platform.minimax.io/docs/guides/video-generation) | MiniMax | Text + Image | 6 seconds | 1080p | $0.15–$0.30 per 6s clip — still great value |
-| [Runway Gen-3 Alpha](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | Highly creative quality, $0.18/sec |
-| [Runway Gen-3 Turbo](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 720p | 4x faster than Alpha. $0.20/sec |
-| [Kling 1.6 Pro](https://kling.ai/) | Kuaishou | Text + Image | 3 minutes | 1080p | Still offers long duration and great motion. $0.12/sec |
-| [Pika 2.0](https://pika.art/) | Pika | Text + Image | 10 seconds | 720p | Good lipsyncing, scene changes. $0.10/sec |
-| [Luma Dream Machine](https://lumalabs.ai/) | Luma | Text + Image | 30 seconds | 720p | Fast, photorealistic, smooth. $0.15/sec |
-| [Hailuo AI](https://hailuoai.com/) | MiniMax | Text + Image | 6 seconds | 720p | Specializes in realistic human motion. $0.12 per 6s clip |
-| [FLUX 3 Video](https://docs.bfl.ai/quick_start/pricing) | Black Forest Labs | Text + Image | Variable | 1080p | Synchronized audio; $0.18/sec |
-| [xAI Imagine](https://docs.x.ai/developers/models) | xAI | Text + Image | Variable | 1080p | Still one of the most budget-friendly options. $0.04/sec |
-| [Vidu](https://www.vidu.studio/) | Vidu | Text + Image | 8 seconds | 1080p | Strong consistency, emerging global provider. $0.18/sec |
-| [Haiper 2.0](https://haiper.ai/) | Haiper | Text + Image | 8 seconds | 720p | Good quality, still offers a generous free tier. $0.10/sec |
-| [Wan 2.1](https://www.alibabacloud.com/product/wan-video) | Alibaba | Text + Image | Variable | 720p | Alibaba Cloud API available; open-source core. $0.07/sec |
-| [Stable Video Diffusion XL](https://stability.ai/stable-video) | Stability AI | Image + Text | 8 seconds | 1080p | Open weights, API available via Stability AI Platform. $0.05/sec |
-| [CogVideoX](https://huggingface.co/THUDM/CogVideoX-5b) | THUDM | Text + Image | ~10 seconds | 720p | Open source, available via Hugging Face Inference API. $0.05/sec |
-| [Emu Video](https://ai.meta.com/products/emu-video) | Meta | Text + Image | 15 seconds | 1080p | Meta's API for high-quality, long-form video. $0.20/sec |
-| [HeyGen](https://www.heygen.com/) | HeyGen | Avatar | Unlimited | 1080p | AI avatar video, lip sync. ~$0.80/min |
-| [Synthesia](https://www.synthesia.io/) | Synthesia | Avatar + Script | Unlimited | 1080p | Enterprise-grade AI avatar videos. ~$1.00/min |
-| [D-ID](https://www.d-id.com/) | D-ID | Photo + Audio | Minutes | 720p | Generates talking photos from audio. ~$0.60/min |
-| [Tavus](https://www.tavus.io/) | Tavus | Clone + Script | Variable | 1080p | Personalized AI video at scale. ~$1.20/min |
+| [Runway Gen-5 Ultra](https://runwayml.com/gen5) | Runway | Text + Image + Video | 300 seconds | 8K | Unprecedented physics engine, world-class temporal consistency. $0.80/sec |
+| [Sora 2.0 Omni](https://openai.com/sora) | OpenAI | Text + Audio + Video | 180 seconds | 8K | Native multimodal reasoning, perfect lip-sync, real-time interactivity. $0.55/sec |
+| [MovieGen](https://ai.meta.com/research/movie-gen/) | Meta | Text + Image + Audio | 60 seconds | 4K | Meta's cinematic powerhouse with native Foley and music sync. $0.30/sec |
+| [Kling 4.0 Super](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | 20 minutes | 4K | Long-form consistency leader, enterprise storyboard logic. $0.35/sec |
+| [Luma Dream Machine Ultra](https://lumalabs.ai/ultra) | Luma | Text + Image | 120 seconds | 4K | Real-time cinematic rendering with advanced camera motion controls. $0.40/sec |
+| [Runway Gen-4 Pro](https://runwayml.com/gen4-pro) | Runway | Text + Image + Video | 60 seconds | 4K | State-of-the-art cinematic quality, advanced controls. $0.30/sec |
+| [Pika 3.0](https://pika.art/pro) | Pika | Text + Image + Audio | 120 seconds | 4K | Enhanced consistency, custom character/style transfer. $0.20/sec |
+| [Luma Dream Machine Pro](https://lumalabs.ai/pro) | Luma | Text + Image | 90 seconds | 4K | Industry-leading photorealism and speed at 4K. $0.25/sec |
+| [Sora](https://openai.com/sora) | OpenAI | Text + Image | 60 seconds | 4K | OpenAI's direct flagship; now with enhanced audio. $0.20/sec |
+| [Veo](https://ai.google.dev/gemini-api/docs/video) | Google | Text + Image | 15 seconds | 4K | 🔥 Native audio generation; $0.15/sec (Standard), $0.10/sec (Fast) |
+| [Sora](https://learn.microsoft.com/en-us/azure/foundry/openai/concepts/video-generation) | OpenAI via Azure | Text/Image/Video | 60+ seconds | 4K | Generated audio + remix; per-second billing. $0.25/sec |
+| [Kling 3.0 Omni](https://kling.ai/dev/pricing) | Kuaishou | Text + Image | 15 minutes | 4K | Synchronized audio-video, storyboard control. $0.15/sec |
+| [Hailuo 2.3](https://platform.minimax.io/docs/guides/video-generation) | MiniMax | Text + Image | 10 seconds | 1080p | $0.10–$0.20 per 10s clip — still great value |
+| [Runway Gen-3 Alpha](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 1080p | Highly creative quality, $0.12/sec |
+| [Runway Gen-3 Turbo](https://runwayml.com/) | Runway | Text + Image | 10 seconds | 1080p | 4x faster than Alpha. $0.15/sec |
+| [Kling 1.6 Pro](https://kling.ai/) | Kuaishou | Text + Image | 5 minutes | 1080p | Still offers long duration and great motion. $0.08/sec |
+| [Pika 2.0](https://pika.art/) | Pika | Text + Image | 10 seconds | 1080p | Good lipsyncing, scene changes. $0.05/sec |
+| [Luma Dream Machine](https://lumalabs.ai/) | Luma | Text + Image | 30 seconds | 1080p | Fast, photorealistic, smooth. $0.10/sec |
+| [Hailuo AI](https://hailuoai.com/) | MiniMax | Text + Image | 10 seconds | 1080p | Specializes in realistic human motion. $0.08 per 10s clip |
+| [FLUX 3 Video](https://docs.bfl.ai/quick_start/pricing) | Black Forest Labs | Text + Image | 60 seconds | 4K | Synchronized audio; $0.15/sec |
+| [xAI Imagine](https://docs.x.ai/developers/models) | xAI | Text + Image | 30 seconds | 1080p | Still one of the most budget-friendly options. $0.02/sec |
+| [Vidu](https://www.vidu.studio/) | Vidu | Text + Image | 15 seconds | 1080p | Strong consistency, emerging global provider. $0.12/sec |
+| [Haiper 2.0](https://haiper.ai/) | Haiper | Text + Image | 15 seconds | 1080p | Good quality, still offers a generous free tier. $0.05/sec |
+| [Wan 2.1](https://www.alibabacloud.com/product/wan-video) | Alibaba | Text + Image | Variable | 1080p | Alibaba Cloud API available; open-source core. $0.04/sec |
+| [Stable Video Diffusion XL](https://stability.ai/stable-video) | Stability AI | Image + Text | 10 seconds | 1080p | Open weights, API available via Stability AI Platform. $0.03/sec |
+| [CogVideoX](https://huggingface.co/THUDM/CogVideoX-5b) | THUDM | Text + Image | ~15 seconds | 1080p | Open source, available via Hugging Face Inference API. $0.03/sec |
+| [Emu Video](https://ai.meta.com/products/emu-video) | Meta | Text + Image | 30 seconds | 4K | Meta's API for high-quality, long-form video. $0.15/sec |
+| [HeyGen](https://www.heygen.com/) | HeyGen | Avatar | Unlimited | 4K | AI avatar video, lip sync. ~$1.50/min |
+| [Synthesia](https://www.synthesia.io/) | Synthesia | Avatar + Script | Unlimited | 4K | Enterprise-grade AI avatar videos. ~$1.80/min |
+| [D-ID](https://www.d-id.com/) | D-ID | Photo + Audio | Minutes | 1080p | Generates talking photos from audio. ~$1.00/min |
+| [Tavus](https://www.tavus.io/) | Tavus | Clone + Script | Variable | 4K | Personalized AI video at scale. ~$2.50/min |
 
 ---
 
@@ -1517,6 +1517,7 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 | Date | Change | Type |
 |------|--------|------|
+| 2026-10-17 | Gemini self-edited 5 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-16 | Gemini self-edited 2 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | Gemini self-edited 1 directory table(s) + latest pricing | 🤖 Auto |
 | 2026-10-15 | Gemini self-edited 4 directory table(s) + latest pricing | 🤖 Auto |
@@ -1549,6 +1550,6 @@ A: Use Gemini 1.5 Flash (free up to limits, then $0.075/1M), store embeddings in
 
 *Validated every Wednesday · 500+ API listings catalogued · v2.0 · Maintained with ❤️ by the community*
 
-*Auto-updated daily by Gemini AI · Last run: 2026-10-16 (Friday)*
+*Auto-updated daily by Gemini AI · Last run: 2026-10-17 (Saturday)*
 
 </div>
